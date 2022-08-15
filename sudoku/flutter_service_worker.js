@@ -15,15 +15,15 @@ const RESOURCES = {
 "assets/NOTICES": "15b3cdaed9a066ccae177f922b6373a0",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "version.json": "5e30abb4cee927f6e40f057e7e6028f6",
-"index.html": "4dae84a446f701c2a8d4e1aa57a07956",
-"/": "4dae84a446f701c2a8d4e1aa57a07956",
+"index.html": "6af7ae43079d50e8de16a91d60521312",
+"/": "6af7ae43079d50e8de16a91d60521312",
 "flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "manifest.json": "3038a866fb3ac2e156e60e5e2b2423e2",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
 "canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
-"main.dart.js": "55439a1168515b40badb984052d86701"
+"main.dart.js": "f7ea6e2216df17920e97b13da58fdd86"
 };
 
 // The application shell files that are downloaded before a service worker can

@@ -50011,7 +50011,7 @@ gq(a){var s=this.a
 this.a=""
 return s}}
 A.zT.prototype={
-H(a){return new A.qQ(B.zp,"Flutter Demo",A.a96(null,B.qT),null)}}
+H(a){return new A.qQ(B.zp,"Sudoku for Kids",A.a96(null,B.qT),null)}}
 A.qx.prototype={
 an(){var s=t.s
 return new A.Fa(A.a([],s),A.a([],s),A.a([],s),B.Z,new A.mN(new A.ki(t.rf)),B.n)}}
