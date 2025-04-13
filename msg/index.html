@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open WhatsApp, Telegram, Signal Chats via Web | Quick Message Tool
+    </title>
+    <meta name="description"
+        content="A simple web tool to instantly open WhatsApp, Telegram, or Signal chats by entering a phone number with its country code. Start messaging quickly without saving contacts.">
+
+    <link rel="canonical" href="https://apps.100rabh.com/msg">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://apps.100rabh.com/msg">
+    <meta property="og:title"
+        content="Open WhatsApp, Telegram, Signal Chats via Web | Quick Message Tool">
+    <meta property="og:description"
+        content="Instantly open WhatsApp, Telegram, or Signal chats using just a phone number directly from your browser.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://apps.100rabh.com/msg">
+    <meta name="twitter:title"
+        content="Open WhatsApp, Telegram, Signal Chats via Web | Quick Message Tool">
+    <meta name="twitter:description"
+        content="Instantly open WhatsApp, Telegram, or Signal chats using just a phone number directly from your browser.">
+
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .input-group .position-relative {}
+
+        .dropdown-menu {
+            max-height: 350px;
+            overflow-y: auto;
+            transition: opacity 0.1s ease-in-out, visibility 0s linear 0.1s;
+        }
+
+        .input-group input#countryCodeInput {
+            flex: 0 0 auto;
+            width: auto;
+            min-width: 75px;
+            max-width: 90px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn i.fa-brands,
+        .btn i.fa-solid {
+            margin-right: 0.5rem;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <h1 class="mb-4 text-center">Send a Message</h1>
+
+                <label for="localPhoneNumber" class="form-label">Phone
+                    Number:</label>
+                <div class="input-group input-group-lg mb-3 position-relative">
+                    <input type="text" class="form-control"
+                        id="countryCodeInput" value="+91"
+                        aria-label="Country Code" autocomplete="off"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+
+                    <ul class="dropdown-menu" id="countryCodeDropdownMenu">
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+91">India (+91)</a></li>
+                        <li><a class="dropdown-item" href="#" data-code="+1">USA
+                                (+1)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+1">Canada (+1)</a></li>
+                        <li><a class="dropdown-item" href="#" data-code="+44">UK
+                                (+44)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+61">Australia (+61)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+49">Germany (+49)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+81">Japan (+81)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+65">Singapore (+65)</a></li>
+                        <li><a class="dropdown-item" href="#"
+                                data-code="+49">UAE (+971)</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><span class="dropdown-item-text text-muted small">Or
+                                type your code</span></li>
+                    </ul>
+
+                    <input type="hidden" id="selectedCountryCodeValue"
+                        value="+91">
+
+                    <input type="tel" class="form-control" id="localPhoneNumber"
+                        placeholder="Phone Number" aria-label="Phone Number">
+                </div>
+                <div id="phoneHelp" class="form-text mb-4">Click code to select,
+                    or type directly (e.g., +91). Enter phone number.</div>
+
+                <div
+                    class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-4">
+                    <button id="whatsappBtn"
+                        class="btn btn-success btn-lg mb-2 mb-sm-0">
+                        <i class="fa-brands fa-whatsapp"></i>WhatsApp
+                    </button>
+                    <button id="telegramBtn"
+                        class="btn btn-primary btn-lg mb-2 mb-sm-0">
+                        <i class="fa-brands fa-telegram"></i>Telegram
+                    </button>
+                    <button id="signalBtn" class="btn btn-dark btn-lg">
+                        <i class="fa-brands fa-signal-messenger"></i>Signal
+                    </button>
+                </div>
+
+                <div class="alert alert-info small" role="alert">
+                    <i class="fa-solid fa-circle-info me-2"></i>Clicking a
+                    button will attempt to open the corresponding app if
+                    installed. Ensure the country code is valid if typed
+                    manually. Keep this page open in your browser for
+                    quick access.
+                </div>
+            </div>
+        </div>
+        <footer class="mt-5 pt-4 border-top text-center">
+            <p class="text-muted small">
+                Copyleft <span title="Copyleft symbol">(ɔ)</span> 2025 -
+                Saurabh Minni. <br>
+                This work is licensed under a
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/"
+                    target="_blank" rel="license noopener noreferrer"
+                    style="color: inherit;">
+                    Creative Commons Attribution-ShareAlike 4.0 International
+                    License
+                </a>.
+            </p>
+            <p class="text-muted small">
+                You are free to share and adapt this work, provided you give
+                appropriate credit, provide a link to the license, and indicate
+                if changes were made. If you remix, transform, or build upon the
+                material, you must distribute your contributions under the same
+                license as the original.
+            </p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
