@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Monster Mash!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Math Monster Mash!</h1>
+        <div class="score-area">
+            Score: <span id="score">0</span>
+        </div>
+        <div class="operation-selection">
+            <span class="selection-label">Practice:</span>
+            <label class="checkbox-container">
+                <input type="checkbox" id="op-add" value="add" checked>
+                <span class="checkmark">+</span>
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="op-subtract" value="subtract" checked>
+                <span class="checkmark">-</span>
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="op-multiply" value="multiply" checked>
+                <span class="checkmark">x</span>
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="op-divide" value="divide" checked>
+                <span class="checkmark">/</span>
+            </label>
+        </div>
+        <div class="monster-arena">
+            <img id="monster" src="img/monster1.jpg" alt="Monster">
+        </div>
+
+        <div class="problem-area">
+            <span id="question">What is 5 + 3?</span>
+        </div>
+
+        <div class="answer-options">
+            <button class="answer-btn" data-value="0">0</button>
+            <button class="answer-btn" data-value="0">0</button>
+            <button class="answer-btn" data-value="0">0</button>
+            <button class="answer-btn" data-value="0">0</button>
+        </div>
+
+        <button id="start-button" class="action-button">Start Game!</button>
+        <button id="restart-button" class="action-button hidden">Play Again?</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
