@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let correctAnswer = 0;
     let gameActive = false;
     let nextQuestionTimeoutId = null;
+    let oldMonsterIndex = -1;
 
     // IMPORTANT: Replace with YOUR actual monster image paths!
     const monsterImages = [
@@ -130,7 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.remove('correct-feedback', 'incorrect-feedback');
         });
 
-        const randomMonsterIndex = getRandomInt(0, monsterImages.length - 1);
+        randomMonsterIndex = getRandomInt(0, monsterImages.length - 1);
+
+        while(randomMonsterIndex === oldMonsterIndex) {
+            randomMonsterIndex = getRandomInt(0, monsterImages.length - 1);
+        }
         monsterImg.src = monsterImages[randomMonsterIndex];
         problemArea.classList.remove('flash-correct', 'flash-incorrect');
     }

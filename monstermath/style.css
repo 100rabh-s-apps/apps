@@ -1,23 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Press+Start+2P&display=swap');
 
 :root {
-    --primary-bg: #87CEEB;
-    /* Sky Blue */
-    --secondary-bg: #ADD8E6;
-    /* Light Blue */
-    --accent-color: #FF6347;
-    /* Tomato */
-    --button-bg: #FFD700;
-    /* Gold */
-    --button-hover-bg: #FFBF00;
-    /* Darker Gold */
-    --correct-color: #32CD32;
-    /* Lime Green */
-    --incorrect-color: #FF0000;
-    /* Red */
+    --primary-bg: #87CEEB; /* Sky Blue */
+    --secondary-bg: #ADD8E6; /* Light Blue */
+    --accent-color: #FF6347; /* Tomato */
+    --button-bg: #FFD700; /* Gold */
+    --button-hover-bg: #FFBF00; /* Darker Gold */
+    --correct-color: #32CD32; /* Lime Green */
+    --incorrect-color: #FF0000; /* Red */
     --text-color: #333;
-    --border-color: #2F4F4F;
-    /* Dark Slate Gray */
+    --border-color: #2F4F4F; /* Dark Slate Gray */
+    --checkbox-bg: #E0FFFF; /* Light Cyan */
+    --checkbox-checked: var(--correct-color);
 }
 
 body {
@@ -25,12 +19,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100dvh; /* Modern viewport height unit */
     margin: 0;
     background: linear-gradient(to bottom right, var(--primary-bg), var(--secondary-bg));
     color: var(--text-color);
-    overflow: hidden;
-    /* Prevent scroll on animations */
+    overflow-y: auto; /* Allow vertical scrolling if content is too tall */
+    padding: 10px; /* Add some padding around the game container */
+    box-sizing: border-box; /* Include padding in element's total width and height */
 }
 
 .game-container {
@@ -41,10 +36,12 @@ body {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     text-align: center;
     max-width: 600px;
-    width: 90%;
+    width: 100%;
     transform: scale(0.95);
-    /* Slightly scale down for a fun look */
     transition: transform 0.3s ease-out;
+    margin: auto;
+    max-height: 98vh; /* Adjust as needed, leaves some margin */
+    overflow-y: auto; /* Allow scrolling within the container if it gets too tall */
 }
 
 .game-container:hover {
@@ -66,113 +63,147 @@ h1 {
     color: var(--text-color);
 }
 
+.operation-selection {
+    background-color: var(--secondary-bg);
+    border: 4px solid var(--border-color);
+    border-radius: 15px;
+    padding: 10px 15px; /* Reverted to slightly more padding */
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Default gap */
+    flex-wrap: wrap; /* Essential for wrapping */
+}
+
+/* MODIFIED: Make label take full width to push checkboxes to next line */
+.selection-label {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    color: var(--text-color);
+    margin-right: 5px;
+    white-space: nowrap; /* Prevent "Practice:" from wrapping */
+    flex-basis: 100%; /* NEW: Make this item take 100% width */
+    text-align: center; /* Center the label on its own line */
+    margin-bottom: 10px; /* Space between label and checkboxes */
+}
+
+/* Custom Checkbox Styling */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 38px; /* Adjusted padding-left for checkbox box */
+    cursor: pointer;
+    font-size: 1.2em; /* Adjusted base font-size for label text */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: 'Press Start 2P', cursive;
+    color: var(--text-color);
+    line-height: 30px; /* Aligns text with checkmark height */
+    margin-bottom: 25px;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox checkmark */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: var(--checkbox-bg);
+    border: 3px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em; /* Ensure symbol fits, relative to container's font-size */
+    line-height: 1; /* Important for vertical centering */
+    transition: background-color 0.2s, border-color 0.2s;
+    box-shadow: 2px 2px 0 var(--border-color);
+    box-sizing: border-box; /* CRITICAL: Include padding/border in height/width */
+}
+
+/* On hover, add a light background color */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #d1f7ff;
+}
+
+/* When the checkbox is checked, add a background color */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--checkbox-checked);
+    border-color: var(--border-color);
+    color: white;
+}
+
+/* Create the checkmark/symbol (hidden when not checked) */
+.checkmark:after {
+    content: attr(data-content);
+    display: none;
+}
+
+/* Show the checkmark/symbol when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+
 .monster-arena {
     position: relative;
     width: 100%;
-    height: 250px;
-    /* Fixed height for monster area */
+    aspect-ratio: 16/9;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
     overflow: hidden;
-    /* Hide monster as it flies out */
 }
 
 #monster {
-    max-width: 90%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    object-position: center;
     animation: monsterPopIn 0.5s forwards;
-    /* Initial pop-in */
     will-change: transform, opacity;
-    /* Optimize animation performance */
 }
 
-/* NEW: Operation Selection Styles */
-.operation-selection {
-    background-color: var(--secondary-bg);
-    border: 4px solid var(--border-color);
-    border-radius: 15px;
-    padding: 10px 15px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-/* Monster Animations */
 @keyframes monsterPopIn {
-    from {
-        transform: scale(0) rotate(0deg) translateY(-50px);
-        opacity: 1;
-    }
-
-    /* Start slightly above */
-    to {
-        transform: scale(1) rotate(0deg) translateY(0);
-        opacity: 1;
-    }
+    from { transform: scale(0) rotate(0deg) translateY(-50px); opacity: 0; }
+    to { transform: scale(1) rotate(0deg) translateY(0); opacity: 1; }
 }
 
-/* MODIFIED: Animation for "mashing" with a push from above and longer duration */
 @keyframes monsterMash {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-
-    5% {
-        transform: translateY(20px) scale(0.95);
-        opacity: 1;
-    }
-
-    /* Quick initial push down */
-    60% {
-        transform: translateY(100px) scale(0.4) rotate(15deg);
-        opacity: 0.7;
-    }
-
-    /* Significant mashing, still visible */
-    100% {
-        transform: translateY(300px) scale(0) rotate(45deg);
-        opacity: 1;
-    }
-
-    /* Fully disappeared, fallen far */
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    5% { transform: translateY(20px) scale(0.95); opacity: 1; }
+    60% { transform: translateY(100px) scale(0.4) rotate(15deg); opacity: 0.7; }
+    100% { transform: translateY(300px) scale(0) rotate(45deg); opacity: 0; }
 }
 
 .monster-mash-anim {
     animation: monsterMash 3s forwards;
-    /* CHANGED DURATION TO 3 SECONDS */
 }
 
 @keyframes monsterShake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-10px);
-    }
-
-    50% {
-        transform: translateX(10px);
-    }
-
-    75% {
-        transform: translateX(-10px);
-    }
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
 }
 
 .monster-shake-anim {
     animation: monsterShake 0.4s ease-in-out;
 }
-
 
 .problem-area {
     background-color: var(--secondary-bg);
@@ -192,12 +223,10 @@ h1 {
     background-color: var(--correct-color);
     transform: scale(1.05);
 }
-
 .problem-area.flash-incorrect {
     background-color: var(--incorrect-color);
     transform: scale(1.05);
 }
-
 
 .answer-options {
     display: grid;
@@ -217,7 +246,6 @@ h1 {
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
     box-shadow: 0 7px 0 var(--border-color);
-    /* Button "push" effect */
 }
 
 .answer-btn:hover {
@@ -242,35 +270,15 @@ h1 {
 }
 
 @keyframes pulseButton {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 @keyframes shakeButton {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    20%,
-    60% {
-        transform: translateX(-5px);
-    }
-
-    40%,
-    80% {
-        transform: translateX(5px);
-    }
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
 }
 
 .action-button {
@@ -289,7 +297,6 @@ h1 {
 
 .action-button:hover {
     background-color: #FF4500;
-    /* Darker Tomato */
     transform: translateY(-3px);
     box-shadow: 0 11px 0 var(--border-color);
 }
@@ -301,4 +308,154 @@ h1 {
 
 .hidden {
     display: none;
+}
+
+/* --- Mobile Responsiveness Media Queries --- */
+
+@media (max-width: 600px) {
+    body {
+        padding: 5px;
+        min-height: 100dvh; 
+    }
+
+    .game-container {
+        padding: 15px;
+        border-width: 5px;
+        border-radius: 15px;
+        max-height: unset;
+        overflow-y: visible;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+
+    .score-area {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    /* MODIFIED: Operation Selection Styles for mobile */
+    .operation-selection {
+        padding: 8px 10px; /* Slightly reduced padding */
+        margin-bottom: 20px;
+        gap: 10px; /* Reduced gap */
+        border-width: 3px;
+    }
+
+    .selection-label {
+        font-size: 0.9em; /* Smaller label font */
+        margin-bottom: 8px; /* Slightly less space on mobile */
+    }
+
+    .checkbox-container {
+        font-size: 1.1em; /* Base font size for container on mobile */
+        padding-left: 32px; /* Adjusted padding-left for checkbox box */
+        line-height: 25px; /* Match checkmark height for text alignment */
+    }
+
+    .checkmark {
+        height: 25px; /* Smaller checkbox size */
+        width: 25px; /* Smaller checkbox size */
+        border-width: 2px;
+        border-radius: 6px;
+        font-size: 1.1em; /* Symbol font size relative to checkmark size */
+    }
+
+
+    .monster-arena {
+        aspect-ratio: 1/1;
+        margin-bottom: 20px;
+    }
+
+    .problem-area {
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        font-size: 1.6em;
+        border-width: 3px;
+    }
+
+    .answer-options {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .answer-btn {
+        padding: 12px 18px;
+        font-size: 1.2em;
+        border-width: 3px;
+        border-radius: 12px;
+        box-shadow: 0 5px 0 var(--border-color);
+    }
+
+    .answer-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0 var(--border-color);
+    }
+    .answer-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 1px 0 var(--border-color);
+    }
+
+    .action-button {
+        padding: 12px 25px;
+        font-size: 1.5em;
+        border-width: 3px;
+        border-radius: 12px;
+        box-shadow: 0 6px 0 var(--border-color);
+    }
+
+    .action-button:hover {
+        background-color: #FF4500;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 0 var(--border-color);
+    }
+    .action-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 0 var(--border-color);
+    }
+}
+
+@media (max-width: 360px) {
+    .game-container {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    .score-area {
+        font-size: 1em;
+    }
+    .operation-selection {
+        padding: 5px; /* Even tighter for tiny screens */
+        gap: 5px;
+    }
+    .selection-label {
+        font-size: 0.8em;
+    }
+    .checkbox-container {
+        font-size: 1em; /* Base font size for container on tiny mobile */
+        padding-left: 28px;
+        line-height: 22px; /* Match checkmark height */
+    }
+    .checkmark {
+        height: 22px; /* Smaller checkbox size */
+        width: 22px; /* Smaller checkbox size */
+        font-size: 1em; /* Symbol font size relative to checkmark size */
+    }
+    .problem-area {
+        font-size: 1.4em;
+    }
+    .answer-btn {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+    .action-button {
+        font-size: 1.2em;
+        padding: 10px 20px;
+    }
+    .monster-arena {
+        aspect-ratio: 3/4;
+    }
 }
