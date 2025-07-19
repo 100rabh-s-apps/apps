@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonym & Antonym Showdown</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Synonym & Antonym Showdown</h1>
+        <div class="score-timer">
+            <p>Score: <span id="score">0</span></p>
+            <p>Time: <span id="timer">60</span>s</p>
+        </div>
+
+        <div class="main-word-area">
+            <p class="label">Main Word:</p>
+            <div id="mainWord" class="word-card main-word"></div>
+        </div>
+
+        <div class="drop-zones">
+            <div id="synonymZone" class="drop-zone">
+                <h2>Synonym</h2>
+            </div>
+            <div id="antonymZone" class="drop-zone">
+                <h2>Antonym</h2>
+            </div>
+        </div>
+
+        <div id="wordChoices" class="word-choices">
+            </div>
+
+        <button id="startButton">Start Game</button>
+        <button id="resetButton" style="display: none;">Play Again</button>
+
+        <div id="gameOverModal" class="modal">
+            <div class="modal-content">
+                <h2>Game Over!</h2>
+                <p>Your final score: <span id="finalScore">0</span></p>
+                <button id="closeModalButton">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+    <audio id="incorrectSound" src="incorrect.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
