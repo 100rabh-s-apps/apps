@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameActive = false;
     let currentRoundWords = { synonym: false, antonym: false }; // Track if found, not if null
 
+    // Touch event specific variables
+    let isDraggingTouch = false;
+    let currentDraggedElementTouch = null;
+    let touchOffsetX = 0;
+    let touchOffsetY = 0;
+
     // Word list (truncated for example, but assume your 1000+ words are here)
     const wordList = [
         ['Happy', 'Joyful', 'Sad'],
@@ -495,6 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addDragListeners() {
         const wordCards = document.querySelectorAll('.word-card');
         wordCards.forEach(card => {
+            // Desktop drag events
             card.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', e.target.textContent);
                 e.dataTransfer.setData('data-type', e.target.dataset.type);
@@ -505,10 +512,133 @@ document.addEventListener('DOMContentLoaded', () => {
             card.addEventListener('dragend', (e) => {
                 e.target.classList.remove('dragging');
             });
+
+            // Mobile touch events
+            card.addEventListener('touchstart', (e) => {
+                if (!gameActive) return;
+                e.preventDefault(); // Prevent scrolling and default touch behavior
+                isDraggingTouch = true;
+                currentDraggedElementTouch = e.target;
+
+                const touch = e.touches[0];
+                const rect = currentDraggedElementTouch.getBoundingClientRect();
+                touchOffsetX = touch.clientX - rect.left;
+                touchOffsetY = touch.clientY - rect.top;
+
+                // Position the element for dragging
+                currentDraggedElementTouch.style.position = 'absolute';
+                currentDraggedElementTouch.style.zIndex = '1000';
+                currentDraggedElementTouch.style.left = (touch.clientX - touchOffsetX) + 'px';
+                currentDraggedElementTouch.style.top = (touch.clientY - touchOffsetY) + 'px';
+                currentDraggedElementTouch.classList.add('dragging');
+
+                // Store data for touch drop logic
+                currentDraggedElementTouch.dataset.draggedText = e.target.textContent;
+                currentDraggedElementTouch.dataset.draggedType = e.target.dataset.type;
+                currentDraggedElementTouch.dataset.draggedId = e.target.id;
+            });
+        });
+
+        // Global touchmove and touchend listeners for dragging outside the card
+        document.body.addEventListener('touchmove', (e) => {
+            if (!isDraggingTouch || !currentDraggedElementTouch) return;
+            e.preventDefault(); // Prevent scrolling while dragging
+
+            const touch = e.touches[0];
+            currentDraggedElementTouch.style.left = (touch.clientX - touchOffsetX) + 'px';
+            currentDraggedElementTouch.style.top = (touch.clientY - touchOffsetY) + 'px';
+
+            // Visual feedback for drop zones during touch drag
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let foundDropZone = false;
+            dropZones.forEach(zone => {
+                const zoneRect = zone.getBoundingClientRect();
+                // Check if the center of the dragged element is over the zone
+                const elementCenterX = touch.clientX;
+                const elementCenterY = touch.clientY;
+
+                if (elementCenterX >= zoneRect.left && elementCenterX <= zoneRect.right &&
+                    elementCenterY >= zoneRect.top && elementCenterY <= zoneRect.bottom) {
+                    zone.classList.add('hovered');
+                    foundDropZone = true;
+                } else {
+                    zone.classList.remove('hovered');
+                }
+            });
+        });
+
+        document.body.addEventListener('touchend', (e) => {
+            if (!isDraggingTouch || !currentDraggedElementTouch) return;
+            e.preventDefault(); // Prevent default touch behavior
+
+            isDraggingTouch = false;
+            currentDraggedElementTouch.classList.remove('dragging');
+            currentDraggedElementTouch.style.position = ''; // Reset position
+            currentDraggedElementTouch.style.zIndex = '';    // Reset z-index
+            currentDraggedElementTouch.style.left = '';      // Reset left
+            currentDraggedElementTouch.style.top = '';       // Reset top
+
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let droppedIntoZone = false;
+            const touch = e.changedTouches[0]; // The touch that was lifted
+
+            dropZones.forEach(zone => {
+                const zoneRect = zone.getBoundingClientRect();
+                zone.classList.remove('hovered'); // Remove hover state
+
+                // Check if the touch end point is within the drop zone
+                if (touch.clientX >= zoneRect.left && touch.clientX <= zoneRect.right &&
+                    touch.clientY >= zoneRect.top && touch.clientY <= zoneRect.bottom) {
+                    droppedIntoZone = true;
+
+                    // Simulate drop event logic
+                    const draggedWordText = currentDraggedElementTouch.dataset.draggedText;
+                    const draggedType = currentDraggedElementTouch.dataset.draggedType;
+                    const droppedZoneId = zone.id;
+
+                    const isCorrectSynonymMatch = (draggedWordText === currentMainWordData[1] && droppedZoneId === 'synonymZone');
+                    const isCorrectAntonymMatch = (draggedWordText === currentMainWordData[2] && droppedZoneId === 'antonymZone');
+                    const isRelevantWord = (draggedWordText === currentMainWordData[1] || draggedWordText === currentMainWordData[2]);
+
+                    if (isCorrectSynonymMatch) {
+                        currentRoundWords.synonym = true;
+                        updateScore(10);
+                        provideFeedback(true);
+                        currentDraggedElementTouch.remove();
+                    } else if (isCorrectAntonymMatch) {
+                        currentRoundWords.antonym = true;
+                        updateScore(10);
+                        provideFeedback(true);
+                        currentDraggedElementTouch.remove();
+                    } else if (isRelevantWord) {
+                        // Synonym/Antonym dropped in wrong zone, do not remove.
+                        updateScore(-5);
+                        provideFeedback(false);
+                        // The element's position was reset above, so it will visually snap back.
+                    } else {
+                        // Distractor or unrelated word dropped, remove it.
+                        updateScore(-5);
+                        provideFeedback(false);
+                        currentDraggedElementTouch.remove();
+                    }
+
+                    if (currentRoundWords.synonym && currentRoundWords.antonym) {
+                        setTimeout(generateGameRound, 700);
+                    }
+                }
+            });
+
+            // If dropped outside any valid zone, and it was a relevant word, it snaps back.
+            // If it was a distractor and dropped outside, it should also disappear.
+            // This is handled by the `currentDraggedElementTouch.remove()` above if it's a distractor.
+            // If it's a relevant word dropped outside, it just snaps back to its original place
+            // because its position styles are reset and it was never removed.
+            currentDraggedElementTouch = null; // Clear the dragged element reference
         });
     }
 
     function addDropListeners() {
+        // Desktop drop events (these remain as they are for mouse users)
         const dropZones = document.querySelectorAll('.drop-zone');
         dropZones.forEach(zone => {
             zone.addEventListener('dragover', (e) => {
@@ -610,5 +740,8 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverModal.style.display = 'none';
     });
 
-    addDropListeners();
+    // Initialize both desktop drag/drop and mobile touch handlers
+    addDropListeners(); // This sets up desktop drop zones
+    addDragListeners(); // This sets up desktop drag and mobile touch start
+    // Mobile touchmove and touchend are attached to document.body directly within addDragListeners for global tracking
 });
