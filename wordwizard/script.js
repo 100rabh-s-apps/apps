@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only process for questions that use a text input and the submit button
         if (questionData.type === 'grammarFix') {
             const userAnswer = removePunctuation(document.getElementById('answer-input').value.trim());
-            isCorrect = userAnswer.toLowerCase() === questionData.corrected.toLowerCase();
+            isCorrect = userAnswer.toLowerCase() === removePunctuation(questionData.corrected.toLowerCase());
             correctAnswerText = questionData.corrected;
         } else if (questionData.type === 'unscrambleWord') {
             const userAnswer = document.getElementById('answer-input').value.trim();
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function removePunctuation(text) {
-        const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g; // Matches common punctuation marks
+        const regex = /[!"#$%&'()*+,-\./:;<=>?@[\]^_`{|}~]/g; // Matches common punctuation marks
         return text.replace(regex, '');
     }
 
