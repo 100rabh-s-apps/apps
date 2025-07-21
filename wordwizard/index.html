@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Wizard: The Language Quest</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Word Wizard: The Language Quest</h1>
+        <div id="game-area">
+            <div id="quest-info">
+                <h2>Realm: The Enchanted Forest <img src="images/forest_icon.png" alt="Enchanted Forest Icon"></h2>
+                <p>Level: <span id="current-level">1</span></p>
+            </div>
+            <div id="question-card">
+                <p id="question-text"></p>
+                <div id="answer-area">
+                </div>
+                <button id="submit-answer">Cast Spell</button>
+                <p id="feedback" class="hidden"></p>
+            </div>
+
+            <div id="game-over" class="hidden">
+                <h2>Quest Complete!</h2>
+                <p>You are a true Word Wizard!</p>
+                <button id="restart-game">Embark on a New Quest</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

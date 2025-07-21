@@ -610,18 +610,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         updateScore(10);
                         provideFeedback(true);
                         currentDraggedElementTouch.remove();
-                    } else if (isRelevantWord) {
+                    } else {
                         // Synonym/Antonym dropped in wrong zone, do not remove.
                         updateScore(-5);
                         provideFeedback(false);
                         // The element's position was reset above, so it will visually snap back.
-                    } else {
-                        // Distractor or unrelated word dropped, remove it.
-                        updateScore(-5);
-                        provideFeedback(false);
-                        currentDraggedElementTouch.remove();
-                    }
-
+                    } 
+                    
                     if (currentRoundWords.synonym && currentRoundWords.antonym) {
                         setTimeout(generateGameRound, 700);
                     }
