@@ -30,7 +30,7 @@
             </label>
             <label class="checkbox-container">
                 <input type="checkbox" id="op-divide" value="divide" checked>
-                <span class="checkmark">/</span>
+                <span class="checkmark">÷</span>
             </label>
         </div>
         <div class="monster-arena">
@@ -41,15 +41,21 @@
             <span id="question">What is 5 + 3?</span>
         </div>
 
-        <div class="answer-options">
+        <div class="answer-options" id="mcq-options">
             <button class="answer-btn" data-value="0">0</button>
             <button class="answer-btn" data-value="0">0</button>
             <button class="answer-btn" data-value="0">0</button>
             <button class="answer-btn" data-value="0">0</button>
         </div>
 
+        <div class="advanced-input-area hidden" id="advanced-input-area">
+            <input type="number" id="user-answer-input" class="user-answer-input" placeholder="Your Answer" inputmode="numeric" pattern="[0-9]*">
+            <button id="submit-answer-btn" class="action-button">Submit</button>
+        </div>
+
         <button id="start-button" class="action-button">Start Game!</button>
         <button id="restart-button" class="action-button hidden">Play Again?</button>
+        <button id="toggle-mode-button" class="action-button">Switch to Advanced Mode</button>
     </div>
 
     <script src="script.js"></script>
