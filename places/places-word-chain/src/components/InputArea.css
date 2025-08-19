@@ -1,0 +1,20 @@
+.input-area-container .form-control {
+  width: 100%;
+}
+
+/* Ensure form elements are responsive */
+.input-area-container .form-control,
+.input-area-container .btn {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 769px) {
+  .input-area-container .form-control,
+  .input-area-container .btn {
+    margin-bottom: 0;
+  }
+  
+  .input-area-container .btn {
+    margin-left: 10px;
+  }
+}

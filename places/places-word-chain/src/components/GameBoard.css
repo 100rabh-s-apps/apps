@@ -1,0 +1,39 @@
+.place-name-clickable.btn-link {
+  color: inherit;
+  text-decoration: underline;
+  padding: 0;
+  border: none;
+  background: none;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.place-name-clickable.btn-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.place-name-clickable.btn-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Scrollable container styling */
+.list-group {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .place-name-clickable.btn-link {
+    padding: 10px;
+  }
+  
+  .list-group {
+    max-height: 300px;
+  }
+}

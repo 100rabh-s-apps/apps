@@ -1,0 +1,12 @@
+.place-image-container .img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .place-image-container .img-fluid {
+    max-height: 200px;
+    object-fit: cover;
+  }
+}

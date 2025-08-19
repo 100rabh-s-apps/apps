@@ -1,0 +1,52 @@
+[
+  {
+    "place_id": "p1",
+    "name": "Tokyo",
+    "simpleName": "tokyo",
+    "coordinates": [139.6917, 35.6895],
+    "info": "Capital of Japan, known for its bustling city life and historic temples.",
+    "imageUrl": "",
+    "wikipediaSummary": "",
+    "wikipediaUrl": ""
+  },
+  {
+    "place_id": "p2",
+    "name": "Ottawa",
+    "simpleName": "ottawa",
+    "coordinates": [-75.6972, 45.4215],
+    "info": "Capital of Canada, located on the Ottawa River.",
+    "imageUrl": "",
+    "wikipediaSummary": "",
+    "wikipediaUrl": ""
+  },
+  {
+    "place_id": "p3",
+    "name": "Ankara",
+    "simpleName": "ankara",
+    "coordinates": [32.8597, 39.9334],
+    "info": "Capital of Turkey, a modern city with a rich history.",
+    "imageUrl": "",
+    "wikipediaSummary": "",
+    "wikipediaUrl": ""
+  },
+  {
+    "place_id": "p4",
+    "name": "Amsterdam",
+    "simpleName": "amsterdam",
+    "coordinates": [4.8952, 52.3702],
+    "info": "Capital of the Netherlands, known for its canals, artistic heritage, and elaborate canal houses.",
+    "imageUrl": "",
+    "wikipediaSummary": "",
+    "wikipediaUrl": ""
+  },
+  {
+    "place_id": "p5",
+    "name": "Denver",
+    "simpleName": "denver",
+    "coordinates": [-104.9903, 39.7392],
+    "info": "Capital of Colorado, known as the 'Mile High City' due to its elevation.",
+    "imageUrl": "",
+    "wikipediaSummary": "",
+    "wikipediaUrl": ""
+  }
+]
