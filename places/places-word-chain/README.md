@@ -4,9 +4,9 @@ A fun and educational web-based game where players take turns naming geographica
 
 ## Features
 
-*   **Turn-based Gameplay:** Player vs. Computer (AI) or Play Solo.
+*   **Turn-based Gameplay:** Play against a Computer AI or in Solo mode. The AI selects a valid, unused place from its dataset that follows the word-chaining rules.
 *   **Letter Chaining Validation:** Ensures each new place name starts with the last letter of the previous one.
-*   **Online Place Validation:** Verifies entered places are real geographical locations using the OpenStreetMap Nominatim API, prioritizing specific places (cities, towns) over broader administrative regions.
+*   **Place Validation (Local & Online):** Primarily validates entered places against a comprehensive local dataset (implemented as a Trie data structure for efficient lookups). For valid places, it then fetches additional geographical information and rich content (like summaries and images) using the OpenStreetMap Nominatim API and Wikimedia REST API, prioritizing specific places (cities, towns) over broader administrative regions.
 *   **Score Tracking:** Keeps track of consecutive correct answers.
 *   **Interactive Map Display:** Shows the location of each named place on a map.
 *   **Customizable Map Appearance:** Map colors are adjusted to be bright and appealing.
@@ -26,9 +26,10 @@ A fun and educational web-based game where players take turns naming geographica
     *   OpenLayers (for interactive map display)
     *   Font Awesome (for icons)
     *   Google Fonts (for attractive typography)
-*   **API:**
-    *   OpenStreetMap Nominatim API (for place validation and geocoding)
-    *   Wikimedia REST API (for Wikipedia summaries and images)
+*   **Data & APIs:**
+    *   Local dataset of geographical places (derived from `allplaces.json` and optimized into a Trie structure for fast lookups).
+    *   OpenStreetMap Nominatim API (for geocoding and additional place details).
+    *   Wikimedia REST API (for Wikipedia summaries and images).
 
 ## Setup and Installation
 
@@ -77,4 +78,5 @@ To get the project up and running on your local machine:
 *   Geocoding: [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org/)
 *   Icons: [Font Awesome](https://fontawesome.com/)
 *   Fonts: [Google Fonts](https://fonts.google.com/)
+
 *   Wikipedia data: [Wikimedia REST API](https://api.wikimedia.org/)
