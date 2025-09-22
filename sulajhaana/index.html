@@ -465,6 +465,7 @@
         let currentWordData = {};
         let hintUsed = false;
         let draggedTile = null;
+        let initialX, initialY;
 
         // DOM Elements
         const scoreEl = document.getElementById("score");
@@ -547,8 +548,14 @@
           const containers = [answerSlotsEl, letterTilesEl];
 
           tiles.forEach((tile) => {
+            // Mouse events
             tile.addEventListener("dragstart", dragStart);
             tile.addEventListener("dragend", dragEnd);
+            
+            // Touch events
+            tile.addEventListener("touchstart", touchStart, { passive: false });
+            tile.addEventListener("touchmove", touchMove, { passive: false });
+            tile.addEventListener("touchend", touchEnd);
           });
 
           containers.forEach((container) => {
@@ -582,6 +589,58 @@
           if (targetContainer && draggedTile) {
             targetContainer.appendChild(draggedTile);
           }
+        }
+
+        function touchStart(e) {
+            if (e.target.classList.contains("hinted")) return;
+            draggedTile = e.target;
+
+            initialX = e.touches[0].clientX;
+            initialY = e.touches[0].clientY;
+
+            draggedTile.classList.add("dragging");
+            draggedTile.style.zIndex = 1000; // Bring to front
+            e.preventDefault();
+        }
+
+        function touchMove(e) {
+            if (!draggedTile) return;
+            e.preventDefault();
+
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+
+            const dx = currentX - initialX;
+            const dy = currentY - initialY;
+
+            draggedTile.style.transform = `translate(${dx}px, ${dy}px)`;
+        }
+
+        function touchEnd(e) {
+            if (!draggedTile) return;
+            
+            draggedTile.classList.remove("dragging");
+            draggedTile.style.transform = '';
+            draggedTile.style.zIndex = ''; // Reset z-index
+
+            const touch = e.changedTouches[0];
+            // Temporarily hide the tile to find the element underneath
+            draggedTile.style.visibility = 'hidden';
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+            draggedTile.style.visibility = 'visible';
+            
+            if (dropTarget) {
+                const targetContainer = dropTarget.closest(".tile-area-wrapper, .drop-area-wrapper");
+                if (targetContainer) {
+                    if (dropTarget.classList.contains('tile') && dropTarget !== draggedTile) {
+                        // Insert before the tile we are dropping on
+                        dropTarget.parentElement.insertBefore(draggedTile, dropTarget);
+                    } else {
+                        targetContainer.appendChild(draggedTile);
+                    }
+                }
+            }
+            draggedTile = null;
         }
 
         function checkAnswer() {
@@ -651,6 +710,8 @@
         function updateScore() {
           scoreEl.textContent = `स्कोर: ${score}`;
         }
+
+
 
         function updateWordCounter() {
           wordCounterEl.textContent = `शब्द: ${currentWordIndex + 1} / ${
