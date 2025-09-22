@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>हिंदी शब्द अनस्क्रैम्बलर</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap"
+      rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg-color: #fdf5e6;
+        /* Light Cream */
+        --container-bg: #ffffff;
+        --primary-color: #d9534f;
+        /* Muted Red */
+        --secondary-color: #5bc0de;
+        /* Light Blue */
+        --accent-color: #f0ad4e;
+        /* Orange/Yellow */
+        --text-color: #333333;
+        --tile-bg: #f7f7f7;
+        --slot-bg: #e9e9e9;
+        --correct-color: #5cb85c;
+        --font-family: "Noto Sans Devanagari", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+      }
+
+      .game-container {
+        background-color: var(--container-bg);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+      }
+
+      h1 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .instructions {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        color: #666;
+      }
+
+      .stats-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      #scrambled-word-display {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 5px;
+        margin-bottom: 2rem;
+        color: var(--secondary-color);
+        padding: 0.5rem;
+        background-color: #f0f8ff;
+        border-radius: 8px;
+      }
+
+      .drop-area-wrapper,
+      .tile-area-wrapper {
+        min-height: 80px;
+        /* Ensure space is reserved */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+      }
+
+      .drop-area-wrapper {
+        background-color: var(--slot-bg);
+        border: 2px dashed #ccc;
+      }
+
+      .tile-area-wrapper {
+        background-color: #fff9f0;
+      }
+
+      .tile {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: grab;
+        user-select: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease,
+          background-color 0.2s ease;
+        background-color: var(--tile-bg);
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .tile.hinted {
+        background-color: #dff0d8;
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+
+      .tile:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .tile.dragging {
+        opacity: 0.5;
+        cursor: grabbing;
+        transform: scale(1.1);
+      }
+
+      .controls,
+      .game-actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 1rem;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-family: var(--font-family);
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        color: white;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      #check-btn {
+        background-color: var(--correct-color);
+      }
+
+      #hint-btn {
+        background-color: var(--accent-color);
+      }
+
+      #reset-btn {
+        background-color: var(--secondary-color);
+      }
+
+      #new-game-btn {
+        background-color: var(--primary-color);
+      }
+
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      #message {
+        margin-top: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        height: 25px;
+        transition: color 0.3s;
+      }
+
+      .message-correct {
+        color: var(--correct-color);
+      }
+
+      .message-incorrect {
+        color: var(--primary-color);
+      }
+
+      .message-info {
+        color: var(--text-color);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 480px) {
+        .game-container {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        #scrambled-word-display {
+          font-size: 2rem;
+        }
+
+        .tile {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+
+        .controls,
+        .game-actions {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="game-container">
+      <h1>हिंदी शब्द अनस्क्रैम्बलर</h1>
+      <p class="instructions">अक्षरों को खींचकर सही शब्द बनाएं!</p>
+
+      <div class="stats-container">
+        <div id="score">स्कोर: 0</div>
+        <div id="word-counter">शब्द: 1 / 20</div>
+      </div>
+
+      <div id="scrambled-word-display"></div>
+
+      <div class="drop-area-wrapper" id="answer-slots"></div>
+      <div class="tile-area-wrapper" id="letter-tiles"></div>
+
+      <div id="message"></div>
+
+      <div class="controls">
+        <button id="check-btn">Check Answer</button>
+        <button id="hint-btn">Hint</button>
+      </div>
+      <div class="game-actions">
+        <button id="reset-btn">Reset</button>
+        <button id="new-game-btn">New Game</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const wordData = [
+          // Original 20 words
+          { word: "किताब", tiles: ["कि", "ता", "ब"] },
+          { word: "घर", tiles: ["घ", "र"] },
+          { word: "पानी", tiles: ["पा", "नी"] },
+          { word: "दोस्त", tiles: ["दो", "स्त"] },
+          { word: "खाना", tiles: ["खा", "ना"] },
+          { word: "मित्र", tiles: ["मि", "त्र"] },
+          { word: "बाजार", tiles: ["बा", "जा", "र"] },
+          { word: "नदी", tiles: ["न", "दी"] },
+          { word: "फल", tiles: ["फ", "ल"] },
+          { word: "सूरज", tiles: ["सू", "र", "ज"] },
+          { word: "चाँद", tiles: ["चाँ", "द"] },
+          { word: "गाड़ी", tiles: ["गा", "ड़ी"] },
+          { word: "बच्चा", tiles: ["ब", "च्चा"] },
+          { word: "लड़की", tiles: ["ल", "ड़", "की"] },
+          { word: "लड़का", tiles: ["ल", "ड़", "का"] },
+          { word: "पढ़ाई", tiles: ["प", "ढ़ा", "ई"] },
+          { word: "लिखना", tiles: ["लि", "ख", "ना"] },
+          { word: "सीखना", tiles: ["सी", "ख", "ना"] },
+          { word: "बोलना", tiles: ["बो", "ल", "ना"] },
+          { word: "आना", tiles: ["आ", "ना"] },
+          // 150+ new words
+          { word: "आम", tiles: ["आ", "म"] },
+          { word: "कमल", tiles: ["क", "म", "ल"] },
+          { word: "पेड़", tiles: ["पे", "ड़"] },
+          { word: "फूल", tiles: ["फू", "ल"] },
+          { word: "जानवर", tiles: ["जा", "न", "व", "र"] },
+          { word: "पक्षी", tiles: ["प", "क्षी"] },
+          { word: "मछली", tiles: ["म", "छ", "ली"] },
+          { word: "शेर", tiles: ["शे", "र"] },
+          { word: "हाथी", tiles: ["हा", "थी"] },
+          { word: "घोड़ा", tiles: ["घो", "ड़ा"] },
+          { word: "बंदर", tiles: ["बं", "द", "र"] },
+          { word: "आसमान", tiles: ["आ", "स", "मा", "न"] },
+          { word: "बादल", tiles: ["बा", "द", "ल"] },
+          { word: "बारिश", tiles: ["बा", "रि", "श"] },
+          { word: "हवा", tiles: ["ह", "वा"] },
+          { word: "आग", tiles: ["आ", "ग"] },
+          { word: "धरती", tiles: ["ध", "र", "ती"] },
+          { word: "पहाड़", tiles: ["प", "हा", "ड़"] },
+          { word: "जंगल", tiles: ["जं", "ग", "ल"] },
+          { word: "गाँव", tiles: ["गाँ", "व"] },
+          { word: "शहर", tiles: ["श", "ह", "र"] },
+          { word: "देश", tiles: ["दे", "श"] },
+          { word: "भारत", tiles: ["भा", "र", "त"] },
+          { word: "परिवार", tiles: ["प", "रि", "वा", "र"] },
+          { word: "माता", tiles: ["मा", "ता"] },
+          { word: "पिता", tiles: ["पि", "ता"] },
+          { word: "भाई", tiles: ["भा", "ई"] },
+          { word: "बहन", tiles: ["ब", "ह", "न"] },
+          { word: "बेटा", tiles: ["बे", "टा"] },
+          { word: "बेटी", tiles: ["बे", "टी"] },
+          { word: "अध्यापक", tiles: ["अ", "ध्या", "प", "क"] },
+          { word: "विद्यालय", tiles: ["वि", "द्या", "ल", "य"] },
+          { word: "कमरा", tiles: ["क", "म", "रा"] },
+          { word: "दरवाजा", tiles: ["द", "र", "वा", "जा"] },
+          { word: "खिड़की", tiles: ["खि", "ड़", "की"] },
+          { word: "कुर्सी", tiles: ["कु", "र्सी"] },
+          { word: "मेज", tiles: ["मे", "ज"] },
+          { word: "कलम", tiles: ["क", "ल", "म"] },
+          { word: "सड़क", tiles: ["स", "ड़", "क"] },
+          { word: "अस्पताल", tiles: ["अ", "स्प", "ता", "ल"] },
+          { word: "दवाई", tiles: ["द", "वा", "ई"] },
+          { word: "खेत", tiles: ["खे", "त"] },
+          { word: "किसान", tiles: ["कि", "सा", "न"] },
+          { word: "सुबह", tiles: ["सु", "ब", "ह"] },
+          { word: "शाम", tiles: ["शा", "म"] },
+          { word: "रात", tiles: ["रा", "त"] },
+          { word: "दिन", tiles: ["दि", "न"] },
+          { word: "आज", tiles: ["आ", "ज"] },
+          { word: "कल", tiles: ["क", "ल"] },
+          { word: "समय", tiles: ["स", "म", "य"] },
+          { word: "घड़ी", tiles: ["घ", "ड़ी"] },
+          { word: "पैसा", tiles: ["पै", "सा"] },
+          { word: "काम", tiles: ["का", "म"] },
+          { word: "खेल", tiles: ["खे", "ल"] },
+          { word: "गीत", tiles: ["गी", "त"] },
+          { word: "संगीत", tiles: ["सं", "गी", "त"] },
+          { word: "नाचना", tiles: ["ना", "च", "ना"] },
+          { word: "गाना", tiles: ["गा", "ना"] },
+          { word: "चलना", tiles: ["च", "ल", "ना"] },
+          { word: "दौड़ना", tiles: ["दौ", "ड़", "ना"] },
+          { word: "सोना", tiles: ["सो", "ना"] },
+          { word: "जागना", tiles: ["जा", "ग", "ना"] },
+          { word: "बैठना", tiles: ["बै", "ठ", "ना"] },
+          { word: "उठना", tiles: ["उ", "ठ", "ना"] },
+          { word: "देखना", tiles: ["दे", "ख", "ना"] },
+          { word: "सुनना", tiles: ["सु", "न", "ना"] },
+          { word: "पूछना", tiles: ["पू", "छ", "ना"] },
+          { word: "बताना", tiles: ["ब", "ता", "ना"] },
+          { word: "समझना", tiles: ["स", "म", "झ", "ना"] },
+          { word: "हँसना", tiles: ["हँ", "स", "ना"] },
+          { word: "रोना", tiles: ["रो", "ना"] },
+          { word: "अच्छा", tiles: ["अ", "च्छा"] },
+          { word: "बुरा", tiles: ["बु", "रा"] },
+          { word: "बड़ा", tiles: ["ब", "ड़ा"] },
+          { word: "छोटा", tiles: ["छो", "टा"] },
+          { word: "नया", tiles: ["न", "या"] },
+          { word: "पुराना", tiles: ["पु", "रा", "ना"] },
+          { word: "सुंदर", tiles: ["सुं", "द", "र"] },
+          { word: "साफ़", tiles: ["सा", "फ़"] },
+          { word: "गंदा", tiles: ["गं", "दा"] },
+          { word: "गरम", tiles: ["ग", "र", "म"] },
+          { word: "ठंडा", tiles: ["ठं", "डा"] },
+          { word: "मीठा", tiles: ["मी", "ठा"] },
+          { word: "खट्टा", tiles: ["ख", "ट्टा"] },
+          { word: "लाल", tiles: ["ला", "ल"] },
+          { word: "नीला", tiles: ["नी", "ला"] },
+          { word: "पीला", tiles: ["पी", "ला"] },
+          { word: "हरा", tiles: ["ह", "रा"] },
+          { word: "काला", tiles: ["का", "ला"] },
+          { word: "सफ़ेद", tiles: ["स", "फ़े", "द"] },
+          { word: "खुश", tiles: ["खु", "श"] },
+          { word: "दुखी", tiles: ["दु", "खी"] },
+          { word: "ताक़त", tiles: ["ता", "क़", "त"] },
+          { word: "कमजोर", tiles: ["क", "म", "जो", "र"] },
+          { word: "ज्ञान", tiles: ["ज्ञा", "न"] },
+          { word: "विज्ञान", tiles: ["वि", "ज्ञा", "न"] },
+          { word: "इतिहास", tiles: ["इ", "ति", "हा", "स"] },
+          { word: "गणित", tiles: ["ग", "णि", "त"] },
+          { word: "भाषा", tiles: ["भा", "षा"] },
+          { word: "कहानी", tiles: ["क", "हा", "नी"] },
+          { word: "कविता", tiles: ["क", "वि", "ता"] },
+          { word: "सपना", tiles: ["स", "प", "ना"] },
+          { word: "अपना", tiles: ["अ", "प", "ना"] },
+          { word: "राजा", tiles: ["रा", "जा"] },
+          { word: "रानी", tiles: ["रा", "नी"] },
+          { word: "ऊपर", tiles: ["ऊ", "प", "र"] },
+          { word: "नीचे", tiles: ["नी", "चे"] },
+          { word: "अंदर", tiles: ["अं", "द", "र"] },
+          { word: "बाहर", tiles: ["बा", "ह", "र"] },
+          { word: "आगे", tiles: ["आ", "गे"] },
+          { word: "पीछे", tiles: ["पी", "छे"] },
+          { word: "शब्द", tiles: ["श", "ब्द"] },
+          { word: "अक्षर", tiles: ["अ", "क्ष", "र"] },
+          { word: "सोमवार", tiles: ["सो", "म", "वा", "र"] },
+          { word: "मंगलवार", tiles: ["मं", "ग", "ल", "वा", "र"] },
+          { word: "बुधवार", tiles: ["बु", "ध", "वा", "र"] },
+          { word: "गुरुवार", tiles: ["गु", "रु", "वा", "र"] },
+          { word: "शुक्रवार", tiles: ["शु", "क्र", "वा", "र"] },
+          { word: "शनिवार", tiles: ["श", "नि", "वा", "र"] },
+          { word: "रविवार", tiles: ["र", "वि", "वा", "र"] },
+          { word: "गर्मी", tiles: ["ग", "र्मी"] },
+          { word: "सर्दी", tiles: ["स", "र्दी"] },
+          { word: "पतझड़", tiles: ["प", "त", "झ", "ड़"] },
+          { word: "वसंत", tiles: ["वं", "सं", "त"] },
+          { word: "शरीर", tiles: ["श", "री", "र"] },
+          { word: "आँख", tiles: ["आँ", "ख"] },
+          { word: "नाक", tiles: ["ना", "क"] },
+          { word: "कान", tiles: ["का", "न"] },
+          { word: "मुँह", tiles: ["मुँ", "ह"] },
+          { word: "हाथ", tiles: ["हा", "थ"] },
+          { word: "पैर", tiles: ["पै", "र"] },
+          { word: "सिर", tiles: ["सि", "र"] },
+          { word: "पेट", tiles: ["पे", "ट"] },
+          { word: "दिल", tiles: ["दि", "ल"] },
+          { word: "दिमाग", tiles: ["दि", "मा", "ग"] },
+          { word: "रोटी", tiles: ["रो", "टी"] },
+          { word: "चावल", tiles: ["चा", "व", "ल"] },
+          { word: "दाल", tiles: ["दा", "ल"] },
+          { word: "सब्जी", tiles: ["स", "ब्जी"] },
+          { word: "दूध", tiles: ["दू", "ध"] },
+          { word: "दही", tiles: ["द", "ही"] },
+          { word: "नमक", tiles: ["न", "म", "क"] },
+          { word: "चीनी", tiles: ["ची", "नी"] },
+          { word: "मसाला", tiles: ["म", "सा", "ला"] },
+          { word: "चाय", tiles: ["चा", "य"] },
+          { word: "पतंग", tiles: ["प", "तं", "ग"] },
+          { word: "गुब्बारा", tiles: ["गु", "ब्बा", "रा"] },
+          { word: "खिलौना", tiles: ["खि", "लौ", "ना"] },
+          { word: "त्योहार", tiles: ["त्यो", "हा", "र"] },
+          { word: "मेहनत", tiles: ["मे", "ह", "न", "त"] },
+          { word: "सफलता", tiles: ["स", "फ", "ल", "ता"] },
+          { word: "जीवन", tiles: ["जी", "व", "न"] },
+          { word: "मृत्यु", tiles: ["मृ", "त्यु"] },
+          { word: "प्रकाश", tiles: ["प्र", "का", "श"] },
+          { word: "अंधेरा", tiles: ["अं", "धे", "रा"] },
+          { word: "प्रश्न", tiles: ["प्र", "श्न"] },
+          { word: "उत्तर", tiles: ["उ", "त्त", "र"] },
+        ];
+
+        let score = 0;
+        let currentWordIndex = 0;
+        let shuffledWordList = [];
+        let currentWordData = {};
+        let hintUsed = false;
+        let draggedTile = null;
+
+        // DOM Elements
+        const scoreEl = document.getElementById("score");
+        const wordCounterEl = document.getElementById("word-counter");
+        const scrambledWordDisplayEl = document.getElementById(
+          "scrambled-word-display"
+        );
+        const answerSlotsEl = document.getElementById("answer-slots");
+        const letterTilesEl = document.getElementById("letter-tiles");
+        const messageEl = document.getElementById("message");
+        const checkBtn = document.getElementById("check-btn");
+        const hintBtn = document.getElementById("hint-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const newGameBtn = document.getElementById("new-game-btn");
+
+        const successSound = new Audio(
+          "data:audio/mpeg;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU" +
+            Array(1e3).join("123")
+        );
+
+        function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        }
+
+        function newGame() {
+          score = 0;
+          currentWordIndex = 0;
+          shuffledWordList = shuffleArray([...wordData]);
+          updateScore();
+          loadWord();
+        }
+
+        function loadWord() {
+          if (currentWordIndex >= shuffledWordList.length) {
+            endGame();
+            return;
+          }
+
+          hintUsed = false;
+          hintBtn.disabled = false;
+          checkBtn.disabled = false;
+          resetBtn.disabled = false;
+          messageEl.textContent = "";
+          messageEl.className = "";
+          answerSlotsEl.innerHTML = "";
+          letterTilesEl.innerHTML = "";
+
+          currentWordData = shuffledWordList[currentWordIndex];
+          const correctTiles = currentWordData.tiles;
+          let scrambledTiles;
+
+          do {
+            scrambledTiles = shuffleArray([...correctTiles]);
+          } while (
+            correctTiles.length > 1 &&
+            scrambledTiles.join("") === correctTiles.join("")
+          );
+
+          scrambledWordDisplayEl.textContent = scrambledTiles.join(" ");
+
+          scrambledTiles.forEach((tileText, index) => {
+            const tile = document.createElement("div");
+            tile.classList.add("tile");
+            tile.textContent = tileText;
+            tile.draggable = true;
+            tile.dataset.id = `tile-${index}`;
+            letterTilesEl.appendChild(tile);
+          });
+
+          updateWordCounter();
+          addDragDropListeners();
+        }
+
+        function addDragDropListeners() {
+          const tiles = document.querySelectorAll(".tile");
+          const containers = [answerSlotsEl, letterTilesEl];
+
+          tiles.forEach((tile) => {
+            tile.addEventListener("dragstart", dragStart);
+            tile.addEventListener("dragend", dragEnd);
+          });
+
+          containers.forEach((container) => {
+            container.addEventListener("dragover", dragOver);
+            container.addEventListener("drop", dragDropOnContainer);
+          });
+        }
+
+        function dragStart(e) {
+          if (e.target.classList.contains("hinted")) return;
+          draggedTile = e.target;
+          setTimeout(() => e.target.classList.add("dragging"), 0);
+        }
+
+        function dragEnd() {
+          if (draggedTile) {
+            draggedTile.classList.remove("dragging");
+          }
+          draggedTile = null;
+        }
+
+        function dragOver(e) {
+          e.preventDefault();
+        }
+
+        function dragDropOnContainer(e) {
+          e.preventDefault();
+          const targetContainer = e.target.closest(
+            ".tile-area-wrapper, .drop-area-wrapper"
+          );
+          if (targetContainer && draggedTile) {
+            targetContainer.appendChild(draggedTile);
+          }
+        }
+
+        function checkAnswer() {
+          const userAnswerTiles = answerSlotsEl.querySelectorAll(".tile");
+
+          if (userAnswerTiles.length !== currentWordData.tiles.length) {
+            showMessage("कृपया सभी अक्षर भरें!", "incorrect");
+            return;
+          }
+
+          let userAnswer = "";
+          userAnswerTiles.forEach((tile) => {
+            userAnswer += tile.textContent;
+          });
+
+          if (userAnswer === currentWordData.word) {
+            score += 10;
+            updateScore();
+            showMessage("बहुत बढ़िया! सही जवाब!", "correct");
+            successSound.play();
+            checkBtn.disabled = true;
+            setTimeout(() => {
+              currentWordIndex++;
+              loadWord();
+            }, 1500);
+          } else {
+            showMessage("गलत! फिर से प्रयास करें।", "incorrect");
+          }
+        }
+
+        function giveHint() {
+          if (hintUsed || letterTilesEl.children.length === 0) return;
+
+          const correctTileOrder = currentWordData.tiles;
+          const currentAnswerTiles = Array.from(answerSlotsEl.children);
+          const nextCorrectIndex = currentAnswerTiles.length;
+
+          if (nextCorrectIndex >= correctTileOrder.length) return; // Already complete
+
+          const nextCorrectTileText = correctTileOrder[nextCorrectIndex];
+
+          // Find the correct tile in the source area
+          const sourceTiles = Array.from(letterTilesEl.children);
+          let tileToMove = null;
+          for (const tile of sourceTiles) {
+            if (tile.textContent === nextCorrectTileText) {
+              tileToMove = tile;
+              break;
+            }
+          }
+
+          // Move the tile to the answer area
+          if (tileToMove) {
+            answerSlotsEl.appendChild(tileToMove);
+            tileToMove.draggable = false;
+            tileToMove.classList.add("hinted");
+          }
+
+          hintUsed = true;
+          hintBtn.disabled = true;
+        }
+
+        function resetCurrentWord() {
+          loadWord();
+        }
+
+        function updateScore() {
+          scoreEl.textContent = `स्कोर: ${score}`;
+        }
+
+        function updateWordCounter() {
+          wordCounterEl.textContent = `शब्द: ${currentWordIndex + 1} / ${
+            shuffledWordList.length
+          }`;
+        }
+
+        function showMessage(msg, type) {
+          messageEl.textContent = msg;
+          messageEl.className = `message-${type}`;
+        }
+
+        function endGame() {
+          scrambledWordDisplayEl.textContent = "खेल समाप्त!";
+          answerSlotsEl.innerHTML = "";
+          letterTilesEl.innerHTML = "";
+          messageEl.textContent = `आपका अंतिम स्कोर है: ${score}`;
+          messageEl.className = "message-info";
+          checkBtn.disabled = true;
+          hintBtn.disabled = true;
+          resetBtn.disabled = true;
+        }
+
+        // Event Listeners
+        checkBtn.addEventListener("click", checkAnswer);
+        hintBtn.addEventListener("click", giveHint);
+        resetBtn.addEventListener("click", resetCurrentWord);
+        newGameBtn.addEventListener("click", newGame);
+
+        // Start the game
+        newGame();
+      });
+    </script>
+  </body>
+</html>
