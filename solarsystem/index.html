@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Quiz for Kids</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="a00606cf-530c-403b-92af-a924309041e9"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Solar System Quiz for Kids</h1>
+        <p class="subtitle">Test your knowledge about the planets! Click on the correct planet to answer each question.</p>
+
+        <div id="difficulty-selection">
+            <h2>Choose a Difficulty</h2>
+            <button class="difficulty-btn easy" onclick="startGame('Easy')">Easy</button>
+            <button class="difficulty-btn medium" onclick="startGame('Medium')">Medium</button>
+            <button class="difficulty-btn hard" onclick="startGame('Hard')">Hard</button>
+        </div>
+
+        <div id="quiz-container" style="display: none;">
+            <div class="question-container">
+                <div class="difficulty easy" id="difficulty">Easy</div>
+                <div class="question" id="question">Loading question...</div>
+                
+                <div class="planets-container">
+                    <div class="planet mercury" onclick="selectPlanet('Mercury')">
+                        <img src="planets/mercury.jpg" alt="Mercury">
+                        <span class="planet-label">Mercury</span>
+                    </div>
+                    <div class="planet venus" onclick="selectPlanet('Venus')">
+                        <img src="planets/venus.jpg" alt="Venus">
+                        <span class="planet-label">Venus</span>
+                    </div>
+                    <div class="planet earth" onclick="selectPlanet('Earth')">
+                        <img src="planets/earth.jpg" alt="Earth">
+                        <span class="planet-label">Earth</span>
+                    </div>
+                    <div class="planet mars" onclick="selectPlanet('Mars')">
+                        <img src="planets/mars.jpg" alt="Mars">
+                        <span class="planet-label">Mars</span>
+                    </div>
+                    <div class="planet jupiter" onclick="selectPlanet('Jupiter')">
+                        <img src="planets/jupiter.jpg" alt="Jupiter">
+                        <span class="planet-label">Jupiter</span>
+                    </div>
+                    <div class="planet saturn" onclick="selectPlanet('Saturn')">
+                        <img src="planets/saturn.jpg" alt="Saturn">
+                        <span class="planet-label">Saturn</span>
+                    </div>
+                    <div class="planet uranus" onclick="selectPlanet('Uranus')">
+                        <img src="planets/uranus.jpg" alt="Uranus">
+                        <span class="planet-label">Uranus</span>
+                    </div>
+                    <div class="planet neptune" onclick="selectPlanet('Neptune')">
+                        <img src="planets/neptune.jpg" alt="Neptune">
+                        <span class="planet-label">Neptune</span>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <div class="controls">
+                    <button id="nextBtn" style="display: none;">Next Question</button>
+                    <button onclick="resetGame()">Reset Game</button>
+                </div>
+            </div>
+            
+            <div class="score-container">
+                Score: <span id="score">0</span> / <span id="total">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
