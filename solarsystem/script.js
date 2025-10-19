@@ -89,7 +89,7 @@ const questions = [
     {question: "Which ice giant is known for its deep blue color and surprisingly active weather?", answer: "Neptune", level: "Medium"},
     {question: "The Cassini-Huygens probe spent 13 years studying which planet and its complex system of moons and rings?", answer: "Saturn", level: "Hard"},
     {question: "Voyager 2 is the only spacecraft to have made a close-up visit to which ice giant?", answer: "Uranus", level: "Hard"},
-    {question: "Which planet, the fourth largest by diameter, is the outermost planet visible without a telescope?", answer: "Saturn", level: "Easy"},
+    {question: "Which planet, the second largest by diameter, is the outermost planet visible without a telescope?", answer: "Saturn", level: "Easy"},
     {question: "Which planet's largest moon, Ganymede, is bigger than the planet Mercury?", answer: "Jupiter", level: "Hard"},
     {question: "Which planet has an atmosphere that is about 95% carbon dioxide?", answer: "Mars", level: "Medium"},
     {question: "Which planet often appears almost featureless in visible light, like a placid blue ball?", answer: "Uranus", level: "Medium"},
