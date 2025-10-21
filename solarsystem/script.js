@@ -93,7 +93,7 @@ const questions = [
     {question: "Which planet's largest moon, Ganymede, is bigger than the planet Mercury?", answer: "Jupiter", level: "Hard"},
     {question: "Which planet has an atmosphere that is about 95% carbon dioxide?", answer: "Mars", level: "Medium"},
     {question: "Which planet often appears almost featureless in visible light, like a placid blue ball?", answer: "Uranus", level: "Medium"},
-    {question: "Which planet has the most confirmed moons in the solar system?", answer: "Jupiter", level: "Medium"},
+    {question: "Which planet has the most confirmed moons in the solar system?", answer: "Saturn", level: "Medium"},
     {question: "The Mariner 10 mission performed three flybys of which rocky cratered world?", answer: "Mercury", level: "Hard"},
     {question: "Which planet has a day lasting approximately 10 Earth hours?", answer: "Jupiter", level: "Medium"},
     {question: "Which planet has a day lasting approximately 17 Earth hours?", answer: "Uranus", level: "Medium"},
