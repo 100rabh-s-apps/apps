@@ -8,62 +8,67 @@
 
 <url>
   <loc>https://apps.100rabh.com/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/exif/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/monstermath/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/msg/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/places/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/solarsystem/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/sudoku/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/sulajhaana/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/synoanto/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/time/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/wordwizard/</loc>
-  <lastmod>2025-10-16T13:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://apps.100rabh.com/unscramblescience/</loc>
-  <lastmod>2025-10-19T00:00:00+00:00</lastmod>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://apps.100rabh.com/storymaker/</loc>
+  <lastmod>2025-10-22T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 </urlset>
