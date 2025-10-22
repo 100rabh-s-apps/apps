@@ -6,6 +6,7 @@ const submitBtn = document.getElementById('submit-btn');
 const copyBtn = document.getElementById('copy-btn');
 const resetBtn = document.getElementById('reset-btn');
 const status = document.getElementById('status');
+const errorMessage = document.getElementById('error-message');
 
 const STORY_KEY = 'storymaker_story_content';
 const INPUT_KEY = 'storymaker_user_input';
@@ -34,6 +35,8 @@ window.addEventListener('beforeunload', () => {
 });
 
 async function initializeModel() {
+    errorMessage.classList.add('d-none');
+    errorMessage.textContent = '';
     loadingOverlay.classList.remove('d-none');
     userInput.disabled = true;
     submitBtn.disabled = true;
@@ -48,14 +51,20 @@ async function initializeModel() {
         status.textContent = 'Model loaded. Ready to play!';
         userInput.disabled = false;
         submitBtn.disabled = false;
+        loadingOverlay.classList.add('d-none');
     } catch (error) {
-        status.textContent = 'Failed to load model. Please try refreshing the page.';
+        errorMessage.textContent = 'Failed to load model. Please try refreshing the page. If the problem persists, your browser might not support the model.';
+        errorMessage.classList.remove('d-none');
         console.error(error);
+        userInput.disabled = true;
+        submitBtn.disabled = true;
+        loadingOverlay.classList.add('d-none');
     }
-    loadingOverlay.classList.add('d-none');
 }
 
 async function generateStory(prompt) {
+    errorMessage.classList.add('d-none');
+    errorMessage.textContent = '';
     loadingOverlay.classList.remove('d-none');
     userInput.disabled = true;
     submitBtn.disabled = true;
@@ -70,7 +79,8 @@ async function generateStory(prompt) {
         const generatedText = result[0].generated_text;
         storyArea.textContent += generatedText;
     } catch (error) {
-        status.textContent = 'Error generating story.';
+        errorMessage.textContent = 'Error generating story. Please try again. If the problem persists, the model might be unavailable.';
+        errorMessage.classList.remove('d-none');
         console.error(error);
     } finally {
         userInput.disabled = false;

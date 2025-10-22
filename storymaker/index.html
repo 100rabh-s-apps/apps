@@ -10,13 +10,13 @@
 </head>
 <body>
     <div id="loading-overlay" class="d-flex justify-content-center align-items-center vh-100 bg-dark bg-opacity-75 position-fixed w-100 h-100 top-0 start-0 d-none" style="z-index: 9999;">
-        <div id="status" class="text-white fs-3"></div>
+        <div id="status" class="text-white fs-3 text-center"></div>
     </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <div id="game-container" class="card shadow-lg p-4">
-                    <h1 class="text-center mb-4 text-primary fw-bold">StoryMaker</h1>
+                                    <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+                                    <div id="game-container" class="card shadow-lg p-4">                    <h1 class="text-center mb-4 text-primary fw-bold">StoryMaker</h1>
                     <div class="alert alert-info text-center" role="alert">
                         <strong>How to Play:</strong> Enter your part of the story in the text area and click 'Add to Story'. The AI will then continue the narrative!
                     </div>
