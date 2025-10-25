@@ -12,6 +12,9 @@ const submitBtnWrapper = document.getElementById('submit-btn-wrapper');
 const status = document.getElementById('status');
 const errorMessage = document.getElementById('error-message');
 
+const loadModelBtn = document.getElementById('load-model-btn');
+const gameUiContainer = document.getElementById('game-ui-container');
+
 const STORY_KEY = 'storymaker_story_content';
 const INPUT_KEY = 'storymaker_user_input';
 const loadingOverlay = document.getElementById('loading-overlay');
@@ -38,10 +41,15 @@ window.addEventListener('beforeunload', () => {
     localStorage.setItem(INPUT_KEY, userInput.value);
 });
 
+loadModelBtn.addEventListener('click', () => {
+    loadModelBtn.classList.add('d-none');
+    loadingOverlay.classList.remove('d-none');
+    initializeModel();
+});
+
 async function initializeModel() {
     errorMessage.classList.add('d-none');
     errorMessage.textContent = '';
-    loadingOverlay.classList.remove('d-none');
     userInput.disabled = true;
     submitBtn.disabled = true;
     status.textContent = 'Loading model...';
@@ -56,6 +64,7 @@ async function initializeModel() {
         userInput.disabled = false;
         submitBtn.disabled = false;
         loadingOverlay.classList.add('d-none');
+        gameUiContainer.classList.remove('d-none');
     } catch (error) {
         errorMessage.textContent = 'Failed to load model. Please try refreshing the page. If the problem persists, your browser might not support the model.';
         errorMessage.classList.remove('d-none');
@@ -63,6 +72,8 @@ async function initializeModel() {
         userInput.disabled = true;
         submitBtn.disabled = true;
         loadingOverlay.classList.add('d-none');
+        loadModelBtn.classList.remove('d-none');
+        status.textContent = 'Model loading failed.';
     }
 }
 
@@ -164,7 +175,3 @@ saveBtn.addEventListener('click', () => {
     submitBtn.disabled = false;
     userInput.disabled = false;
 });
-
-// Initialize the game
-storyArea.value = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
-initializeModel();

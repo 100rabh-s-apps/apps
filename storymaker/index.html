@@ -11,31 +11,64 @@
 </head>
 <body>
     <div id="loading-overlay" class="d-flex justify-content-center align-items-center vh-100 bg-dark bg-opacity-75 position-fixed w-100 h-100 top-0 start-0 d-none" style="z-index: 9999;">
-        <div id="status" class="text-white fs-3 text-center"></div>
+        <div class="text-white fs-3 text-center">
+            <div id="status" class="mb-3"></div>
+        </div>
     </div>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                                    <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
-                                    <div id="game-container" class="card shadow-lg p-4">                    <h1 class="text-center mb-4 text-primary fw-bold">StoryMaker</h1>
-                    <div class="alert alert-info text-center" role="alert">
-                        <strong>How to Play:</strong> Enter your part of the story in the text area and click 'Add to Story'. The AI will then continue the narrative!
-                    </div>
-                    <textarea id="story-area" class="form-control mb-3" style="min-height: 200px;" readonly></textarea>
-                    <div class="d-flex justify-content-end mt-2 mb-3">
-                        <button id="edit-btn" class="btn btn-secondary me-2"><i class="bi bi-pencil"></i></button>
-                        <button id="save-btn" class="btn btn-success me-2 d-none"><i class="bi bi-save"></i></button>
-                        <button id="copy-btn" class="btn btn-secondary me-2"><i class="bi bi-clipboard"></i></button>
-                        <button id="reset-btn" class="btn btn-danger"><i class="bi bi-arrow-counterclockwise"></i></button>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <div id="user-input-wrapper" class="flex-grow-1 me-2">
-                            <textarea id="user-input" class="form-control pe-3 flex-grow-1" placeholder="Continue the story..." rows="3"></textarea>
-                        </div>
-                        <div id="submit-btn-wrapper">
-                            <button id="submit-btn" class="btn btn-primary"><i class="bi bi-send"></i></button>
+            <div class="col-12">
+                <h1 class="text-center mb-4 text-primary fw-bold">StoryMaker</h1>
+                <div class="accordion mb-3" id="infoAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="howToPlayHeading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#howToPlayCollapse" aria-expanded="false" aria-controls="howToPlayCollapse">
+                                How to Play
+                            </button>
+                        </h2>
+                        <div id="howToPlayCollapse" class="accordion-collapse collapse" aria-labelledby="howToPlayHeading" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body text-center">
+                                <strong>How to Play:</strong> Enter your part of the story in the text area and click 'Add to Story'. The AI will then continue the narrative!
+                            </div>
                         </div>
                     </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="aboutHeading">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#aboutCollapse" aria-expanded="true" aria-controls="aboutCollapse">
+                                About StoryMaker
+                            </button>
+                        </h2>
+                        <div id="aboutCollapse" class="accordion-collapse collapse show" aria-labelledby="aboutHeading" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body text-center">
+                                <strong>About StoryMaker:</strong> This application allows you to collaboratively write stories with an AI. The AI model, <a href="https://huggingface.co/Xenova/LaMini-T5-738M" target="_blank" rel="noopener noreferrer"><strong>Xenova/LaMini-T5-738M</strong></a>, is a large language model (LLM) that runs entirely in your browser, thanks to the Hugging Face Transformers.js library. This means your story data never leaves your device, ensuring privacy and allowing for offline use once the model is loaded.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+                <div class="text-center mt-4">
+                    <button id="load-model-btn" class="btn btn-primary btn-lg btn-tall">Load AI Model</button>
+                </div>
+                <div id="game-ui-container" class="d-none">
+                    <div id="game-container" class="card shadow-lg p-4">
+                        <textarea id="story-area" class="form-control mb-3" style="min-height: 200px;" readonly></textarea>
+                        <div class="d-flex justify-content-end mt-2 mb-3">
+                            <button id="edit-btn" class="btn btn-secondary me-2"><i class="bi bi-pencil"></i> Edit</button>
+                            <button id="save-btn" class="btn btn-success me-2 d-none"><i class="bi bi-save"></i> Save</button>
+                            <button id="copy-btn" class="btn btn-secondary me-2"><i class="bi bi-clipboard"></i> Copy</button>
+                            <button id="reset-btn" class="btn btn-danger"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <div id="user-input-wrapper" class="flex-grow-1 me-2">
+                                <textarea id="user-input" class="form-control pe-3 flex-grow-1" placeholder="Continue the story..." rows="3"></textarea>
+                            </div>
+                            <div id="submit-btn-wrapper">
+                                <button id="submit-btn" class="btn btn-primary"><i class="bi bi-send"></i> Add to Story</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
