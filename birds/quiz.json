@@ -1,0 +1,509 @@
+{
+  "quiz": [
+    {
+      "question": "Which bird is known for its ability to mimic human speech?",
+      "options": ["Parrot", "Eagle", "Sparrow", "Penguin"],
+      "answer": "Parrot"
+    },
+    {
+      "question": "What is the largest living bird by size and weight?",
+      "options": ["Ostrich", "Emu", "Albatross", "Andean Condor"],
+      "answer": "Ostrich"
+    },
+    {
+      "question": "Which bird can fly backward?",
+      "options": ["Hummingbird", "Swift", "Falcon", "Kingfisher"],
+      "answer": "Hummingbird"
+    },
+    {
+      "question": "Which bird is often associated with delivering babies in folklore?",
+      "options": ["Stork", "Crane", "Heron", "Ibis"],
+      "answer": "Stork"
+    },
+    {
+      "question": "Which bird is the national symbol of the United States?",
+      "options": ["Bald Eagle", "American Robin", "Northern Cardinal", "American Goldfinch"],
+      "answer": "Bald Eagle"
+    },
+    {
+      "question": "Which bird lays the smallest egg relative to its body size?",
+      "options": ["Kiwi", "Hummingbird", "Wren", "Puffin"],
+      "answer": "Hummingbird"
+    },
+    {
+      "question": "Which bird is flightless and native to New Zealand?",
+      "options": ["Kiwi", "Toucan", "Flamingo", "Peacock"],
+      "answer": "Kiwi"
+    },
+    {
+      "question": "Which bird is famous for its elaborate mating dance?",
+      "options": ["Bird of Paradise", "Blue Jay", "Crow", "Swan"],
+      "answer": "Bird of Paradise"
+    },
+    {
+      "question": "Which bird is known for building the most complex nests among birds?",
+      "options": ["Weaver Bird", "Robin", "Woodpecker", "Owl"],
+      "answer": "Weaver Bird"
+    },
+    {
+      "question": "Which bird has the longest migration route of any animal?",
+      "options": ["Arctic Tern", "Bar-tailed Godwit", "Swallow", "Sandpiper"],
+      "answer": "Arctic Tern"
+    },
+    {
+      "question": "Which bird is known for its haunting call often heard at night?",
+      "options": ["Owl", "Nightingale", "Cuckoo", "Whippoorwill"],
+      "answer": "Owl"
+    },
+    {
+      "question": "Which bird is unable to move its eyes and must turn its head to look around?",
+      "options": ["Owl", "Eagle", "Pelican", "Dove"],
+      "answer": "Owl"
+    },
+    {
+      "question": "Which bird is known for its bright red chest and sings early in the morning?",
+      "options": ["European Robin", "Cardinal", "Tanager", "Blackbird"],
+      "answer": "European Robin"
+    },
+    {
+      "question": "Which bird is the fastest bird in powered flight?",
+      "options": ["Peregrine Falcon", "Golden Eagle", "Spur-winged Goose", "Frigatebird"],
+      "answer": "Peregrine Falcon"
+    },
+    {
+      "question": "Which bird is known for stealing shiny objects?",
+      "options": ["Magpie", "Raven", "Starling", "Jay"],
+      "answer": "Magpie"
+    },
+    {
+      "question": "Which bird is capable of hovering in mid-air by flying into the wind?",
+      "options": ["Kestrel", "Hawk", "Buzzard", "Osprey"],
+      "answer": "Kestrel"
+    },
+    {
+      "question": "Which bird is often seen walking in urban parks and is known for its honking sound?",
+      "options": ["Canada Goose", "Mallard Duck", "Seagull", "Pigeon"],
+      "answer": "Canada Goose"
+    },
+    {
+      "question": "Which bird is known for its colorful, fan-like tail feathers?",
+      "options": ["Peacock", "Pheasant", "Turkey", "Guineafowl"],
+      "answer": "Peacock"
+    },
+    {
+      "question": "Which bird is known for its loud, distinctive 'cock-a-doodle-doo' call?",
+      "options": ["Rooster", "Pheasant", "Roadrunner", "Quail"],
+      "answer": "Rooster"
+    },
+    {
+      "question": "Which bird is primarily nocturnal and hunts insects at night?",
+      "options": ["Nightjar", "Nighthawk", "Owl", "Bat (not a bird)"],
+      "answer": "Nighthawk"
+    },
+    {
+      "question": "Which bird is famous for its long legs and wading in shallow water?",
+      "options": ["Heron", "Flamingo", "Stilt", "Avocet"],
+      "answer": "Heron"
+    },
+    {
+      "question": "Which bird is known for its bright pink plumage?",
+      "options": ["Flamingo", "Roseate Spoonbill", "Pink Robin", "Glossy Ibis"],
+      "answer": "Flamingo"
+    },
+    {
+      "question": "Which bird is known for its intelligence and problem-solving skills?",
+      "options": ["Crow", "Parrot", "Owl", "Eagle"],
+      "answer": "Crow"
+    },
+    {
+      "question": "Which bird is known for laying eggs in other birds' nests?",
+      "options": ["Cuckoo", "Cowbird", "Honeyguide", "Whydah"],
+      "answer": "Cuckoo"
+    },
+    {
+      "question": "Which bird is the state bird of California?",
+      "options": ["California Quail", "American Robin", "Western Bluebird", "Bald Eagle"],
+      "answer": "California Quail"
+    },
+    {
+      "question": "Which bird is known for diving from great heights to catch fish?",
+      "options": ["Osprey", "Kingfisher", "Pelican", "Gannet"],
+      "answer": "Osprey"
+    },
+    {
+      "question": "Which bird is known for its drumming sound made on trees?",
+      "options": ["Woodpecker", "Toucan", "Nuthatch", "Barbet"],
+      "answer": "Woodpecker"
+    },
+    {
+      "question": "Which bird is the smallest bird in the world?",
+      "options": ["Bee Hummingbird", "Goldcrest", "Firecrown Hummingbird", "Pygmy Sunbird"],
+      "answer": "Bee Hummingbird"
+    },
+    {
+      "question": "Which bird is known for its loud, laughing call?",
+      "options": ["Kookaburra", "Parrot", "Jackdaw", "Magpie"],
+      "answer": "Kookaburra"
+    },
+    {
+      "question": "Which bird is often associated with wisdom in mythology?",
+      "options": ["Owl", "Raven", "Eagle", "Swan"],
+      "answer": "Owl"
+    },
+    {
+      "question": "Which bird migrates from the Arctic to the Antarctic each year?",
+      "options": ["Arctic Tern", "Sooty Shearwater", "Bar-tailed Godwit", "Red Knot"],
+      "answer": "Arctic Tern"
+    },
+    {
+      "question": "Which bird is known for its iridescent green and red plumage and curved bill?",
+      "options": ["Toucan", "Hornbill", "Parrot", "Hoatzin"],
+      "answer": "Toucan"
+    },
+    {
+      "question": "Which bird is known for puffing up its chest and making loud booming sounds?",
+      "options": ["Greater Prairie Chicken", "Wild Turkey", "Sage Grouse", "Capuchinbird"],
+      "answer": "Greater Prairie Chicken"
+    },
+    {
+      "question": "Which bird is the fastest-running bird that cannot fly?",
+      "options": ["Ostrich", "Emu", "Cassowary", "Rhea"],
+      "answer": "Ostrich"
+    },
+    {
+      "question": "Which bird is known for its bright blue feathers and loud calls?",
+      "options": ["Blue Jay", "Kingfisher", "Superb Fairywren", "Indigo Bunting"],
+      "answer": "Blue Jay"
+    },
+    {
+      "question": "Which bird is known for building mud nests under bridges and eaves?",
+      "options": ["Barn Swallow", "Cliff Swallow", "House Martin", "Purple Martin"],
+      "answer": "Cliff Swallow"
+    },
+    {
+      "question": "Which bird is known for its yellow crest and cheerful song?",
+      "options": ["Yellowhammer", "Canary", "Goldfinch", "Waxwing"],
+      "answer": "Goldfinch"
+    },
+    {
+      "question": "Which bird is often seen bobbing its tail up and down while walking?",
+      "options": ["Wagtail", "Sparrow", "Robin", "Chickadee"],
+      "answer": "Wagtail"
+    },
+    {
+      "question": "Which bird is known for its heart-shaped face?",
+      "options": ["Barn Owl", "Screech Owl", "Great Horned Owl", "Burrowing Owl"],
+      "answer": "Barn Owl"
+    },
+    {
+      "question": "Which bird is known for its long, curved neck and S-shape in flight?",
+      "options": ["Whooping Crane", "Ibis", "Egret", "Spoonbill"],
+      "answer": "Whooping Crane"
+    },
+    {
+      "question": "Which bird is known for its black and white plumage and upright stance?",
+      "options": ["Penguin", "Oystercatcher", "Magpie", "Pied Flycatcher"],
+      "answer": "Penguin"
+    },
+    {
+      "question": "Which bird is known for its large, pouched beak?",
+      "options": ["Pelican", "Toucan", "Booby", "Skimmer"],
+      "answer": "Pelican"
+    },
+    {
+      "question": "Which bird is known for its bright orange beak and nesting on sea cliffs?",
+      "options": ["Puffin", "Gannet", "Cormorant", "Murres"],
+      "answer": "Puffin"
+    },
+    {
+      "question": "Which bird is known for its distinctive red cap and black body?",
+      "options": ["Red-headed Woodpecker", "Northern Flicker", "Downy Woodpecker", "Hairy Woodpecker"],
+      "answer": "Red-headed Woodpecker"
+    },
+    {
+      "question": "Which bird is known for its long, thin beak used to probe for insects?",
+      "options": ["Avocet", "Curlew", "Snipe", "Godwit"],
+      "answer": "Curlew"
+    },
+    {
+      "question": "Which bird is known for its loud, repetitive call often heard in wetlands?",
+      "options": ["Common Loon", "Bittern", "Coot", "Grebe"],
+      "answer": "Bittern"
+    },
+    {
+      "question": "Which bird is known for its inflatable throat sac used in mating displays?",
+      "options": ["Frilled Coquette", "Blue-footed Booby", "Greater Sage-Grouse", "Magnificent Frigatebird"],
+      "answer": "Magnificent Frigatebird"
+    },
+    {
+      "question": "Which bird is known for its habit of following plows to catch exposed insects?",
+      "options": ["European Starling", "American Robin", "Blackbird", "Grackle"],
+      "answer": "American Robin"
+    },
+    {
+      "question": "Which bird is known for its ability to imitate the calls of other birds?",
+      "options": ["Northern Mockingbird", "Catbird", "Lyrebird", "Starling"],
+      "answer": "Northern Mockingbird"
+    },
+    {
+      "question": "Which bird is known for its spiral-shaped nest built in tree cavities?",
+      "options": ["Village Weaver", "Horned Lark", "Sociable Weaver", "None of the above"],
+      "answer": "None of the above"
+    },
+    {
+      "question": "Which bird is known for its bright yellow plumage and melodic song?",
+      "options": ["American Goldfinch", "Yellow Warbler", "Canary", "Baltimore Oriole"],
+      "answer": "American Goldfinch"
+    },
+    {
+      "question": "Which bird is known for its long, forked tail and acrobatic flight?",
+      "options": ["Swallow", "Fork-tailed Swift", "Nightjar", "Kite"],
+      "answer": "Swallow"
+    },
+    {
+      "question": "Which bird is known for its black feathers and intelligent behavior?",
+      "options": ["Raven", "Crow", "Blackbird", "Shrike"],
+      "answer": "Raven"
+    },
+    {
+      "question": "Which bird is known for its striking blue and orange plumage?",
+      "options": ["Bluebird", "Baltimore Oriole", "Painted Bunting", "Scarlet Tanager"],
+      "answer": "Painted Bunting"
+    },
+    {
+      "question": "Which bird is known for its habit of caching food for later use?",
+      "options": ["Jay", "Nuthatch", "Chickadee", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its long, needle-like beak?",
+      "options": ["Heron", "Sword-billed Hummingbird", "Avocet", "Curlew"],
+      "answer": "Sword-billed Hummingbird"
+    },
+    {
+      "question": "Which bird is known for its ability to sleep while floating on water?",
+      "options": ["Duck", "Coot", "Grebe", "Loon"],
+      "answer": "Duck"
+    },
+    {
+      "question": "Which bird is known for its loud, trumpeting call?",
+      "options": ["Trumpeter Swan", "Whooping Crane", "Brolga", "Crested Screamer"],
+      "answer": "Trumpeter Swan"
+    },
+    {
+      "question": "Which bird is known for its unique nest made from saliva?",
+      "options": ["Swiftlet", "Swallow", "Hummingbird", "Wren"],
+      "answer": "Swiftlet"
+    },
+    {
+      "question": "Which bird is known for its zebra-like black and white stripes?",
+      "options": ["Zebra Finch", "Magpie", "Penguin", "Rail"],
+      "answer": "Zebra Finch"
+    },
+    {
+      "question": "Which bird is known for its bright red plumage and conical beak?",
+      "options": ["Northern Cardinal", "House Finch", "Scarlet Tanager", "Summer Tanager"],
+      "answer": "Northern Cardinal"
+    },
+    {
+      "question": "Which bird is known for its long, slender legs and feeding in salt marshes?",
+      "options": ["Willets", "Stilt", "Godwit", "Sandpiper"],
+      "answer": "Stilt"
+    },
+    {
+      "question": "Which bird is known for its loud, croaking call?",
+      "options": ["Raven", "Crow", "Coot", "Hermit Thrush"],
+      "answer": "Crow"
+    },
+    {
+      "question": "Which bird is known for its ability to fly at extremely high altitudes?",
+      "options": ["Rüppell's Griffon", "Bar-headed Goose", "Alpine Chough", "Whooper Swan"],
+      "answer": "Bar-headed Goose"
+    },
+    {
+      "question": "Which bird is known for its elaborate bower built to attract mates?",
+      "options": ["Bowerbird", "Weaver", "Manakin", "Bird of Paradise"],
+      "answer": "Bowerbird"
+    },
+    {
+      "question": "Which bird is known for its habit of dropping shells from height to break them?",
+      "options": ["Gull", "Crow", "Oystercatcher", "Skua"],
+      "answer": "Gull"
+    },
+    {
+      "question": "Which bird is known for its musical, flute-like song?",
+      "options": ["Hermit Thrush", "Nightingale", "Mockingbird", "Wood Thrush"],
+      "answer": "Hermit Thrush"
+    },
+    {
+      "question": "Which bird is known for its bright yellow head and black wings?",
+      "options": ["Baltimore Oriole", "Yellow Warbler", "Goldfinch", "Yellow-headed Blackbird"],
+      "answer": "Baltimore Oriole"
+    },
+    {
+      "question": "Which bird is known for its habit of sunbathing with wings spread?",
+      "options": ["Vulture", "Turkey", "Stork", "Ibis"],
+      "answer": "Vulture"
+    },
+    {
+      "question": "Which bird is known for its ability to navigate using the Earth's magnetic field?",
+      "options": ["Robin", "Pigeon", "Warbler", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its bright green plumage and loud screeching?",
+      "options": ["Parakeet", "Motmot", "Toucan", "Lory"],
+      "answer": "Parakeet"
+    },
+    {
+      "question": "Which bird is known for its long, trailing tail feathers in males?",
+      "options": ["Peacock", "Long-tailed Widowbird", "Bird of Paradise", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its habit of cleaning parasites off large animals?",
+      "options": ["Oxpecker", "Cattle Egret", "Hoopoe", "Starling"],
+      "answer": "Oxpecker"
+    },
+    {
+      "question": "Which bird is known for its ability to fly non-stop for days over the ocean?",
+      "options": ["Albatross", "Frigatebird", "Petrel", "Shearwater"],
+      "answer": "Albatross"
+    },
+    {
+      "question": "Which bird is known for its bright red beak and feet?",
+      "options": ["American Flamingo", "Roseate Spoonbill", "Red-knobbed Coot", "Black Skimmer"],
+      "answer": "American Flamingo"
+    },
+    {
+      "question": "Which bird is known for its distinctive 'kree-kree-kree' call?",
+      "options": ["Red-tailed Hawk", "Cooper's Hawk", "Buteo", "Kestrel"],
+      "answer": "Red-tailed Hawk"
+    },
+    {
+      "question": "Which bird is known for its habit of eating bees and wasps?",
+      "options": ["Bee-eater", "Shrike", "Flycatcher", "Nighthawk"],
+      "answer": "Bee-eater"
+    },
+    {
+      "question": "Which bird is known for its ability to fly at night during migration?",
+      "options": ["Warblers", "Thrushes", "Sparrows", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its loud, mechanical-sounding call?",
+      "options": ["Common Potoo", "Oilbird", "Nightjar", "Bullfrog (not a bird)"],
+      "answer": "Common Potoo"
+    },
+    {
+      "question": "Which bird is known for its habit of bathing in dust?",
+      "options": ["Sparrow", "Chickadee", "Quail", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its ability to hang upside down while feeding?",
+      "options": ["Nuthatch", "Chickadee", "Titmouse", "Wren"],
+      "answer": "Nuthatch"
+    },
+    {
+      "question": "Which bird is known for its large, communal nests in trees?",
+      "options": ["Sociable Weaver", "Weaver Bird", "Magpie", "Crow"],
+      "answer": "Sociable Weaver"
+    },
+    {
+      "question": "Which bird is known for its bright orange throat patch?",
+      "options": ["Bulbul", "Robin", "Chat", "Sunbird"],
+      "answer": "Sunbird"
+    },
+    {
+      "question": "Which bird is known for its habit of stealing food from other birds?",
+      "options": ["Frigatebird", "Gull", "Jay", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its ability to survive in extremely cold environments?",
+      "options": ["Emperor Penguin", "Snowy Owl", "Ptarmigan", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its bright purple plumage?",
+      "options": ["Purple Martin", "Plum-headed Parakeet", "Purple Gallinule", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its ability to swim underwater?",
+      "options": ["Cormorant", "Duck", "Loon", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its long, curved beak used for probing flowers?",
+      "options": ["Honeycreeper", "Sunbird", "Hummingbird", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its loud, crow-like call and iridescent feathers?",
+      "options": ["Common Grackle", "Raven", "Starling", "Magpie"],
+      "answer": "Common Grackle"
+    },
+    {
+      "question": "Which bird is known for its ability to mimic car alarms and cell phone rings?",
+      "options": ["Starling", "Mockingbird", "Myna", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its bright red eyes and dark plumage?",
+      "options": ["Red-eyed Vireo", "Common Gallinule", "Red-eyed Dove", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its habit of gathering in large flocks called murmurations?",
+      "options": ["Starling", "Blackbird", "Grackle", "All of the above"],
+      "answer": "Starling"
+    },
+    {
+      "question": "Which bird is known for its ability to fly straight up and down like a helicopter?",
+      "options": ["Hummingbird", "Kestrel", "Swift", "Swallow"],
+      "answer": "Hummingbird"
+    },
+    {
+      "question": "Which bird is known for its loud, bubbling call in marshes?",
+      "options": ["Sora", "Virginia Rail", "Bittern", "Coot"],
+      "answer": "Sora"
+    },
+    {
+      "question": "Which bird is known for its habit of eating fruit and dispersing seeds?",
+      "options": ["Toucan", "Hornbill", "Myna", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its bright yellow eye ring?",
+      "options": ["Kinglet", "Warbler", "Gnatcatcher", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its ability to detect forest fires from afar?",
+      "options": ["Kite", "Hawk", "Vulture", "Woodpecker"],
+      "answer": "Kite"
+    },
+    {
+      "question": "Which bird is known for its long, lyre-shaped tail?",
+      "options": ["Superb Lyrebird", "Long-tailed Tit", "Paradise Flycatcher", "All of the above"],
+      "answer": "Superb Lyrebird"
+    },
+    {
+      "question": "Which bird is known for its ability to walk on floating vegetation?",
+      "options": ["Jacana", "Coot", "Gallinule", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which bird is known for its habit of preening with formic acid from ants?",
+      "options": ["Antbird", "Tits", "Starlings", "All of the above"],
+      "answer": "Tits"
+    },
+    {
+      "question": "Which bird is known for its loud, rhythmic tapping on metal objects?",
+      "options": ["Northern Flicker", "Acorn Woodpecker", "Pileated Woodpecker", "None of the above"],
+      "answer": "None of the above"
+    }
+  ]
+}
