@@ -5,6 +5,10 @@ const userInput = document.getElementById('user-input');
 const submitBtn = document.getElementById('submit-btn');
 const copyBtn = document.getElementById('copy-btn');
 const resetBtn = document.getElementById('reset-btn');
+const editBtn = document.getElementById('edit-btn');
+const saveBtn = document.getElementById('save-btn');
+const userInputWrapper = document.getElementById('user-input-wrapper');
+const submitBtnWrapper = document.getElementById('submit-btn-wrapper');
 const status = document.getElementById('status');
 const errorMessage = document.getElementById('error-message');
 
@@ -19,9 +23,9 @@ const savedStory = localStorage.getItem(STORY_KEY);
 const savedInput = localStorage.getItem(INPUT_KEY);
 
 if (savedStory) {
-    storyArea.textContent = savedStory;
+    storyArea.value = savedStory;
 } else {
-    storyArea.textContent = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
+    storyArea.value = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
 }
 
 if (savedInput) {
@@ -30,7 +34,7 @@ if (savedInput) {
 
 // Save story and input to localStorage before the page unloads
 window.addEventListener('beforeunload', () => {
-    localStorage.setItem(STORY_KEY, storyArea.textContent);
+    localStorage.setItem(STORY_KEY, storyArea.value);
     localStorage.setItem(INPUT_KEY, userInput.value);
 });
 
@@ -77,7 +81,7 @@ async function generateStory(prompt) {
             early_stopping: true,
         });
         const generatedText = result[0].generated_text;
-        storyArea.textContent += generatedText;
+        storyArea.value += generatedText;
     } catch (error) {
         errorMessage.textContent = 'Error generating story. Please try again. If the problem persists, the model might be unavailable.';
         errorMessage.classList.remove('d-none');
@@ -90,18 +94,40 @@ async function generateStory(prompt) {
     }
 }
 
-submitBtn.addEventListener('click', () => {
+submitBtnWrapper.addEventListener('click', () => {
+    if (submitBtn.disabled) {
+        if (!storyArea.readOnly) {
+            errorMessage.textContent = 'Please save your changes before continuing the story.';
+            errorMessage.classList.remove('d-none');
+        } else {
+            errorMessage.textContent = 'Please wait for the current operation to complete.';
+            errorMessage.classList.remove('d-none');
+        }
+        return;
+    }
     const userText = userInput.value.trim();
     if (userText) {
-        storyArea.textContent += userText + ' ';
-        generateStory(storyArea.textContent);
+        storyArea.value += userText + ' ';
+        generateStory(storyArea.value);
         userInput.value = '';
+    }
+});
+
+userInputWrapper.addEventListener('click', () => {
+    if (userInput.disabled) {
+        if (!storyArea.readOnly) {
+            errorMessage.textContent = 'Please save your changes before continuing the story.';
+            errorMessage.classList.remove('d-none');
+        } else {
+            errorMessage.textContent = 'Please wait for the current operation to complete.';
+            errorMessage.classList.remove('d-none');
+        }
     }
 });
 
 copyBtn.addEventListener('click', async () => {
     try {
-        await navigator.clipboard.writeText(storyArea.textContent);
+        await navigator.clipboard.writeText(storyArea.value);
         const originalInnerHTML = copyBtn.innerHTML;
         copyBtn.innerHTML = '<i class="bi bi-clipboard"></i> Copied!';
         setTimeout(() => {
@@ -115,7 +141,7 @@ copyBtn.addEventListener('click', async () => {
 
 resetBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to reset the story? This action cannot be undone.')) {
-        storyArea.textContent = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
+        storyArea.value = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
         userInput.value = '';
         localStorage.removeItem(STORY_KEY);
         localStorage.removeItem(INPUT_KEY);
@@ -123,6 +149,22 @@ resetBtn.addEventListener('click', () => {
     }
 });
 
+editBtn.addEventListener('click', () => {
+    storyArea.readOnly = false;
+    editBtn.classList.add('d-none');
+    saveBtn.classList.remove('d-none');
+    submitBtn.disabled = true;
+    userInput.disabled = true;
+});
+
+saveBtn.addEventListener('click', () => {
+    storyArea.readOnly = true;
+    editBtn.classList.remove('d-none');
+    saveBtn.classList.add('d-none');
+    submitBtn.disabled = false;
+    userInput.disabled = false;
+});
+
 // Initialize the game
-storyArea.textContent = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
+storyArea.value = 'In a world where the sky is made of glass, a young girl named Elara discovers a hidden power within her. ';
 initializeModel();
