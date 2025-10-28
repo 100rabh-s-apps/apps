@@ -21,6 +21,9 @@ body {
     border: none;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    min-height: 80vh; /* Make card take up most of the viewport height */
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
@@ -29,10 +32,30 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
+.subtitle {
+    color: var(--text-light) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-weight: 500;
+}
+
 .alert-info {
     background-color: rgba(var(--accent-color), 0.1);
     color: var(--text-dark);
     border-color: var(--accent-color);
+}
+
+#game-container {
+    min-height: 80vh; /* Make card take up most of the viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+#story-area-container {
+    position: relative;
+    flex: 1; /* Take up remaining space in the flex container */
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
 }
 
 #story-area {
@@ -43,6 +66,29 @@ h1 {
     white-space: pre-wrap;
     line-height: 1.8;
     font-size: 1.1rem;
+    width: 100%;
+    flex: 1; /* Take up available space in its container */
+    min-height: 400px;
+    resize: vertical; /* Allow user to resize if needed */
+    margin-bottom: 1rem; /* Add space for the buttons below */
+}
+
+/* Make the buttons and input area not take flex space */
+.story-controls {
+    flex-shrink: 0;
+}
+
+/* Hide button text on mobile, keep only icons */
+@media (max-width: 768px) {
+    #submit-btn-text {
+        display: none;
+    }
+    
+    #submit-btn {
+        /* Make button smaller on mobile to only show the icon */
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
 }
 
 #user-input {

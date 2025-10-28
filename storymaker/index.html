@@ -19,7 +19,12 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h1 class="text-center mb-4 text-primary fw-bold">StoryMaker</h1>
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex flex-column align-items-end">
+                        <h1 class="text-primary fw-bold mb-1">StoryMaker</h1>
+                        <p class="text-secondary fst-italic mb-0 subtitle">created by 100rabh</p>
+                    </div>
+                </div>
                 <div class="accordion mb-3" id="infoAccordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="howToPlayHeading">
@@ -47,7 +52,52 @@
                     </div>
                 </div>
                 <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
-                <div class="text-center mt-4">
+                <div id="model-selection-container" class="text-center mt-4">
+                    <div class="mb-3">
+                        <label for="model-select" class="form-label text-white">Select a model:</label>
+                        <select id="model-select" class="form-select mb-2">
+                            <option value="Xenova/LaMini-T5-738M" selected>LaMini-T5 738M (Recommended)</option>
+                            <option value="Xenova/LaMini-Flan-T5-783M">LaMini-Flan-T5 783M</option>
+                            <option value="Xenova/t5-small">T5 Small</option>
+                            <option value="Xenova/flan-t5-small">Flan-T5 Small</option>
+                            <option value="Xenova/lamini-t5-61m">Lamini T5-61M</option>
+                            <option value="Xenova/lamini-t5-223m">Lamini T5-223M</option>
+                            <option value="Xenova/lamini-t5-738m">Lamini T5-738M</option>
+                            <option value="Xenova/lamini-flan-t5-77m">Lamini Flan-T5-77M</option>
+                            <option value="Xenova/lamini-flan-t5-248m">Lamini Flan-T5-248M</option>
+                            <option value="Xenova/lamini-flan-t5-783m">Lamini Flan-T5-783M</option>
+                            <option value="Xenova/gpt2">GPT-2</option>
+                            <option value="Xenova/distilgpt2">DistilGPT-2</option>
+                            <option value="Xenova/distilbart-cnn-6-6">DistilBART CNN 6-6</option>
+                            <option value="Xenova/bart-large-cnn">BART Large CNN</option>
+                            <option value="Xenova/Phi-3-mini-4k-instruct">Phi-3 Mini 4K Instruct</option>
+                            <option value="Xenova/llama2.c-stories15m">LLaMA2.c Stories 15M</option>
+                            <option value="Xenova/llama2.c-stories110m">LLaMA2.c Stories 110M</option>
+                            <option value="Xenova/llama2.c-stories42m">LLaMA2.c Stories 42M</option>
+                            <option value="Xenova/tinyllama-1.1b-chat">TinyLlama 1.1B Chat</option>
+                            <option value="Xenova/qwen1.5-0.5b-chat">Qwen1.5 0.5B Chat</option>
+                            <option value="Xenova/lamini-gpt-124m">Lamini GPT-124M</option>
+                            <option value="Xenova/text-davinci-003">Text Davinci 003</option>
+                            <option value="custom">Others (Enter Custom Model)</option>
+                        </select>
+                        
+                        <div id="custom-model-container">
+                            <label for="custom-model-input" class="form-label text-white">Enter custom model:</label>
+                            <input type="text" id="custom-model-input" class="form-control mb-2" placeholder="e.g., Xenova/your-model-name">
+                        </div>
+                        
+                        <div id="task-type-container">
+                            <label for="task-type-select" class="form-label text-white">Task type for custom model:</label>
+                            <select id="task-type-select" class="form-select">
+                                <option value="text2text-generation">Text-to-Text Generation (T5, Flan-T5)</option>
+                                <option value="text-generation">Text Generation (GPT, Llama, Phi)</option>
+                                <option value="summarization">Summarization (BART, Pegasus)</option>
+                                <option value="fill-mask">Fill Mask (BERT-like)</option>
+                                <option value="question-answering">Question Answering</option>
+                                <option value="translation">Translation</option>
+                            </select>
+                        </div>
+                    </div>
                     <button id="load-model-btn" class="btn btn-primary btn-lg btn-tall">Load AI Model</button>
                 </div>
                 <div id="game-ui-container" class="d-none">
@@ -60,18 +110,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mt-2 mb-3">
+                        <div class="story-controls d-flex justify-content-end mt-2 mb-3">
                             <button id="edit-btn" class="btn btn-secondary me-2"><i class="bi bi-pencil"></i> Edit</button>
                             <button id="save-btn" class="btn btn-success me-2 d-none"><i class="bi bi-save"></i> Save</button>
                             <button id="copy-btn" class="btn btn-secondary me-2"><i class="bi bi-clipboard"></i> Copy</button>
                             <button id="reset-btn" class="btn btn-danger"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
                         </div>
-                        <div class="d-flex mb-3">
+                        <div class="story-controls d-flex mb-3">
                             <div id="user-input-wrapper" class="flex-grow-1 me-2">
                                 <textarea id="user-input" class="form-control pe-3 flex-grow-1" placeholder="Continue the story..." rows="3"></textarea>
                             </div>
                             <div id="submit-btn-wrapper">
-                                <button id="submit-btn" class="btn btn-primary"><i class="bi bi-send"></i> Add to Story</button>
+                                <button id="submit-btn" class="btn btn-primary"><i class="bi bi-send"></i> <span id="submit-btn-text">Add to Story</span></button>
                             </div>
                         </div>
                     </div>

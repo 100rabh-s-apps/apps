@@ -13,7 +13,64 @@ const status = document.getElementById('status');
 const errorMessage = document.getElementById('error-message');
 
 const loadModelBtn = document.getElementById('load-model-btn');
+const modelSelect = document.getElementById('model-select');
+const customModelInput = document.getElementById('custom-model-input');
+const customModelContainer = document.getElementById('custom-model-container');
+const taskTypeSelect = document.getElementById('task-type-select');
+const taskTypeContainer = document.getElementById('task-type-container');
 const gameUiContainer = document.getElementById('game-ui-container');
+
+// Set initial state based on current selections
+if (taskTypeContainer) {
+    if (modelSelect.value && modelSelect.value !== 'custom') {
+        // If a model is already selected (like the default recommended model) and it's not 'custom', hide task type
+        taskTypeContainer.classList.add('d-none');
+    } else {
+        // If custom model is selected or no specific model, show task type
+        taskTypeContainer.classList.remove('d-none');
+    }
+}
+
+if (customModelContainer) {
+    if (modelSelect.value === 'custom') {
+        // If 'custom' is selected, show the custom model input
+        customModelContainer.classList.remove('d-none');
+    } else {
+        // Otherwise, hide the custom model input
+        customModelContainer.classList.add('d-none');
+    }
+}
+
+// Add event listener to model select to show/hide task type and custom model input based on selection
+modelSelect.addEventListener('change', function() {
+    if (this.value === 'custom') {
+        // If 'custom' is selected, show both custom model input and task type selector
+        if (customModelContainer) {
+            customModelContainer.classList.remove('d-none');
+        }
+        if (taskTypeContainer) {
+            taskTypeContainer.classList.remove('d-none');
+        }
+    } else {
+        // If a predefined model is selected, hide custom model input and hide task type selector
+        if (customModelContainer) {
+            customModelContainer.classList.add('d-none');
+        }
+        if (taskTypeContainer) {
+            taskTypeContainer.classList.add('d-none');
+        }
+    }
+});
+
+// Add event listener to custom model input to update task type visibility
+customModelInput.addEventListener('input', function() {
+    if (this.value.trim() !== '') {
+        // If custom model is being entered, ensure task type selector is visible
+        if (taskTypeContainer) {
+            taskTypeContainer.classList.remove('d-none');
+        }
+    }
+});
 
 const STORY_KEY = 'storymaker_story_content';
 const INPUT_KEY = 'storymaker_user_input';
@@ -22,6 +79,8 @@ const generatingOverlay = document.getElementById('generating-overlay');
 const generatingStatus = document.getElementById('generating-status');
 
 let generator = null;
+let currentModel = null;  // Store the currently loaded model name
+let currentTask = null;   // Store the task type for the current model
 
 // List of sarcastic/funny/ironic messages to show while generating
 const generationMessages = [
@@ -81,25 +140,128 @@ async function initializeModel() {
     errorMessage.textContent = '';
     userInput.disabled = true;
     submitBtn.disabled = true;
-    status.textContent = 'Loading model...';
+    
+    let selectedModel = modelSelect.value;
+    // Use custom model if 'custom' is selected in dropdown and custom model is provided
+    if (selectedModel === 'custom' && customModelInput.value.trim() !== '') {
+        selectedModel = customModelInput.value.trim();
+    } else if (selectedModel === 'custom' && customModelInput.value.trim() === '') {
+        // If 'custom' is selected but no custom model is entered, show error
+        errorMessage.textContent = 'Please enter a custom model name.';
+        errorMessage.classList.remove('d-none');
+        console.error('Custom model selected but no model name provided');
+        loadingOverlay.classList.add('d-none');
+        loadModelBtn.classList.remove('d-none');
+        status.textContent = 'No model name provided.';
+        return;
+    }
+    
+    // If no model is selected (neither from dropdown nor custom input), show error
+    if (!selectedModel || selectedModel === 'custom') {
+        errorMessage.textContent = 'Please select a model or enter a custom model name.';
+        errorMessage.classList.remove('d-none');
+        console.error('No model selected');
+        loadingOverlay.classList.add('d-none');
+        loadModelBtn.classList.remove('d-none');
+        status.textContent = 'No model selected.';
+        return;
+    }
+    
+    status.textContent = `Loading model: ${selectedModel}...`;
+    
     try {
-        generator = await pipeline('text2text-generation', 'Xenova/LaMini-T5-738M', {
+        // Check if the selected model is not suitable for our text continuation task
+        if (selectedModel.toLowerCase().includes('vit-gpt2')) {
+            errorMessage.textContent = 'ViT-GPT2 model is designed for image captioning, not text continuation. Please select a different model.';
+            errorMessage.classList.remove('d-none');
+            console.error('Invalid model selected for text continuation task');
+            loadingOverlay.classList.add('d-none');
+            loadModelBtn.classList.remove('d-none');
+            status.textContent = 'Please select a different model.';
+            return; // Exit early without loading the model
+        }
+        
+        // Use custom task type if using a custom model, otherwise use auto-detection
+        let task;
+        if (customModelInput.value.trim() !== '') {
+            task = taskTypeSelect.value;
+        } else {
+            // Auto-detect task based on model name for models selected from dropdown
+            if (selectedModel.toLowerCase().includes('gpt2')) {
+                task = 'text-generation';
+            } else if (selectedModel.toLowerCase().includes('distilbart')) {
+                task = 'summarization';
+            } else if (selectedModel.toLowerCase().includes('phi')) {
+                task = 'text-generation'; // Phi models typically use text-generation
+            } else if (selectedModel.toLowerCase().includes('bart')) {
+                task = 'summarization'; // BART models are often used for summarization
+            } else if (selectedModel.toLowerCase().includes('t5') && selectedModel.toLowerCase().includes('flan')) {
+                task = 'text2text-generation'; // Flan-T5 models
+            } else if (selectedModel.toLowerCase().includes('t5') && !selectedModel.toLowerCase().includes('flan')) {
+                task = 'text2text-generation'; // Standard T5 models
+            } else if (selectedModel.toLowerCase().includes('lamini') && !selectedModel.toLowerCase().includes('gpt')) {
+                task = 'text2text-generation'; // Lamini T5-based models
+            } else if (selectedModel.toLowerCase().includes('text-davinci')) {
+                task = 'text-generation'; // Text Davinci models are for text generation
+            } else if (selectedModel.toLowerCase().includes('llama2.c-stories')) {
+                task = 'text-generation'; // Llama2.c stories models are for text generation
+            } else if (selectedModel.toLowerCase().includes('llama')) {
+                task = 'text-generation'; // Llama models are for text generation
+            } else if (selectedModel.toLowerCase().includes('qwen') || selectedModel.toLowerCase().includes('tinyllama')) {
+                task = 'text-generation'; // Chat models are for text generation
+            } else if (selectedModel.toLowerCase().includes('lamini') && selectedModel.toLowerCase().includes('gpt')) {
+                task = 'text-generation'; // Lamini GPT models are for text generation
+            } else {
+                // If the model name doesn't match any pattern, use the selected task type from dropdown
+                task = taskTypeSelect.value;
+            }
+        }
+        
+        generator = await pipeline(task, selectedModel, {
             progress_callback: (progress) => {
                 const percentage = progress.progress ? Math.round(progress.progress) : 0;
-                status.textContent = `Loading model... (${percentage}%)`;
+                status.textContent = `Loading model: ${selectedModel}... (${percentage}%)`;
             }
         });
-        status.textContent = 'Model loaded. Ready to play!';
+        status.textContent = `Model ${selectedModel} loaded. Ready to play!`;
         userInput.disabled = false;
         submitBtn.disabled = false;
         loadingOverlay.classList.add('d-none');
         gameUiContainer.classList.remove('d-none');
+        currentModel = selectedModel;  // Store the loaded model
+        currentTask = task;            // Store the task type
+        
+        // Hide the model selection UI by hiding the entire model selection container
+        const modelSelectionDiv = document.getElementById('model-selection-container');
+        if (modelSelectionDiv) {
+            modelSelectionDiv.classList.add('d-none');
+        }
+        
+        // Collapse the accordions after model is loaded by simulating clicks
+        const howToPlayCollapse = document.getElementById('howToPlayCollapse');
+        const aboutCollapse = document.getElementById('aboutCollapse');
+        const howToPlayButton = document.querySelector('[data-bs-target="#howToPlayCollapse"]');
+        const aboutButton = document.querySelector('[data-bs-target="#aboutCollapse"]');
+        
+        // If the "How to Play" accordion is open, close it
+        if (howToPlayCollapse && howToPlayCollapse.classList.contains('show')) {
+            if (howToPlayButton) {
+                howToPlayButton.click(); // This will collapse it using Bootstrap's built-in functionality
+            }
+        }
+        
+        // If the "About" accordion is open (it's initially shown by default), close it
+        if (aboutCollapse && aboutCollapse.classList.contains('show')) {
+            if (aboutButton) {
+                aboutButton.click(); // This will collapse it using Bootstrap's built-in functionality
+            }
+        }
     } catch (error) {
         errorMessage.textContent = 'Failed to load model. Please try refreshing the page. If the problem persists, your browser might not support the model.';
         errorMessage.classList.remove('d-none');
         console.error(error);
         userInput.disabled = true;
-        submitBtn.disabled = true;
+        submitBtn.disabled = false; // Keep submit enabled for potential retry
         loadingOverlay.classList.add('d-none');
         loadModelBtn.classList.remove('d-none');
         status.textContent = 'Model loading failed.';
@@ -124,14 +286,147 @@ function generateStory(prompt) {
     
     // Use setTimeout to ensure UI is updated before generator call
     setTimeout(async () => {
-        const fullPrompt = `You are a fantasy story writer. Continue the following story: ${prompt}`;
+        const fullPrompt = `**GUIDELINES:**
+- Always maintain a consistent narrative style and tone
+- Build upon previous story elements and character developments
+- Keep each generation between 3-5 sentences to maintain pacing
+- End each generation with an open-ended situation that invites user input
+- Incorporate user suggestions naturally into the ongoing narrative
+- Vary between action, dialogue, description, and character development
+- Create opportunities for meaningful user choices that impact the story
+
+**STORY STRUCTURE:**
+- Begin with an intriguing fantasy setting and initial conflict
+- Develop characters with depth and motivations
+- Include fantasy elements like magic, mythical creatures, or unique worlds
+- Build toward meaningful climaxes and resolutions
+
+**RESPONSE FORMAT:**
+After each user input, generate 3-5 sentences that advance the story, then end with a clear prompt for the user's next input.
+
+**EXAMPLE INTERACTION PATTERN:**
+[Your generation] → [User input] → [Your next generation] → [User input] → etc.
+
+Let's begin our collaborative fantasy novel. I'll start with the opening: ${prompt}`;
         try {
-            const result = await generator(fullPrompt, {
-                max_new_tokens: 100,
-                no_repeat_ngram_size: 2,
-                early_stopping: true,
-            });
-            const generatedText = result[0].generated_text;
+            // Get the currently selected model to adjust parameters accordingly
+            const selectedModel = modelSelect.value;
+            
+            let result;
+            // Use the current model and task for parameter selection
+            if (currentModel.toLowerCase().includes('gpt2')) {
+                // GPT-2 and DistilGPT-2 use different parameters
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.9,
+                    repetition_penalty: 1.2,
+                });
+            } else if (currentModel.toLowerCase().includes('distilbart')) {
+                // DistilBART is for summarization, so we'll use it differently
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    no_repeat_ngram_size: 2,
+                });
+            } else if (currentModel.toLowerCase().includes('phi')) {
+                // Phi-3 models work well with instruct-style prompts
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.8,
+                    do_sample: true,
+                });
+            } else if (currentModel.toLowerCase().includes('bart')) {
+                // BART models for summarization
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    no_repeat_ngram_size: 2,
+                });
+            } else if (currentModel.toLowerCase().includes('lamini') && !currentModel.toLowerCase().includes('gpt')) {
+                // Lamini models (T5-based) with appropriate parameters
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    no_repeat_ngram_size: 2,
+                    early_stopping: true,
+                });
+            } else if (currentModel.toLowerCase().includes('flan')) {
+                // Flan-T5 models with instruction-following parameters
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    no_repeat_ngram_size: 2,
+                    early_stopping: true,
+                });
+            } else if (currentModel.toLowerCase().includes('text-davinci')) {
+                // Text Davinci models - for advanced text generation
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.85,
+                    do_sample: true,
+                });
+            } else if (currentModel.toLowerCase().includes('llama2.c-stories')) {
+                // Llama2.c stories models - specifically trained for story generation
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.85,
+                    do_sample: true,
+                    pad_token_id: 50256, // Common pad token id for GPT-style models
+                });
+            } else if (currentModel.toLowerCase().includes('llama') || currentModel.toLowerCase().includes('tinyllama')) {
+                // Llama models for text generation
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.8,
+                    do_sample: true,
+                });
+            } else if (currentModel.toLowerCase().includes('qwen')) {
+                // Qwen models for chat/text generation
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.8,
+                    do_sample: true,
+                });
+            } else if (currentModel.toLowerCase().includes('lamini') && currentModel.toLowerCase().includes('gpt')) {
+                // Lamini GPT models
+                result = await generator(fullPrompt, {
+                    max_new_tokens: 100,
+                    temperature: 0.85,
+                    do_sample: true,
+                });
+            } else {
+                // Default parameters based on the current task
+                if (currentTask === 'text-generation') {
+                    result = await generator(fullPrompt, {
+                        max_new_tokens: 100,
+                        temperature: 0.8,
+                        do_sample: true,
+                    });
+                } else if (currentTask === 'summarization') {
+                    result = await generator(fullPrompt, {
+                        max_new_tokens: 100,
+                        no_repeat_ngram_size: 2,
+                    });
+                } else {
+                    // Default parameters for T5 models and others
+                    result = await generator(fullPrompt, {
+                        max_new_tokens: 100,
+                        no_repeat_ngram_size: 2,
+                        early_stopping: true,
+                    });
+                }
+            }
+            
+            // Extract generated text based on model type and result format
+            let generatedText = '';
+            if (Array.isArray(result)) {
+                generatedText = result[0].generated_text || result[0].summary_text || result[0];
+            } else if (typeof result === 'string') {
+                generatedText = result;
+            } else if (result && typeof result === 'object') {
+                // Try different possible result formats
+                generatedText = result.generated_text || result.summary_text || JSON.stringify(result);
+            } else {
+                // Fallback in case the result format is unexpected
+                generatedText = String(result);
+            }
+            
             storyArea.value += generatedText;
         } catch (error) {
             errorMessage.textContent = 'Error generating story. Please try again. If the problem persists, the model might be unavailable.';
@@ -149,7 +444,7 @@ function generateStory(prompt) {
                 submitBtn.disabled = false;
             }, 500); // Show final message for 500ms before hiding
         }
-    }, 100); // Small delay to ensure UI updates
+    }, 100); // Increased delay to ensure UI updates are visible
 }
 
 submitBtnWrapper.addEventListener('click', () => {
