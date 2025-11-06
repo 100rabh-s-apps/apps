@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Personality Test - Myers-Briggs Type Indicator (MBTI)</title>
+    <meta name="description" content="Take our free personality test to discover your Myers-Briggs Type Indicator (MBTI) personality type. Get a detailed report on your traits, suitable career paths, and compatibility with other personality types.">
+    <meta name="keywords" content="personality test, myers-briggs, mbti, personality types, free personality test, career test, compatibility test">
+    <meta name="author" content="Saurabh Minni">
+    <meta property="og:title" content="Free Personality Test - Myers-Briggs Type Indicator (MBTI)">
+    <meta property="og:description" content="Discover your MBTI personality type with our free online test.">
+    <meta property="og:image" content="https://www.saurabhminni.com/apps/personalitytest/og-image.svg">
+    <meta property="og:url" content="https://www.saurabhminni.com/apps/personalitytest/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Personality Test - Myers-Briggs Type Indicator (MBTI)">
+    <meta name="twitter:description" content="Discover your MBTI personality type with our free online test.">
+    <meta name="twitter:image" content="https://www.saurabhminni.com/apps/personalitytest/og-image.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="a00606cf-530c-403b-92af-a924309041e9"></script> 
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8 relative">
+    <div class="absolute top-4 left-4 z-10">
+        <a href="https://apps.100rabh.com/" class="text-gray-600 hover:text-blue-500 text-sm md:text-base font-bold flex items-center p-2 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors duration-200">
+            &larr; Back to all apps
+        </a>
+    </div>
+    <main class="container bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
+        <header>
+            <h1 class="text-2xl sm:text-3xl font-bold text-center mb-4">Personality Test</h1>
+            <p class="text-center text-gray-600 mb-6 text-sm sm:text-base">Discover your personality type based on the <a href="https://en.wikipedia.org/wiki/Myers%E2%80%93Briggs_Type_Indicator" target="_blank" class="text-blue-500 hover:underline">Myers-Briggs Type Indicator</a>. Answer a series of questions to get a detailed report about your traits and suitable career paths.</p>
+        </header>
+        <section id="quiz-section">
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            <div id="quiz"></div>
+            <div id="navigation" class="flex justify-between mt-6">
+                <button id="previous" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l text-sm sm:text-base" style="display: none;">Previous</button>
+                <button id="next" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r text-sm sm:text-base">Next</button>
+            </div>
+            <button id="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full mt-6 text-sm sm:text-base" style="display: none;">Get Your Result</button>
+        </section>
+        <section id="result-section">
+            <div id="result" class="text-xl sm:text-2xl font-bold mt-6"></div>
+            <div class="text-center mt-6">
+                <button id="savePdf" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm sm:text-base" style="display: none;">Save as PDF</button>
+                <button id="reset" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded text-sm sm:text-base" style="display: none;">Reset</button>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
