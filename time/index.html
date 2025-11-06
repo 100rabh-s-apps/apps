@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Tellers Adventure</title>
+    <meta name="description" content="Fun clock game for kids — tell time, solve puzzles, and master hours & minutes with interactive challenges! Learn to read analog and digital clocks.">
+    <meta name="keywords" content="time game, clock game, kids, educational, learn time, analog clock, digital clock, puzzles">
+    <link rel="canonical" href="https://apps.100rabh.com/time/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://apps.100rabh.com/time/">
+    <meta property="og:title" content="Time Tellers Adventure">
+    <meta property="og:description" content="Fun clock game for kids — tell time, solve puzzles, and master hours & minutes with interactive challenges! Learn to read analog and digital clocks.">
+    <meta property="og:image" content="https://apps.100rabh.com/time/og-image.svg"> <!-- Using an og-image.svg as OG image -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://apps.100rabh.com/time/">
+    <meta property="twitter:title" content="Time Tellers Adventure">
+    <meta property="twitter:description" content="Fun clock game for kids — tell time, solve puzzles, and master hours & minutes with interactive challenges! Learn to read analog and digital clocks.">
+    <meta property="twitter:image" content="https://apps.100rabh.com/time/og-image.svg"> <!-- Using an og-image.svg as Twitter image -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
@@ -34,7 +52,13 @@
 </head>
 <body class="bg-pattern min-h-screen flex items-center justify-center p-4">
 
-    <div id="game-container" class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-8 text-center w-full max-w-4xl mx-auto">
+    <div id="game-container" class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-8 text-center w-full max-w-4xl mx-auto relative">
+        <a href="https://apps.100rabh.com/" class="absolute top-4 left-4 text-gray-600 hover:text-blue-500 text-sm md:text-base font-bold flex items-center" style="text-decoration: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Back to all apps
+        </a>
         <!-- Header -->
         <header class="flex justify-between items-center mb-6">
             <h1 class="text-3xl md:text-5xl text-blue-600">Time Tellers</h1>

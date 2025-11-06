@@ -1,0 +1,5 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="630" fill="#f2e7ff"/>
+    <text x="600" y="315" font-family="sans-serif" font-size="80" fill="#8e44ad" text-anchor="middle" dominant-baseline="middle">StoryMaker</text>
+    <text x="600" y="415" font-family="sans-serif" font-size="40" fill="#8e44ad" text-anchor="middle" dominant-baseline="middle">Collaborative AI Story Writing</text>
+</svg>
