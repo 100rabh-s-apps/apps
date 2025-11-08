@@ -1,0 +1,22 @@
+{
+  "name": "Apps by Saurabh Minni",
+  "short_name": "Saurabh Apps",
+  "description": "Discover web apps developed by Saurabh Minni: Animated Kids Editor, Sudoku for Kids, Collaborative Story Maker, Personality Test and a tool to send WhatsApp/Telegram/Signal messages without saving numbers among other games for kids.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#fd7e14",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

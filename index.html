@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fd7e14">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
     <title>Apps by Saurabh Minni 
     </title>
@@ -23,6 +25,7 @@
     <meta name="twitter:title" content="Apps by Saurabh Minni">
     <meta name="twitter:description"
         content="Check out web apps by Saurabh Minni: Animated Kids Editor, Sudoku for Kids, Collaborative Story Maker, Personality Test and a tool to message without saving contacts among other games for kids.">
+    <link rel="manifest" href="manifest.json">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -483,7 +486,12 @@
 
 <body>
     <div class="container">
-        <h1 class="text-center main-title">Apps by Saurabh Minni</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="main-title">Apps by Saurabh Minni</h1>
+            <button id="desktopInstallBtn" class="btn btn-outline-primary d-flex align-items-center" title="Install this app">
+                <i class="bi bi-download me-1"></i> Install App
+            </button>
+        </div>
         <p class="text-center subtitle">Discover web applications developed by
             Saurabh Minni.</p>
 
@@ -736,6 +744,68 @@
 
 
         </div>
+        
+        <!-- PWA Install Prompt -->
+        <div id="installPrompt" class="alert alert-info d-none position-fixed bottom-0 start-0 end-0 mb-0 rounded-0" style="z-index: 1050; background-color: #e2e3e5; border-color: #d3d3d4; color: #383d41;">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0 me-3">
+                    <i class="bi bi-box-arrow-in-down" style="font-size: 1.5rem;"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <h6 class="alert-heading mb-0">Install this app</h6>
+                    <p class="mb-0">Add this application to your home screen for faster access and improved experience.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button id="installBtn" class="btn btn-sm btn-primary me-2">Install</button>
+                <button id="dismissInstall" class="btn btn-sm btn-outline-secondary">Dismiss</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Desktop Install Instruction Modal -->
+        <div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="installModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="installModalLabel">Install this App</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>To install this app on your device:</p>
+                <div class="d-flex align-items-start mb-3">
+                  <div class="me-3">
+                    <span class="badge bg-primary">1</span>
+                  </div>
+                  <div>
+                    <p class="mb-1">Click the menu icon <i class="bi bi-three-dots-vertical"></i> (Chrome/Edge) or <i class="bi bi-three-dots"></i> (other browsers) in your browser's address bar</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-3">
+                  <div class="me-3">
+                    <span class="badge bg-primary">2</span>
+                  </div>
+                  <div>
+                    <p class="mb-1">Select "Install" or "Add to Home Screen" from the dropdown menu</p>
+                  </div>
+                </div>
+                <div class="alert alert-info" role="alert">
+                  <i class="bi bi-info-circle-fill me-2"></i>
+                  On some browsers, you might need to select "More tools" → "Create shortcut..." or look for an "Install" option in the address bar.
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <footer class="text-center text-muted">
             <p class="mb-1">&copy; 2025 - Saurabh Minni.</p>
         </footer>
@@ -745,6 +815,170 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="a00606cf-530c-403b-92af-a924309041e9"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('ServiceWorker registration failed: ', error);
+        });
+    });
+  }
+  
+  // PWA Install functionality
+  let deferredPrompt;
+  let installModal;
+  
+  // Initialize the modal when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the modal if it exists
+    const modalElement = document.getElementById('installModal');
+    if (modalElement) {
+      installModal = new bootstrap.Modal(modalElement);
+    }
+    
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches || 
+        window.navigator.standalone === true) {
+      // Already installed, hide the prompt
+      const installPrompt = document.getElementById('installPrompt');
+      if (installPrompt) {
+        installPrompt.classList.add('d-none');
+      }
+      return;
+    }
+    
+    // Check if user has already dismissed the prompt
+    if (localStorage.getItem('installPromptDismissed') === 'true') {
+      const installPrompt = document.getElementById('installPrompt');
+      if (installPrompt) {
+        installPrompt.classList.add('d-none');
+      }
+      return;
+    }
+    
+    // For desktop users, show the install prompt since native prompt might not appear
+    if (!isMobileOrTablet()) {
+      showInstallPrompt();
+    }
+  });
+  
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    
+    // Show the install prompt
+    showInstallPrompt();
+  });
+  
+  // Check if already installed
+  window.addEventListener('appinstalled', () => {
+    // Hide the install prompt
+    hideInstallPrompt();
+    console.log('App was installed.');
+  });
+  
+  // Function to determine if user is on mobile/tablet
+  function isMobileOrTablet() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+  }
+  
+  // Function to show install prompt
+  function showInstallPrompt() {
+    // Check if the app is already installed
+    if (window.matchMedia('(display-mode: standalone)').matches || 
+        window.navigator.standalone === true) {
+      return; // Already installed, don't show prompt
+    }
+    
+    const installPrompt = document.getElementById('installPrompt');
+    if (installPrompt) {
+      installPrompt.classList.remove('d-none');
+    }
+  }
+  
+  // Function to hide install prompt
+  function hideInstallPrompt() {
+    const installPrompt = document.getElementById('installPrompt');
+    if (installPrompt) {
+      installPrompt.classList.add('d-none');
+    }
+  }
+  
+  // Handle install button click
+  document.getElementById('installBtn')?.addEventListener('click', () => {
+    if (deferredPrompt) {
+      // Mobile/tablet: use the native install prompt
+      deferredPrompt.prompt();
+      
+      // Wait for the user to respond to the prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        // Optionally, send analytics event with outcome of prompt
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        
+        // Clear the deferred prompt variable
+        deferredPrompt = null;
+        
+        // Hide the install prompt
+        hideInstallPrompt();
+      });
+    } else {
+      // Desktop: show the instructions modal
+      if (installModal) {
+        installModal.show();
+      } else {
+        // Fallback: show a simple alert with instructions
+        alert('To install this app:\n1. Click the three-dot menu in your browser\n2. Select "Install" or "Add to Desktop"');
+      }
+    }
+  });
+  
+  // Handle dismiss button click
+  document.getElementById('dismissInstall')?.addEventListener('click', () => {
+    hideInstallPrompt();
+    
+    // Save to local storage that the user dismissed the prompt
+    localStorage.setItem('installPromptDismissed', 'true');
+  });
+  
+  // Handle desktop install button click
+  document.getElementById('desktopInstallBtn')?.addEventListener('click', () => {
+    if (deferredPrompt) {
+      // Mobile/tablet: use the native install prompt
+      deferredPrompt.prompt();
+      
+      // Wait for the user to respond to the prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        // Optionally, send analytics event with outcome of prompt
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        
+        // Clear the deferred prompt variable
+        deferredPrompt = null;
+      });
+    } else {
+      // Desktop: show the instructions modal
+      if (installModal) {
+        installModal.show();
+      } else {
+        // Fallback: show a simple alert with instructions
+        alert('To install this app:\n1. Click the three-dot menu in your browser\n2. Select "Install" or "Add to Desktop"');
+      }
+    }
+  });
+</script>
 </body>
 
 </html>

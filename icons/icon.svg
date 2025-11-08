@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background circle -->
+  <rect width="512" height="512" fill="#fd7e14" />
+  
+  <!-- S and A initials -->
+  <text x="50%" y="55%" text-anchor="middle" font-size="300" font-family="Arial, sans-serif" fill="white" font-weight="bold">SA</text>
+</svg>
