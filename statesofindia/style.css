@@ -1,0 +1,260 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.instructions {
+  color: #34495e;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+  background: #e3f2fd;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.progress {
+  font-weight: bold;
+  color: #1976d2;
+}
+
+.current-goal {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+#map-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  overflow: hidden; /* Hide overflow initially */
+  position: relative;
+}
+
+#india-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform-origin: 0 0; /* Set transform origin to top-left */
+  transition: transform 0.1s ease-out; /* Smooth transition for zoom */
+}
+
+.zoom-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.zoom-controls button {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.zoom-controls button:hover {
+  background: #2980b9;
+}
+
+.india-map {
+  width: 100%;
+  height: auto;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.state {
+  fill: #3498db;
+  stroke: #ffffff;
+  stroke-width: 1;
+  cursor: pointer;
+  transition:
+    fill 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.state:hover {
+  fill: #2980b9;
+  opacity: 0.9;
+}
+
+.selected-state.correct {
+  fill: #27ae60 !important;
+}
+
+.selected-state.incorrect {
+  fill: #e74c3c !important;
+}
+
+.feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 10;
+  display: none;
+}
+
+.feedback.success {
+  color: #27ae60;
+  display: block;
+}
+
+.feedback.failure {
+  color: #e74c3c;
+  display: block;
+}
+
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+.restart-btn {
+  background: #e74c3c;
+}
+
+.restart-btn:hover {
+  background: #c0392b;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+}
+
+@media (max-width: 600px) {
+  .instructions {
+    font-size: 14px;
+  }
+
+  .game-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 80%;
+    max-width: 200px;
+  }
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 20; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  color: #27ae60;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.modal-content p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.modal-content .restart-btn {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  background-color: #3498db;
+}
+
+.modal-content .restart-btn:hover {
+  background-color: #2980b9;
+}
+
