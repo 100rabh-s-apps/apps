@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Quiz Game - Learn About Plants!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h1>🌿 Plant Quiz Game 🌻</h1>
+                <p>Learn about plants in a fun and exciting way!</p>
+                <p>You'll answer 10 randomly selected questions from our bank of 50 plant questions!</p>
+
+                <button id="start-btn" class="btn-primary">Start Quiz</button>
+                <p class="instructions">
+                    You'll answer 10 questions about plants. 
+                    Click the correct answer to earn points!
+                </p>
+            </div>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress">
+                    <span id="question-counter">Question <span id="current-q">1</span> of 10</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="score">Score: <span id="score">0</span></div>
+            </div>
+            
+            <div id="question-container" class="question-container">
+                <!-- Questions will be populated by JavaScript -->
+            </div>
+            <div id="explanation-container" class="explanation-container">
+                <!-- Explanation will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="results-content">
+                <h2>Congratulations! 🎉</h2>
+                <div class="final-score">
+                    Your score: <span id="final-score">0</span>/10
+                </div>
+                <div class="achievement">
+                    <p id="achievement-message"></p>
+
+                </div>
+                <button id="restart-btn" class="btn-primary">Play Again</button>
+            </div>
+        </section>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
