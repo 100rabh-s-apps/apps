@@ -10,8 +10,9 @@ body {
     background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     color: #333;
 }
 
@@ -652,4 +653,37 @@ body {
     .explanation-container {
         font-size: 1rem;
     }
+}
+
+/* Back link */
+footer {
+    text-align: center;
+    padding: 20px;
+}
+
+.back-link {
+    display: inline-block; /* Make it behave like a block for padding/margin */
+    background: linear-gradient(to right, #66bb6a, #81c784); /* Lighter green gradient */
+    color: white;
+    border: none;
+    padding: 12px 25px; /* Slightly smaller padding than main buttons */
+    font-size: 1.1rem; /* Slightly smaller font size */
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    margin-top: 20px; /* Add some top margin */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Subtle shadow */
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-decoration: none; /* Remove underline */
+}
+
+.back-link:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    background: linear-gradient(to right, #4caf50, #66bb6a); /* Slightly darker on hover */
+}
+
+.back-link:active {
+    transform: translateY(1px);
 }

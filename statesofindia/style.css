@@ -258,3 +258,21 @@ button:hover {
   background-color: #2980b9;
 }
 
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.back-btn:hover {
+  background: #2980b9;
+}
+
