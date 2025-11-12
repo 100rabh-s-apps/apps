@@ -217,6 +217,24 @@
             font-size: 0.8em;
             vertical-align: middle;
         }
+
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #fd7e14;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+            border-bottom: 2px solid #fd7e14;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid #dee2e6;
+        }
     </style>
 
     <script type="application/ld+json">
@@ -527,284 +545,305 @@
         <p class="text-center subtitle">Discover web applications developed by
             Saurabh Minni.</p>
 
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-sudoku">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-grid-3x3-gap-fill"></i> Sudoku For
-                            Kids
-                        </h5>
-                        <p class="card-text flex-grow-1">A simple and fun Sudoku
-                            puzzle game designed specifically for children to
-                            enjoy and learn problem-solving skills.</p>
-                        <a href="https://apps.100rabh.com/sudoku" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="games-tab" data-bs-toggle="tab" data-bs-target="#games"
+                    type="button" role="tab" aria-controls="games" aria-selected="true">Games for Kids</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="misc-tab" data-bs-toggle="tab" data-bs-target="#misc" type="button"
+                    role="tab" aria-controls="misc" aria-selected="false">Misc Applications</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="games" role="tabpanel" aria-labelledby="games-tab">
+                <div class="row g-4 justify-content-center mt-3">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-sudoku">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-grid-3x3-gap-fill"></i> Sudoku For
+                                    Kids
+                                </h5>
+                                <p class="card-text flex-grow-1">A simple and fun Sudoku
+                                    puzzle game designed specifically for children to
+                                    enjoy and learn problem-solving skills.</p>
+                                <a href="https://apps.100rabh.com/sudoku" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer">Visit App <i
+                                        class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-editor">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-magic"></i> Animated Kids Editor
+                                </h5>
+                                <p class="card-text flex-grow-1">A fun editor created
+                                    for kids, allowing them to type text and see it come
+                                    alive with simple animations.</p>
+                                <a href="https://the.100rabh.com/kids_editor/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer">Visit App <i
+                                        class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-monstermath" style="background-color: #ffe5e5;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-emoji-smile"></i> Math Monster Mash
+                                </h5>
+                                <p class="card-text flex-grow-1">A playful math game for kids! Answer simple arithmetic
+                                    questions to mash the monster and score points. Great for practicing addition,
+                                    subtraction,
+                                    and more in a fun, interactive way.</p>
+                                <a href="https://apps.100rabh.com/monstermath/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #ff4d4f; border-color: #ff4d4f; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-synonym-antonym"
+                            style="background-color: #e0f7fa; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                            <div class="card-body d-flex flex-column" style="padding: 25px;">
+                                <h5 class="card-title">
+                                    ✨ Synonym & Antonym Showdown ✨
+                                </h5>
+                                <p class="card-text flex-grow-1">
+                                    Step into the arena of words and test your English vocabulary! "Synonym & Antonym
+                                    Showdown"
+                                    is an engaging drag-and-drop game designed for students from Grade 1 to Grade 5.
+                                    Match words
+                                    with their synonyms or antonyms, earn points, and master new vocabulary in a fun,
+                                    interactive challenge. Perfect for building language skills!
+                                </p>
+                                <a href="https://apps.100rabh.com/synoanto/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #ff4d4f; border-color: #ff4d4f; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-wordwizard" style="background-color: #e0f7fa;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-book"></i> Word Wizard: The Language Quest
+                                </h5>
+                                <p class="card-text flex-grow-1">Embark on an enchanting adventure to master English!
+                                    This game
+                                    helps kids boost their vocabulary, spelling, and grammar through
+                                    exciting challenges. Unscramble words, choose the best fit for sentences, define
+                                    tricky
+                                    terms, and fix grammar mistakes to become the ultimate Word Wizard!</p>
+                                <a href="https://apps.100rabh.com/wordwizard/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #2193b0; border-color: #2193b0; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-places" style="background-color: #d4edda;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-geo-alt-fill"></i> Places Chain Game
+                                </h5>
+                                <p class="card-text flex-grow-1">A fun and educational web-based game where players take
+                                    turns naming geographical places (cities, states, countries), with each new place's
+                                    name starting with the last letter of the previous one.</p>
+                                <a href="https://apps.100rabh.com/places" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #28a745; border-color: #28a745; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-places" style="background-color: #e2c8dd;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-clock" style="color: #a72881;"></i> Time Tellers Adventure
+                                </h5>
+                                <p class="card-text flex-grow-1">Fun clock game for kids — tell time, solve puzzles, and
+                                    master hours & minutes with interactive challenges!</p>
+                                <a href="https://apps.100rabh.com/time" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #a72881; border-color: #a72881; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-places" style="background-color: #cbc8db;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-puzzle-fill" style="color: #282aa7;"></i> हिंदी शब्द अनस्क्रैम्बलर
+                                </h5>
+                                <p class="card-text flex-grow-1">अपनी हिंदी की पकड़ को चुनौती दें! 🧩
+                                    “हिंदी शब्द अनस्क्रैम्बलर” में, बिखरे हुए अक्षरों को खींचकर सही हिंदी शब्द बनाएं। नए
+                                    शब्द, रोचक चुनौतियाँ और बढ़ता स्कोर — सीखें, खेलें और हिंदी में माहिर बनें! 📚✨</p>
+                                <a href="https://apps.100rabh.com/sulajhaana" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #282aa7; border-color: #282aa7; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-solarsystem">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-stars"></i> Solar System Quiz for Kids
+                                </h5>
+                                <p class="card-text flex-grow-1">Test your knowledge about the planets! Click on the
+                                    correct planet to answer each question.</p>
+                                <a href="https://apps.100rabh.com/solarsystem/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer">Visit App <i
+                                        class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-unscramblescience">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-flask"></i> Unscramble Science
+                                </h5>
+                                <p class="card-text flex-grow-1">Unscramble the letters to form a science-related word.
+                                    A fun game to test your knowledge of scientific terms.</p>
+                                <a href="https://apps.100rabh.com/unscramblescience/"
+                                    class="btn mt-3 align-self-start" target="_blank" rel="noopener noreferrer">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-storymaker" style="background-color: #f2e7ff;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-pen-fill" style="color: #8e44ad;"></i> Collaborative Story Maker
+                                </h5>
+                                <p class="card-text flex-grow-1">Unleash your imagination! Collaborate with an AI to
+                                    write a unique fantasy story. Add your own sentences and watch the story evolve with
+                                    the AI's creative contributions. Your story is saved in your browser so you can
+                                    continue it anytime.</p>
+                                <a href="https://apps.100rabh.com/storymaker/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #8e44ad; border-color: #8e44ad; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-birds" style="background-color: #e6f7ff;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    🦜 Bird Quiz Game
+                                </h5>
+                                <p class="card-text flex-grow-1">Test your knowledge about birds with this fun quiz!</p>
+                                <a href="https://apps.100rabh.com/birds/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #1da1f2; border-color: #1da1f2; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-plants" style="background-color: #e6f7e6;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-flower1" style="color: #28a745;"></i> Plant Quiz Game
+                                </h5>
+                                <p class="card-text flex-grow-1">Learn about plants in a fun and exciting way! You'll
+                                    answer 10 randomly selected questions from our bank of 50 plant questions!</p>
+                                <a href="https://apps.100rabh.com/plants/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #28a745; border-color: #28a745; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-statesofindia" style="background-color: #e6f2ff;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-map-fill" style="color: #007bff;"></i> India States Identification
+                                    Game
+                                </h5>
+                                <p class="card-text flex-grow-1">Click or touch on the map to identify the highlighted
+                                    state. You need to identify all states of India!</p>
+                                <a href="https://apps.100rabh.com/statesofindia/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #007bff; border-color: #007bff; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-msg">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-send-arrow-up-fill"></i> Send
-                            Message without Saving Number
-                        </h5>
-                        <p class="card-text flex-grow-1">A handy web tool to
-                            quickly initiate chats on WhatsApp, Telegram, or
-                            Signal without the hassle of saving the phone number
-                            to your contacts list first.</p>
-                        <a href="https://apps.100rabh.com/msg" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+            <div class="tab-pane fade" id="misc" role="tabpanel" aria-labelledby="misc-tab">
+                <div class="row g-4 justify-content-center mt-3">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-msg">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-send-arrow-up-fill"></i> Send
+                                    Message without Saving Number
+                                </h5>
+                                <p class="card-text flex-grow-1">A handy web tool to
+                                    quickly initiate chats on WhatsApp, Telegram, or
+                                    Signal without the hassle of saving the phone number
+                                    to your contacts list first.</p>
+                                <a href="https://apps.100rabh.com/msg" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer">Visit App <i
+                                        class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-exif">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-card-image"></i> Geotag & Date Your Images!
+                                </h5>
+                                <p class="card-text flex-grow-1">Easily add precise location and custom date/time
+                                    information to
+                                    your JPEG images. Our tool also embeds EXIF data to make your photos appear as if
+                                    they were
+                                    captured with a Google Pixel 8, all directly in your browser – no uploads to a
+                                    server
+                                    needed!
+                                    .</p>
+                                <a href="https://apps.100rabh.com/exif/" class="btn mt-3 align-self-start"
+                                    target="_blank" rel="noopener noreferrer">Visit App <i
+                                        class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card h-100 card-personalitytest" style="background-color: #f0e6fa;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <i class="bi bi-person-vcard" style="color: #8a2be2;"></i> Personality Test
+                                </h5>
+                                <p class="card-text flex-grow-1">Discover your true self with this interactive
+                                    personality test. Answer a series of questions to reveal insights into your traits,
+                                    preferences, and characteristics.</p>
+                                <a href="https://apps.100rabh.com/personalitytest/"
+                                    class="btn mt-3 align-self-start" target="_blank" rel="noopener noreferrer"
+                                    style="background-color: #8a2be2; border-color: #8a2be2; color: #fff; font-weight: 500;">Visit
+                                    App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-editor">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-magic"></i> Animated Kids Editor
-                        </h5>
-                        <p class="card-text flex-grow-1">A fun editor created
-                            for kids, allowing them to type text and see it come
-                            alive with simple animations.</p>
-                        <a href="https://the.100rabh.com/kids_editor/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-exif">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-card-image"></i> Geotag & Date Your Images!
-                        </h5>
-                        <p class="card-text flex-grow-1">Easily add precise location and custom date/time information to
-                            your JPEG images. Our tool also embeds EXIF data to make your photos appear as if they were
-                            captured with a Google Pixel 8, all directly in your browser – no uploads to a server
-                            needed!
-                            .</p>
-                        <a href="https://apps.100rabh.com/exif/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-monstermath" style="background-color: #ffe5e5;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-emoji-smile"></i> Math Monster Mash
-                        </h5>
-                        <p class="card-text flex-grow-1">A playful math game for kids! Answer simple arithmetic
-                            questions to mash the monster and score points. Great for practicing addition, subtraction,
-                            and more in a fun, interactive way.</p>
-                        <a href="https://apps.100rabh.com/monstermath/" class="btn mt-3 align-self-start"
-                            target="_blank" rel="noopener noreferrer"
-                            style="background-color: #ff4d4f; border-color: #ff4d4f; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-synonym-antonym"
-                    style="background-color: #e0f7fa; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
-                    <div class="card-body d-flex flex-column" style="padding: 25px;">
-                        <h5 class="card-title">
-                            ✨ Synonym & Antonym Showdown ✨
-                        </h5>
-                        <p class="card-text flex-grow-1">
-                            Step into the arena of words and test your English vocabulary! "Synonym & Antonym Showdown"
-                            is an engaging drag-and-drop game designed for students from Grade 1 to Grade 5. Match words
-                            with their synonyms or antonyms, earn points, and master new vocabulary in a fun,
-                            interactive challenge. Perfect for building language skills!
-                        </p>
-                        <a href="https://apps.100rabh.com/synoanto/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #ff4d4f; border-color: #ff4d4f; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-wordwizard" style="background-color: #e0f7fa;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-book"></i> Word Wizard: The Language Quest
-                        </h5>
-                        <p class="card-text flex-grow-1">Embark on an enchanting adventure to master English! This game
-                            helps kids boost their vocabulary, spelling, and grammar through
-                            exciting challenges. Unscramble words, choose the best fit for sentences, define tricky
-                            terms, and fix grammar mistakes to become the ultimate Word Wizard!</p>
-                        <a href="https://apps.100rabh.com/wordwizard/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #2193b0; border-color: #2193b0; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-places" style="background-color: #d4edda;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-geo-alt-fill"></i> Places Chain Game
-                        </h5>
-                        <p class="card-text flex-grow-1">A fun and educational web-based game where players take turns naming geographical places (cities, states, countries), with each new place's name starting with the last letter of the previous one.</p>
-                        <a href="https://apps.100rabh.com/places" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #28a745; border-color: #28a745; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-places" style="background-color: #e2c8dd;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-clock" style="color: #a72881;"></i> Time Tellers Adventure 
-                        </h5>
-                        <p class="card-text flex-grow-1">Fun clock game for kids — tell time, solve puzzles, and master hours & minutes with interactive challenges!</p>
-                        <a href="https://apps.100rabh.com/time" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #a72881; border-color: #a72881; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-places" style="background-color: #cbc8db;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-puzzle-fill" style="color: #282aa7;"></i> हिंदी शब्द अनस्क्रैम्बलर
-                        </h5>
-                        <p class="card-text flex-grow-1">अपनी हिंदी की पकड़ को चुनौती दें! 🧩
-“हिंदी शब्द अनस्क्रैम्बलर” में, बिखरे हुए अक्षरों को खींचकर सही हिंदी शब्द बनाएं। नए शब्द, रोचक चुनौतियाँ और बढ़ता स्कोर — सीखें, खेलें और हिंदी में माहिर बनें! 📚✨</p>
-                        <a href="https://apps.100rabh.com/sulajhaana" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #282aa7; border-color: #282aa7; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-solarsystem">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-stars"></i> Solar System Quiz for Kids
-                        </h5>
-                        <p class="card-text flex-grow-1">Test your knowledge about the planets! Click on the correct planet to answer each question.</p>
-                        <a href="https://apps.100rabh.com/solarsystem/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-unscramblescience">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-flask"></i> Unscramble Science
-                        </h5>
-                        <p class="card-text flex-grow-1">Unscramble the letters to form a science-related word. A fun game to test your knowledge of scientific terms.</p>
-                        <a href="https://apps.100rabh.com/unscramblescience/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer">Visit App <i
-                                class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-storymaker" style="background-color: #f2e7ff;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-pen-fill" style="color: #8e44ad;"></i> Collaborative Story Maker
-                        </h5>
-                        <p class="card-text flex-grow-1">Unleash your imagination! Collaborate with an AI to write a unique fantasy story. Add your own sentences and watch the story evolve with the AI's creative contributions. Your story is saved in your browser so you can continue it anytime.</p>
-                        <a href="https://apps.100rabh.com/storymaker/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #8e44ad; border-color: #8e44ad; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-birds" style="background-color: #e6f7ff;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            🦜 Bird Quiz Game
-                        </h5>
-                        <p class="card-text flex-grow-1">Test your knowledge about birds with this fun quiz!</p>
-                        <a href="https://apps.100rabh.com/birds/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #1da1f2; border-color: #1da1f2; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-personalitytest" style="background-color: #f0e6fa;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-person-vcard" style="color: #8a2be2;"></i> Personality Test
-                        </h5>
-                        <p class="card-text flex-grow-1">Discover your true self with this interactive personality test. Answer a series of questions to reveal insights into your traits, preferences, and characteristics.</p>
-                        <a href="https://apps.100rabh.com/personalitytest/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #8a2be2; border-color: #8a2be2; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-plants" style="background-color: #e6f7e6;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-flower1" style="color: #28a745;"></i> Plant Quiz Game
-                        </h5>
-                        <p class="card-text flex-grow-1">Learn about plants in a fun and exciting way! You'll answer 10 randomly selected questions from our bank of 50 plant questions!</p>
-                        <a href="https://apps.100rabh.com/plants/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #28a745; border-color: #28a745; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-5">
-                <div class="card h-100 card-statesofindia" style="background-color: #e6f2ff;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                            <i class="bi bi-map-fill" style="color: #007bff;"></i> India States Identification Game
-                        </h5>
-                        <p class="card-text flex-grow-1">Click or touch on the map to identify the highlighted state. You need to identify all states of India!</p>
-                        <a href="https://apps.100rabh.com/statesofindia/" class="btn mt-3 align-self-start" target="_blank"
-                            rel="noopener noreferrer"
-                            style="background-color: #007bff; border-color: #007bff; color: #fff; font-weight: 500;">Visit
-                            App <i class="bi bi-arrow-up-right-square-fill ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
         
         <!-- PWA Install Prompt -->
