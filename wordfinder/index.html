@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Finder</title>
+    <meta name="description" content="Find hidden words in a letter grid! A fun and challenging word search game for all ages.">
+    <meta property="og:title" content="Word Finder Game">
+    <meta property="og:description" content="Find hidden words in a letter grid! A fun and challenging word search game for all ages.">
+    <meta property="og:type" content="game">
+    <meta property="og:url" content="https://apps.100rabh.com/wordfinder"> <!-- Replace with actual URL -->
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Game",
+      "name": "Word Finder",
+      "description": "Find hidden words in a letter grid! A fun and challenging word search game for all ages.",
+      "operatingSystem": "Any",
+      "applicationCategory": "Game",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div id="splash-screen" class="screen active">
+        <h1>Word Finder</h1>
+        <button id="play-button">Play</button>
+        <button id="instructions-button">How to Play</button>
+    </div>
+
+    <div id="level-select-screen" class="screen">
+        <h2>Select a Level</h2>
+        <div id="level-list"></div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div class="top-bar">
+            <span id="level-name"></span>
+            <span id="timer">00:00</span>
+            <span id="score">Score: 0</span>
+            <button id="hint-button">Hint</button>
+            <button id="pause-button">Pause</button>
+        </div>
+        <div id="game-area">
+            <div id="letter-grid"></div>
+            <div id="word-list-container">
+                <h3>Words to Find:</h3>
+                <ul id="word-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="pause-overlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Paused</h2>
+            <button id="resume-button">Resume</button>
+            <button id="restart-button">Restart</button>
+            <button id="exit-level-button">Exit to Level Select</button>
+            <div class="settings">
+                <label for="sound-toggle">Sound:</label>
+                <input type="checkbox" id="sound-toggle" checked>
+                <label for="contrast-toggle">High Contrast:</label>
+                <input type="checkbox" id="contrast-toggle">
+            </div>
+        </div>
+    </div>
+
+    <div id="level-complete-screen" class="screen">
+        <h2>Level Complete!</h2>
+        <p>Time: <span id="final-time"></span></p>
+        <p>Score: <span id="final-score"></span></p>
+        <p>Words Found: <span id="final-words-found"></span></p>
+        <button id="next-level-button">Next Level</button>
+        <button id="replay-level-button">Replay</button>
+        <button id="back-to-levels-button">Back to Level Select</button>
+    </div>
+
+    <div id="instructions-screen" class="screen">
+        <h2>How to Play</h2>
+        <p>Find the words from the list in the grid of letters.</p>
+        <p>Words can be found horizontally, vertically, and diagonally, in any direction.</p>
+        <p>Click and drag (or touch and swipe) to select a word.</p>
+        <button id="back-to-splash-button">Back</button>
+    </div>
+
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
