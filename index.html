@@ -243,7 +243,7 @@
           "@type": "WebPage",
           "name": "Apps by Saurabh Minni",
           "description": "Discover web apps developed by Saurabh Minni, including a fun Sudoku for Kids and a tool to send WhatsApp/Telegram/Signal messages without saving numbers among other games for kids.",
-          "url": "https://apps.100rabh.com/", // Replace with actual URL
+          "url": "https://apps.100rabh.com/",
           "mainEntity": {
             "@type": "ItemList",
             "name": "Saurabh Minni's Apps",
@@ -556,11 +556,10 @@
           "author": {
             "@type": "Person",
             "name": "Saurabh Minni",
-            "url": "https://100rabh.com/" // Optional: Link to author's main page if available
+            "url": "https://100rabh.com/"
           },
-           "datePublished": "2025-04-13", // Set a publication date
-           "dateModified": "2025-11-06"  // Set current date as last modified (as per current time context)
-           // Removed top-level "image" property from WebPage schema if it existed
+           "datePublished": "2025-04-13",
+           "dateModified": "2025-11-06"
         }
         </script>
 
@@ -570,9 +569,6 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="main-title">Apps by Saurabh Minni</h1>
-            <button id="desktopInstallBtn" class="btn btn-outline-primary d-flex align-items-center" title="Install this app">
-                <i class="bi bi-download me-1"></i> Install App
-            </button>
         </div>
         <p class="text-center subtitle">Discover web applications developed by
             Saurabh Minni.</p>
@@ -1110,36 +1106,7 @@
     // Save to local storage that the user dismissed the prompt
     localStorage.setItem('installPromptDismissed', 'true');
   });
-  
-  // Handle desktop install button click
-  document.getElementById('desktopInstallBtn')?.addEventListener('click', () => {
-    if (deferredPrompt) {
-      // Mobile/tablet: use the native install prompt
-      deferredPrompt.prompt();
-      
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice.then((choiceResult) => {
-        // Optionally, send analytics event with outcome of prompt
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-        } else {
-          console.log('User dismissed the install prompt');
-        }
-        
-        // Clear the deferred prompt variable
-        deferredPrompt = null;
-      });
-    } else {
-      // Desktop: show the instructions modal
-      if (installModal) {
-        installModal.show();
-      } else {
-        // Fallback: show a simple alert with instructions
-        alert('To install this app:\n1. Click the three-dot menu in your browser\n2. Select "Install" or "Add to Desktop"');
-      }
-    }
-  });
-</script>
+  </script>
 </body>
 
 </html>
