@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Master! - Fun Money Game for Kids</title>
+    <meta name="description" content="A fun and educational HTML5 game for kids in India (grades 3-5) to learn about money, including calculating change, shopping, payments, and more.">
+    <meta name="keywords" content="money game, kids game, educational game, india, money quiz, financial literacy for kids, Saurabh Minni">
+    <meta name="author" content="Saurabh Minni">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Money Master!",
+      "description": "A fun and educational HTML5 game for kids in India (grades 3-5) to learn about money, including calculating change, shopping, payments, and more.",
+      "learningResourceType": "game",
+      "educationalLevel": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "3rd Grade"
+      },
+      "operatingSystem": "Any (Web Browser)",
+      "applicationCategory": "Game",
+      "inLanguage": "en-IN",
+      "author": {
+        "@type": "Person",
+        "name": "Saurabh Minni"
+      }
+    }
+    </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="a00606cf-530c-403b-92af-a924309041e9"></script>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="main-menu">
+        <h1>Money Master!</h1>
+        <p>A fun quiz game about money for kids in India (Grade 3-5)</p>
+        <button onclick="startGame('change-game')">Find the Change</button>
+        <button onclick="startGame('shopping-cart-game')">Shopping Cart</button>
+        <button onclick="startGame('payment-game')">Make the Payment</button>
+        <button onclick="startGame('unit-price-game')">Unit Price Challenge</button>
+        <button onclick="startGame('best-buy-game')">Best Buy Battle</button>
+        <button onclick="startGame('budget-boss-game')">Budget Boss</button>
+        <button onclick="startGame('simple-savings-game')">Simple Savings</button>
+    </div>
+
+    <!-- Games -->
+    <div id="change-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Find the Change</h2>
+        <p id="change-question"></p>
+        <input type="number" id="change-answer" placeholder="₹?">
+        <button onclick="checkChangeAnswer()">Check</button>
+        <p id="change-result" class="result-text"></p>
+        <button id="next-change-question" style="display: none;" onclick="generateChangeQuestion()">Next</button>
+    </div>
+
+    <div id="shopping-cart-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Shopping Cart</h2>
+        <div id="shopping-items" class="item-list"></div>
+        <p id="shopping-list"></p>
+        <input type="number" id="shopping-answer" placeholder="₹?">
+        <button onclick="checkShoppingAnswer()">Check</button>
+        <p id="shopping-result" class="result-text"></p>
+        <button id="next-shopping-question" style="display: none;" onclick="generateShoppingQuestion()">Next</button>
+    </div>
+
+    <div id="payment-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Make the Payment</h2>
+        <p id="payment-question"></p>
+        <div id="currency-notes" class="currency-selection"></div>
+        <div id="currency-coins" class="currency-selection"></div>
+        <p id="budget-total-container">Your total: ₹<span id="payment-total">0</span></p>
+        <button onclick="checkPaymentAnswer()">Check</button>
+        <button onclick="resetPayment()">Reset</button>
+        <p id="payment-result" class="result-text"></p>
+        <button id="next-payment-question" style="display: none;" onclick="generatePaymentQuestion()">Next</button>
+    </div>
+
+    <div id="unit-price-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Unit Price Challenge</h2>
+        <p id="unit-price-question"></p>
+        <input type="number" id="unit-price-answer" placeholder="₹?">
+        <button onclick="checkUnitPriceAnswer()">Check</button>
+        <p id="unit-price-result" class="result-text"></p>
+        <button id="next-unit-price-question" style="display: none;" onclick="generateUnitPriceQuestion()">Next</button>
+    </div>
+
+    <div id="best-buy-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Best Buy Battle</h2>
+        <p>Which is the better deal?</p>
+        <div id="best-buy-options" class="item-list"></div>
+        <p id="best-buy-result" class="result-text"></p>
+        <button id="next-best-buy-question" style="display: none;" onclick="generateBestBuyQuestion()">Next</button>
+    </div>
+
+    <div id="budget-boss-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Budget Boss</h2>
+        <p id="budget-boss-question"></p>
+        <div id="budget-items"></div>
+        <p id="budget-total-container">Your total: ₹<span id="budget-total">0</span></p>
+        <button onclick="checkBudget()">Check My Shopping</button>
+        <p id="budget-result" class="result-text"></p>
+        <button id="next-budget-boss-question" style="display: none;" onclick="generateBudgetBossQuestion()">Next</button>
+    </div>
+
+    <div id="simple-savings-game" class="game-screen">
+        <button class="back-button" onclick="showMenu()">Back</button>
+        <h2>Simple Savings</h2>
+        <p id="simple-savings-question"></p>
+        <input type="number" id="simple-savings-answer" placeholder="₹?">
+        <button onclick="checkSimpleSavingsAnswer()">Check</button>
+        <p id="simple-savings-result" class="result-text"></p>
+        <button id="next-simple-savings-question" style="display: none;" onclick="generateSimpleSavingsQuestion()">Next</button>
+    </div>
+
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+.back-to-apps-container {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+#game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the start */
+    margin-top: 20px;
+}
+
+#svg-container {
+    width: 100%;
+    max-width: 1000px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+#svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below SVG */
+}
+
+#question-container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+#options button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#controls {
+    margin-top: 20px;
+}
+
+#controls button {
+    padding: 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+@media (min-width: 768px) {
+    #game-container {
+        flex-wrap: nowrap;
+    }
+
+    #svg-container {
+        width: 60%;
+    }
+
+    #question-container {
+        width: 35%;
+        margin-top: 0;
+        margin-left: 20px;
+    }
+}
