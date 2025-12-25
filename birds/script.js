@@ -44,7 +44,13 @@ function showQuestion() {
     optionsContainer.innerHTML = '';
     optionButtons = []; // Reset the button array
     
-    currentQuestion.options.forEach(option => {
+    let shuffledOptions = [];
+    if(currentQuestion.options[3] !== "All of the above"){
+       shuffledOptions = [...currentQuestion.options].sort(() => Math.random() - 0.5);
+    } else {
+        shuffledOptions = currentQuestion.options;
+    }
+    shuffledOptions.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
         button.classList.add('option');
