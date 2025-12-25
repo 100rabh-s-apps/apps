@@ -4,6 +4,12 @@
     let changeCorrectAnswer, shoppingCorrectAnswer, paymentCorrectAnswer, unitPriceCorrectAnswer, bestBuyCorrectAnswer, budgetBossBudget, simpleSavingsCorrectAnswer;
     let paymentUserTotal = 0;
 
+    // Quiz tracking variables
+    let currentQuestionNumber = 0;
+    let totalQuestions = 10;
+    let score = 0;
+    let gameStarted = false;
+
     const items = [
         { name: 'Apple', plural: 'Apples', price: 25, image: 'apple' },
         { name: 'Milk', plural: 'Milk', price: 55, unit: 'L', image: 'milk' },
@@ -54,6 +60,14 @@
         document.getElementById(gameId).style.display = 'block';
         currentScreen = gameId;
 
+        // Initialize quiz tracking variables
+        currentQuestionNumber = 0;
+        score = 0;
+        gameStarted = true;
+
+        // Hide the back button initially
+        document.querySelector(`#${gameId} .back-button`).style.display = 'none';
+
         const gameGenerators = {
             'change-game': generateChangeQuestion, 'shopping-cart-game': generateShoppingQuestion, 'payment-game': generatePaymentQuestion,
             'unit-price-game': generateUnitPriceQuestion, 'best-buy-game': generateBestBuyQuestion, 'budget-boss-game': generateBudgetBossQuestion,
@@ -65,6 +79,11 @@
     function showMenu() {
         document.getElementById(currentScreen).style.display = 'none';
         document.getElementById('main-menu').style.display = 'block';
+
+        // Reset quiz tracking when returning to menu
+        currentQuestionNumber = 0;
+        score = 0;
+        gameStarted = false;
     }
     
     function setResult(el, isCorrect, correctText, incorrectText) {
@@ -73,17 +92,71 @@
             el.innerHTML = isCorrect ? `✅ ${correctText}` : `❌ ${incorrectText}`;
             el.style.color = isCorrect ? 'var(--correct)' : 'var(--incorrect)';
             el.style.opacity = 1;
+
+            // Update score if it's a correct answer
+            if (isCorrect) {
+                score++;
+            }
+
+            // Update score display if it exists
+            updateScoreDisplay();
+        }, 200);
+    }
+
+    // Function to update the score display
+    function updateScoreDisplay() {
+        // Create or update score display element
+        let scoreDisplay = document.getElementById('score-display');
+        if (!scoreDisplay) {
+            // Create score display element and add it to the current game screen
+            const currentGameScreen = document.getElementById(currentScreen);
+            scoreDisplay = document.createElement('div');
+            scoreDisplay.id = 'score-display';
+            scoreDisplay.style.cssText = 'position: absolute; top: 10px; right: 10px; font-size: 1.2rem; font-weight: bold; color: var(--primary);';
+            currentGameScreen.appendChild(scoreDisplay);
+        }
+
+        scoreDisplay.innerHTML = `Score: ${score}/${currentQuestionNumber}`;
+    }
+
+    // Show final score at the end of the quiz
+    function showFinalScore(gameId) {
+        const resultElementId = gameId.replace('-game', '-result');
+        const resultEl = document.getElementById(resultElementId);
+
+        resultEl.style.opacity = 0;
+        setTimeout(() => {
+            resultEl.innerHTML = `🎉 Quiz Complete! Your final score: ${score} out of ${totalQuestions} (${Math.round((score/totalQuestions)*100)}%)`;
+            resultEl.style.color = 'var(--correct)';
+            resultEl.style.opacity = 1;
+
+            // Show the "Back to Menu" button after final score
+            const nextButtonId = 'next-' + gameId.replace('-game', '-question');
+            const nextButton = document.getElementById(nextButtonId);
+            if (nextButton) {
+                nextButton.style.display = 'none';
+            }
+
+            // Show the back button that already exists in the HTML
+            const backButton = document.querySelector(`#${gameId} .back-button`);
+            if (backButton) {
+                backButton.style.display = 'block';
+            }
         }, 200);
     }
 
     // --- Game 1: Find the Change ---
     function generateChangeQuestion() {
+        // Generate new question
         const itemPrice = Math.floor(Math.random() * 200) + 10;
         const paidAmounts = [20, 50, 100, 200, 500].filter(p => p > itemPrice);
         const paidAmount = paidAmounts[Math.floor(Math.random() * paidAmounts.length)] || itemPrice + 50;
 
         changeCorrectAnswer = paidAmount - itemPrice;
-        document.getElementById('change-question').innerText = `You bought an item for ₹${itemPrice} and paid with a ₹${paidAmount} note. How much change will you get back?`;
+
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('change-question').innerText = `Question ${currentQuestionNumber}/${totalQuestions}: You bought an item for ₹${itemPrice} and paid with a ₹${paidAmount} note. How much change will you get back?`;
         document.getElementById('change-answer').value = '';
         document.getElementById('change-result').innerText = '';
         document.getElementById('next-change-question').style.display = 'none';
@@ -94,7 +167,16 @@
         const resultEl = document.getElementById('change-result');
         const isCorrect = userAnswer === changeCorrectAnswer;
         setResult(resultEl, isCorrect, 'Correct!', `The answer is ₹${changeCorrectAnswer}.`);
-        document.getElementById('next-change-question').style.display = 'inline-block';
+
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-change-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('change-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-change-question').style.display = 'inline-block';
+        }
     }
 
     // --- Game 2: Shopping Cart ---
@@ -120,7 +202,9 @@
             shoppingCorrectAnswer += item.price;
         }
 
-        document.getElementById('shopping-list').innerText = 'Your shopping list: ' + questionItems.map(item => item.name).join(', ');
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('shopping-list').innerHTML = `Question ${currentQuestionNumber}/${totalQuestions}: Your shopping list: ` + questionItems.map(item => item.name).join(', ');
         document.getElementById('shopping-answer').value = '';
         document.getElementById('shopping-result').innerText = '';
         document.getElementById('next-shopping-question').style.display = 'none';
@@ -131,18 +215,30 @@
         const resultEl = document.getElementById('shopping-result');
         const isCorrect = userAnswer === shoppingCorrectAnswer;
         setResult(resultEl, isCorrect, 'You got it!', `The correct total is ₹${shoppingCorrectAnswer}.`);
-        document.getElementById('next-shopping-question').style.display = 'inline-block';
+
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-shopping-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('shopping-cart-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-shopping-question').style.display = 'inline-block';
+        }
     }
 
     // --- Game 3: Make the Payment ---
     function generatePaymentQuestion() {
         paymentCorrectAnswer = Math.floor(Math.random() * 400) + 50;
-        document.getElementById('payment-question').innerText = `How would you pay ₹${paymentCorrectAnswer}? Select notes and coins.`;
+
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('payment-question').innerText = `Question ${currentQuestionNumber}/${totalQuestions}: How would you pay ₹${paymentCorrectAnswer}? Select notes and coins.`;
 
         const notesDiv = document.getElementById('currency-notes');
         notesDiv.innerHTML = '<h3>Notes</h3>';
         currency.notes.forEach(note => notesDiv.innerHTML += getCurrencyGraphic(note, 'note'));
-        
+
         const coinsDiv = document.getElementById('currency-coins');
         coinsDiv.innerHTML = '<h3>Coins</h3>';
         currency.coins.forEach(coin => coinsDiv.innerHTML += getCurrencyGraphic(coin, 'coin'));
@@ -166,13 +262,42 @@
         const resultEl = document.getElementById('payment-result');
         if (paymentUserTotal === paymentCorrectAnswer) {
             setResult(resultEl, true, 'Perfect Payment!', '');
-            document.getElementById('next-payment-question').style.display = 'inline-block';
+
+            // Check if we've reached 20 questions
+            if (currentQuestionNumber >= totalQuestions) {
+                document.getElementById('next-payment-question').style.display = 'none';
+                setTimeout(() => {
+                    showFinalScore('payment-game');
+                }, 1500);
+            } else {
+                document.getElementById('next-payment-question').style.display = 'inline-block';
+            }
         } else if (paymentUserTotal > paymentCorrectAnswer) {
             resultEl.style.color = 'var(--accent)';
             resultEl.innerText = `You paid ₹${paymentUserTotal - paymentCorrectAnswer} extra. Try for the exact amount!`;
+
+            // For incorrect answers, still count as a question and move to next
+            if (currentQuestionNumber >= totalQuestions) {
+                document.getElementById('next-payment-question').style.display = 'none';
+                setTimeout(() => {
+                    showFinalScore('payment-game');
+                }, 1500);
+            } else {
+                document.getElementById('next-payment-question').style.display = 'inline-block';
+            }
         } else {
             resultEl.style.color = 'var(--incorrect)';
             resultEl.innerText = `You paid ₹${paymentCorrectAnswer - paymentUserTotal} less. Keep trying!`;
+
+            // For incorrect answers, still count as a question and move to next
+            if (currentQuestionNumber >= totalQuestions) {
+                document.getElementById('next-payment-question').style.display = 'none';
+                setTimeout(() => {
+                    showFinalScore('payment-game');
+                }, 1500);
+            } else {
+                document.getElementById('next-payment-question').style.display = 'inline-block';
+            }
         }
     }
 
@@ -182,8 +307,10 @@
         const quantity = Math.floor(Math.random() * 4) + 2;
         const totalPrice = item.price * quantity;
         unitPriceCorrectAnswer = item.price;
-        
-        document.getElementById('unit-price-question').innerText = `A pack of ${quantity} ${item.plural} costs ₹${totalPrice}. How much does one ${item.name} cost?`;
+
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('unit-price-question').innerText = `Question ${currentQuestionNumber}/${totalQuestions}: A pack of ${quantity} ${item.plural} costs ₹${totalPrice}. How much does one ${item.name} cost?`;
         document.getElementById('unit-price-answer').value = '';
         document.getElementById('unit-price-result').innerText = '';
         document.getElementById('next-unit-price-question').style.display = 'none';
@@ -194,7 +321,16 @@
         const resultEl = document.getElementById('unit-price-result');
         const isCorrect = userAnswer === unitPriceCorrectAnswer;
         setResult(resultEl, isCorrect, 'You are a math whiz!', `The correct price is ₹${unitPriceCorrectAnswer}.`);
-        document.getElementById('next-unit-price-question').style.display = 'inline-block';
+
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-unit-price-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('unit-price-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-unit-price-question').style.display = 'inline-block';
+        }
     }
 
     // --- Game 5: Best Buy Battle ---
@@ -203,13 +339,17 @@
         const q1 = Math.floor(Math.random() * 3) + 2;
         const p1 = item.price * q1;
         const q2 = q1 + Math.floor(Math.random() * 2) + 1;
-        const priceModifier = (Math.random() > 0.5) ? -5 : 5; 
+        const priceModifier = (Math.random() > 0.5) ? -5 : 5;
         const p2 = Math.max(1, (item.price * q2) + priceModifier);
-        
+
         bestBuyCorrectAnswer = (p1 / q1) < (p2 / q2) ? 'option1' : 'option2';
+
+        // Update question counter display
+        currentQuestionNumber++;
 
         const optionsDiv = document.getElementById('best-buy-options');
         optionsDiv.innerHTML = `
+            <h2>Question ${currentQuestionNumber}/${totalQuestions}: Which is the better deal?</h2>
             <div class="item best-buy-item" onclick="checkBestBuyAnswer('option1')">
                 <h3>Option 1</h3>
                 <p>${q1} ${item.plural} for ₹${p1}</p>
@@ -227,14 +367,26 @@
         const resultEl = document.getElementById('best-buy-result');
         const isCorrect = userChoice === bestBuyCorrectAnswer;
         setResult(resultEl, isCorrect, 'You found the better deal!', 'The other option was cheaper.');
-        document.getElementById('next-best-buy-question').style.display = 'inline-block';
+
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-best-buy-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('best-buy-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-best-buy-question').style.display = 'inline-block';
+        }
         document.querySelectorAll('.best-buy-item').forEach(item => item.onclick = null);
     }
     
     // --- Game 6: Budget Boss ---
     function generateBudgetBossQuestion() {
         budgetBossBudget = (Math.floor(Math.random() * 10) + 10) * 10;
-        document.getElementById('budget-boss-question').innerText = `You have a budget of ₹${budgetBossBudget}. Choose items to buy.`;
+
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('budget-boss-question').innerText = `Question ${currentQuestionNumber}/${totalQuestions}: You have a budget of ₹${budgetBossBudget}. Choose items to buy.`;
 
         const budgetItemsDiv = document.getElementById('budget-items');
         budgetItemsDiv.innerHTML = '';
@@ -252,7 +404,7 @@
         document.getElementById('budget-result').innerText = '';
         document.getElementById('next-budget-boss-question').style.display = 'none';
     }
-    
+
     function updateBudgetTotal() {
         let total = 0;
         document.querySelectorAll('#budget-items input[type="checkbox"]:checked').forEach(c => total += parseInt(c.value));
@@ -269,7 +421,17 @@
             resultEl.style.color = 'var(--correct)';
             resultEl.innerText = `Great job! You spent ₹${total} and have ₹${budgetBossBudget - total} left.`;
         }
-        document.getElementById('next-budget-boss-question').style.display = 'inline-block';
+
+        // For budget game, always move to next question after checking budget
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-budget-boss-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('budget-boss-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-budget-boss-question').style.display = 'inline-block';
+        }
     }
 
     // --- Game 7: Simple Savings ---
@@ -277,8 +439,10 @@
         const principal = (Math.floor(Math.random() * 10) + 5) * 10;
         const interest = (Math.floor(Math.random() * 5) + 1) * 5;
         simpleSavingsCorrectAnswer = principal + interest;
-        
-        document.getElementById('simple-savings-question').innerText = `If you save ₹${principal} in a piggy bank and get ₹${interest} extra, what's the total?`;
+
+        // Update question counter display
+        currentQuestionNumber++;
+        document.getElementById('simple-savings-question').innerText = `Question ${currentQuestionNumber}/${totalQuestions}: If you save ₹${principal} in a piggy bank and get ₹${interest} extra, what's the total?`;
         document.getElementById('simple-savings-answer').value = '';
         document.getElementById('simple-savings-result').innerText = '';
         document.getElementById('next-simple-savings-question').style.display = 'none';
@@ -289,6 +453,15 @@
         const resultEl = document.getElementById('simple-savings-result');
         const isCorrect = userAnswer === simpleSavingsCorrectAnswer;
         setResult(resultEl, isCorrect, 'That\'s how savings grow!', `The correct total is ₹${simpleSavingsCorrectAnswer}.`);
-        document.getElementById('next-simple-savings-question').style.display = 'inline-block';
+
+        // Check if we've reached 20 questions
+        if (currentQuestionNumber >= totalQuestions) {
+            document.getElementById('next-simple-savings-question').style.display = 'none';
+            setTimeout(() => {
+                showFinalScore('simple-savings-game');
+            }, 1500);
+        } else {
+            document.getElementById('next-simple-savings-question').style.display = 'inline-block';
+        }
     }
 
