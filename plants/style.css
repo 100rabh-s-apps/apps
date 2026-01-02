@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Comic Sans MS', 'Marker Felt', 'Chalkboard SE', cursive, sans-serif;
+    font-family: 'Comic Sans MS', 'Marker Felt', 'Chalkboard SE', sans-serif;
     background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
     min-height: 100vh;
     display: flex;
