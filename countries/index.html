@@ -64,7 +64,18 @@
         <a href="../index.html" class="btn btn-primary">← Back to Apps</a>
     </div>
     <h1>Guess the Continent and Country</h1>
-    <div id="game-container">
+    <div id="setup-container">
+        <div id="mode-selector">
+            <h3>Select Game Mode:</h3>
+            <button id="random-mode-btn" class="btn btn-primary">Random Mode</button>
+            <button id="continent-mode-btn" class="btn btn-primary">Continent Mode</button>
+        </div>
+        <div id="continent-selection" style="display: none;">
+            <h3>Select a Continent:</h3>
+            <div id="continent-options"></div>
+        </div>
+    </div>
+    <div id="game-container" style="display: none;">
         <div id="svg-container"></div>
         <div id="question-container">
             <p id="question"></p>
@@ -76,7 +87,8 @@
                 <button id="pan-down" class="btn btn-secondary">↓</button>
                 <button id="pan-left" class="btn btn-secondary">←</button>
                 <button id="pan-right" class="btn btn-secondary">→</button>
-                <button id="reset" class="btn btn-secondary">Reset</button>
+                <button id="reset-view" class="btn btn-secondary">Reset View</button>
+                <button id="restart-game" class="btn btn-warning">Restart Game</button>
             </div>
         </div>
     </div>

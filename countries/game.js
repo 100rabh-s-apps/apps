@@ -20,13 +20,18 @@ let countryNameToCodeMap = {};
 
 let gameState = {
     phase: null, // 'SELECTING_CONTINENT', 'SELECTING_COUNTRY'
+    mode: 'RANDOM', // 'RANDOM' or 'CONTINENT'
+    selectedContinentForMode: null, // Used for continent mode
     hoveredContinent: null,
     selectedContinent: null,
     hoveredCountry: null,
     selectedCountry: null,
     correctCountry: null,
+    isShowingAnswer: false, // Flag to indicate if we're showing the correct answer after wrong attempts
     isPanning: false,
-    panStart: { x: 0, y: 0 }
+    panStart: { x: 0, y: 0 },
+    continentIncorrectAttempts: 0,
+    countryIncorrectAttempts: 0
 };
 
 let validFeatures; // Global variable to store filtered features that match our data
@@ -37,7 +42,8 @@ const COLORS = {
     continentSelected: 'lightblue',
     countryHover: 'yellow',
     countrySelected: 'orange',
-    countryCorrect: 'green'
+    countryCorrect: 'green',
+    countryShowAnswer: 'blue'
 };
 
 const svgContainer = document.getElementById('svg-container');
@@ -54,7 +60,14 @@ const panUpButton = document.getElementById('pan-up');
 const panDownButton = document.getElementById('pan-down');
 const panLeftButton = document.getElementById('pan-left');
 const panRightButton = document.getElementById('pan-right');
-const resetButton = document.getElementById('reset');
+const resetViewButton = document.getElementById('reset-view');
+const restartGameButton = document.getElementById('restart-game');
+const randomModeBtn = document.getElementById('random-mode-btn');
+const continentModeBtn = document.getElementById('continent-mode-btn');
+const continentSelectionDiv = document.getElementById('continent-selection');
+const continentOptionsDiv = document.getElementById('continent-options');
+const setupContainer = document.getElementById('setup-container');
+const gameContainer = document.getElementById('game-container');
 
 // --- INITIALIZATION ---
 
@@ -120,19 +133,19 @@ async function initGame() {
     
     setupControls();
     setupEventListeners();
-    
-    pickNewCountry();
-    transitionToState('SELECTING_CONTINENT');
-    
-    pickNewCountry();
-    transitionToState('SELECTING_CONTINENT');
+    setupModeControls();
+    populateContinentOptions();
+
+    // Initially show setup container and hide game container
+    setupContainer.style.display = 'block';
+    gameContainer.style.display = 'none';
 }
 
 // --- STATE MANAGEMENT & RENDERING ---
 
 function transitionToState(newState, payload = {}) {
     gameState.phase = newState;
-    
+
     gameState.hoveredContinent = null;
     gameState.selectedContinent = null;
     gameState.hoveredCountry = null;
@@ -147,7 +160,13 @@ function transitionToState(newState, payload = {}) {
         case 'SELECTING_COUNTRY':
             questionElement.textContent = `Now, can you find ${currentCountryName} on the map?`;
             controlsElement.style.display = 'block';
-            resetViewToContinent();
+
+            // In continent mode, zoom to the selected continent
+            if (gameState.mode === 'CONTINENT' && gameState.selectedContinentForMode) {
+                resetViewToContinent(gameState.selectedContinentForMode);
+            } else {
+                resetViewToContinent(currentContinent);
+            }
             break;
     }
     render();
@@ -156,15 +175,15 @@ function transitionToState(newState, payload = {}) {
 function render() {
     // Select all country paths using D3
     const allCountryPaths = svg.selectAll(".countries path");
-    
+
     allCountryPaths.each(function(d) {
         const countryEl = d3.select(this);
         const countryCode = countryEl.attr('id');
         const continent = continentsData[countryCode];
-        
+
         let color = COLORS.default;
         let opacity = 1;
-        
+
         if (gameState.phase === 'SELECTING_CONTINENT') {
             if (continent === gameState.hoveredContinent) {
                 color = COLORS.continentHover;
@@ -173,7 +192,10 @@ function render() {
                 color = COLORS.continentSelected;
             }
         } else if (gameState.phase === 'SELECTING_COUNTRY') {
-            if (continent === currentContinent) {
+            // In continent mode, only highlight countries from the selected continent
+            const targetContinent = gameState.mode === 'CONTINENT' ? gameState.selectedContinentForMode : currentContinent;
+
+            if (continent === targetContinent) {
                 color = COLORS.continentSelected;
                 if (countryCode === gameState.hoveredCountry) {
                     color = COLORS.countryHover;
@@ -181,16 +203,69 @@ function render() {
                 if (countryCode === gameState.selectedCountry) {
                     color = COLORS.countrySelected;
                 }
-                 if (countryCode === gameState.correctCountry) {
-                    color = COLORS.countryCorrect;
+                // Use blue color when showing the correct answer after 3 wrong attempts
+                // Use green color when the user correctly identifies the country
+                if (countryCode === gameState.correctCountry) {
+                    // Check if this is after 3 wrong attempts (when we're showing the answer)
+                    if (gameState.isShowingAnswer) {
+                        color = COLORS.countryShowAnswer; // Blue color
+                    } else {
+                        color = COLORS.countryCorrect; // Green color
+                    }
                 }
             } else {
-                opacity = 0.2;
+                // In continent mode, dim countries not in the selected continent
+                if (gameState.mode === 'CONTINENT') {
+                    opacity = 0.2;
+                }
+                // In random mode, only dim countries not in the current country's continent
+                else if (continent !== currentContinent) {
+                    opacity = 0.2;
+                }
             }
         }
-        
+
         countryEl.style("fill", color);
         countryEl.style("opacity", opacity);
+    });
+}
+
+// --- MODE CONTROLS ---
+
+function setupModeControls() {
+    randomModeBtn.addEventListener('click', () => {
+        gameState.mode = 'RANDOM';
+        // Hide setup container and show game container
+        setupContainer.style.display = 'none';
+        gameContainer.style.display = 'block';
+        pickNewCountry();
+        transitionToState('SELECTING_CONTINENT');
+    });
+
+    continentModeBtn.addEventListener('click', () => {
+        gameState.mode = 'CONTINENT';
+        // Show continent selection within setup container
+        continentSelectionDiv.style.display = 'block';
+    });
+}
+
+function populateContinentOptions() {
+    const continents = Object.keys(gameData);
+    continentOptionsDiv.innerHTML = '';
+
+    continents.forEach(continent => {
+        const button = document.createElement('button');
+        button.className = 'btn btn-outline-primary';
+        button.textContent = continent;
+        button.addEventListener('click', () => {
+            gameState.selectedContinentForMode = continent;
+            // Hide setup container and show game container
+            setupContainer.style.display = 'none';
+            gameContainer.style.display = 'block';
+            pickNewCountry();
+            transitionToState('SELECTING_COUNTRY'); // Skip continent selection in continent mode
+        });
+        continentOptionsDiv.appendChild(button);
     });
 }
 
@@ -228,7 +303,11 @@ function setupEventListeners() {
             }
         } else if (gameState.phase === 'SELECTING_COUNTRY') {
             const countryCode = getCountryCodeFromEventTarget(e.target);
-            if (countryCode && continentsData[countryCode] === currentContinent) {
+            // In continent mode, allow selection from the selected continent
+            // In random mode, allow selection from the current country's continent
+            const targetContinent = gameState.mode === 'CONTINENT' ? gameState.selectedContinentForMode : currentContinent;
+
+            if (countryCode && continentsData[countryCode] === targetContinent) {
                 gameState.selectedCountry = countryCode;
                 render();
                 setTimeout(() => checkCountryAnswer(countryCode), 200);
@@ -270,44 +349,125 @@ function showModal(title, body, onHiddenCallback) {
 
 function checkContinentAnswer(selectedContinent) {
     if (selectedContinent === currentContinent) {
+        gameState.continentIncorrectAttempts = 0; // Reset counter on correct answer
+        gameState.isShowingAnswer = false; // Reset flag when moving to next phase
         showModal('Correct!', `Yes, ${currentCountryName} is in ${currentContinent}.`, () => {
             transitionToState('SELECTING_COUNTRY');
         });
     } else {
-        showModal('Wrong Continent!', 'That\'s not the right continent. Please try again.', () => {
-            transitionToState('SELECTING_CONTINENT');
-        });
+        gameState.continentIncorrectAttempts++;
+        if (gameState.continentIncorrectAttempts >= 3) {
+            // Show correct answer after 3 incorrect attempts
+            showModal('Too many attempts!', `The correct answer is ${currentContinent}. ${currentCountryName} is located in ${currentContinent}.`, () => {
+                // In continent mode, skip to country selection since continent is already known
+                if (gameState.mode === 'CONTINENT') {
+                    transitionToState('SELECTING_COUNTRY');
+                } else {
+                    transitionToState('SELECTING_COUNTRY');
+                }
+            });
+            gameState.continentIncorrectAttempts = 0; // Reset counter
+        } else {
+            showModal('Wrong Continent!', 'That\'s not the right continent. Please try again.', () => {
+                transitionToState('SELECTING_CONTINENT');
+            });
+        }
     }
 }
 
 function checkCountryAnswer(selectedCountry) {
     if (selectedCountry === currentCountryCode) {
+        gameState.countryIncorrectAttempts = 0; // Reset counter on correct answer
+        gameState.isShowingAnswer = false; // Reset flag when correct answer is given
         gameState.correctCountry = selectedCountry;
         render();
-        
+
         showModal('You found it!', `Awesome! You found ${currentCountryName}.`, () => {
             setTimeout(() => {
                 pickNewCountry();
-                transitionToState('SELECTING_CONTINENT');
-            }, 500); 
+                // In continent mode, stay in country selection phase
+                if (gameState.mode === 'CONTINENT') {
+                    transitionToState('SELECTING_COUNTRY');
+                } else {
+                    transitionToState('SELECTING_CONTINENT');
+                }
+            }, 500);
         });
 
     } else {
-        showModal('Not quite...', 'That\'s not the right country. Try again!', () => {
-            gameState.selectedCountry = null; // Reset selection
+        gameState.countryIncorrectAttempts++;
+        if (gameState.countryIncorrectAttempts >= 3) {
+            // Highlight the correct country in blue after 3 incorrect attempts
+            gameState.correctCountry = currentCountryCode;
+            gameState.isShowingAnswer = true; // Set flag to show answer in blue
             render();
-        });
+
+            // Zoom to the correct country before showing the modal
+            zoomToCountry(currentCountryCode);
+
+            // Show correct answer after 3 incorrect attempts
+            showModal('Too many attempts!', `The correct answer is ${currentCountryName}. It's located in ${currentContinent}.`, () => {
+                setTimeout(() => {
+                    // Reset highlighting of the correct answer
+                    gameState.correctCountry = null;
+                    gameState.isShowingAnswer = false; // Reset the flag
+                    render();
+
+                    pickNewCountry();
+                    // In continent mode, stay in country selection phase
+                    if (gameState.mode === 'CONTINENT') {
+                        transitionToState('SELECTING_COUNTRY');
+                    } else {
+                        transitionToState('SELECTING_CONTINENT');
+                    }
+                }, 1500);
+            });
+            gameState.countryIncorrectAttempts = 0; // Reset counter
+        } else {
+            showModal('Not quite...', 'That\'s not the right country. Try again!', () => {
+                gameState.selectedCountry = null; // Reset selection
+                render();
+            });
+        }
     }
 }
 
 function pickNewCountry() {
-    const allCountryCodes = Object.keys(countryNamesData);
-    const randomCountryCode = allCountryCodes[Math.floor(Math.random() * allCountryCodes.length)];
-    
+    let allCountryCodes;
+
+    if (gameState.mode === 'CONTINENT' && gameState.selectedContinentForMode) {
+        // In continent mode, pick from the selected continent only
+        allCountryCodes = gameData[gameState.selectedContinentForMode];
+    } else {
+        // In random mode, pick from all countries
+        allCountryCodes = Object.keys(countryNamesData);
+    }
+
+    // Filter out countries that don't have valid data in our GeoJSON
+    const validCountryCodes = allCountryCodes.filter(code => {
+        const countryName = countryNamesData[code];
+        // Find if this country name exists in our GeoJSON features
+        return validFeatures.some(feature =>
+            countryNameToCodeMap[feature.properties.name] === code
+        );
+    });
+
+    if (validCountryCodes.length === 0) {
+        console.error("No valid countries found for the selected continent");
+        return;
+    }
+
+    const randomCountryCode = validCountryCodes[Math.floor(Math.random() * validCountryCodes.length)];
+
     currentCountryCode = randomCountryCode;
     currentCountryName = countryNamesData[randomCountryCode];
     currentContinent = continentsData[randomCountryCode];
     gameState.correctCountry = null;
+
+    // Reset attempt counters for new question
+    gameState.continentIncorrectAttempts = 0;
+    gameState.countryIncorrectAttempts = 0;
+    gameState.isShowingAnswer = false; // Reset flag for new question
 }
 
 function getCountryCodeFromEventTarget(target) {
@@ -336,7 +496,8 @@ function setupControls() {
     panDownButton.addEventListener('click', () => pan(0, -50));
     panLeftButton.addEventListener('click', () => pan(50, 0));
     panRightButton.addEventListener('click', () => pan(-50, 0));
-    resetButton.addEventListener('click', () => resetZoomAndPan());
+    resetViewButton.addEventListener('click', () => resetZoomAndPan());
+    restartGameButton.addEventListener('click', () => restartGame());
 }
 
 // Function to apply zoom and pan transformations
@@ -348,6 +509,21 @@ function resetZoomAndPan() {
     zoomTransform = d3.zoomIdentity;
     svg.transition().duration(750).call(d3.zoom().transform, d3.zoomIdentity);
     applyZoomAndPan();
+}
+
+function restartGame() {
+    // Reset game state
+    gameState.mode = null;
+    gameState.selectedContinentForMode = null;
+    gameState.phase = null;
+    gameState.isShowingAnswer = false; // Reset flag when restarting
+
+    // Show setup container and hide game container
+    setupContainer.style.display = 'block';
+    gameContainer.style.display = 'none';
+
+    // Reset setup UI
+    continentSelectionDiv.style.display = 'none';
 }
 
 
@@ -375,16 +551,25 @@ function pan(dx, dy) {
 }
 
 
-function resetViewToContinent() {
+function resetViewToContinent(targetContinent = null) {
     const width = +svg.attr("width");
     const height = +svg.attr("height");
 
-    // Filter features for the current continent from the same valid features used for rendering
+    // Determine which continent to zoom to
+    const continentToZoom = targetContinent || currentContinent;
+
+    // Filter features for the target continent from the same valid features used for rendering
     const featuresOfContinent = validFeatures.filter(d => {
         const countryName = d.properties.name;
         const countryCode = countryNameToCodeMap[countryName];
-        return continentsData[countryCode] === currentContinent;
+        return continentsData[countryCode] === continentToZoom;
     });
+
+    if (featuresOfContinent.length === 0) {
+        console.warn(`No features found for continent: ${continentToZoom}`);
+        resetZoomAndPan(); // Fallback to default view
+        return;
+    }
 
     const bounds = path.bounds({
         type: "FeatureCollection",
@@ -397,6 +582,45 @@ function resetViewToContinent() {
     const y = (bounds[0][1] + bounds[1][1]) / 2;
 
     const scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height)));
+    const translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+    zoomTransform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
+    svg.transition().duration(750).call(d3.zoom().transform, zoomTransform);
+    applyZoomAndPan();
+}
+
+// Function to zoom to a specific country
+function zoomToCountry(countryCode) {
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+
+    // Find the feature for the specific country
+    const countryFeature = validFeatures.find(d => {
+        const featureCountryCode = countryNameToCodeMap[d.properties.name];
+        return featureCountryCode === countryCode;
+    });
+
+    if (!countryFeature) {
+        console.warn(`Country feature not found for code: ${countryCode}`);
+        return;
+    }
+
+    // Calculate bounds for the specific country
+    const bounds = path.bounds(countryFeature);
+
+    const dx = bounds[1][0] - bounds[0][0];
+    const dy = bounds[1][1] - bounds[0][1];
+    const x = (bounds[0][0] + bounds[1][0]) / 2;
+    const y = (bounds[0][1] + bounds[1][1]) / 2;
+
+    // Calculate scale to make the country occupy at least 40% of the map area
+    // Using 0.4 (40%) as the minimum area factor
+    const minScaleFactor = 0.4;
+    const scaleX = width / dx;
+    const scaleY = height / dy;
+    const scaleToFit = Math.min(scaleX, scaleY);
+    const scale = Math.max(1, Math.min(8, scaleToFit * Math.sqrt(minScaleFactor)));
+
     const translate = [width / 2 - scale * x, height / 2 - scale * y];
 
     zoomTransform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);

@@ -15,6 +15,52 @@ h1 {
     font-size: 1.5em;
 }
 
+#setup-container {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#mode-selector {
+    margin: 20px 0;
+}
+
+#mode-selector h3 {
+    margin-bottom: 15px;
+}
+
+#mode-selector button {
+    margin: 0 10px 10px 10px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+}
+
+#continent-selection {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#continent-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#continent-options button {
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
 #game-container {
     display: flex;
     flex-wrap: wrap;
