@@ -10,10 +10,10 @@ const Questions = (function() {
     const conversions = {
         length: {
             units: {
-                mm: { name: 'millimeters', symbol: 'mm', toMeters: 0.001 },
-                cm: { name: 'centimeters', symbol: 'cm', toMeters: 0.01 },
-                m: { name: 'meters', symbol: 'm', toMeters: 1 },
-                km: { name: 'kilometers', symbol: 'km', toMeters: 1000 }
+                mm: { name: 'millimeters', symbol: 'mm', toBase: 0.001 },
+                cm: { name: 'centimeters', symbol: 'cm', toBase: 0.01 },
+                m: { name: 'meters', symbol: 'm', toBase: 1 },
+                km: { name: 'kilometers', symbol: 'km', toBase: 1000 }
             },
             // Level configurations: [fromUnit, toUnit, min, max, multiplier]
             levels: {
@@ -24,7 +24,7 @@ const Questions = (function() {
                     { from: 'm', to: 'cm', min: 1, max: 10, step: 1, special: [1, 2, 3, 5, 10] },
                     { from: 'mm', to: 'm', min: 1000, max: 5000, step: 1000 },
                     { from: 'm', to: 'mm', min: 1, max: 5, step: 1, special: [1, 2, 3, 5] },
-                    { from: 'm', to: 'km', min: 1, max: 10, step: 1 },
+                    { from: 'm', to: 'km', min: 1000, max: 5000, step: 1000 },
                     { from: 'km', to: 'm', min: 1, max: 5, step: 1, special: [1, 2, 3, 5, 10] }
                 ],
                 2: [
@@ -67,10 +67,10 @@ const Questions = (function() {
         },
         weight: {
             units: {
-                mg: { name: 'milligrams', symbol: 'mg', toGrams: 0.001 },
-                cg: { name: 'centigrams', symbol: 'cg', toGrams: 0.01 },
-                g: { name: 'grams', symbol: 'g', toGrams: 1 },
-                kg: { name: 'kilograms', symbol: 'kg', toGrams: 1000 }
+                mg: { name: 'milligrams', symbol: 'mg', toBase: 0.001 },
+                cg: { name: 'centigrams', symbol: 'cg', toBase: 0.01 },
+                g: { name: 'grams', symbol: 'g', toBase: 1 },
+                kg: { name: 'kilograms', symbol: 'kg', toBase: 1000 }
             },
             levels: {
                 1: [
@@ -121,10 +121,10 @@ const Questions = (function() {
         },
         volume: {
             units: {
-                mL: { name: 'milliliters', symbol: 'mL', toLiters: 0.001 },
-                cL: { name: 'centiliters', symbol: 'cL', toLiters: 0.01 },
-                L: { name: 'liters', symbol: 'L', toLiters: 1 },
-                kL: { name: 'kiloliters', symbol: 'kL', toLiters: 1000 }
+                mL: { name: 'milliliters', symbol: 'mL', toBase: 0.001 },
+                cL: { name: 'centiliters', symbol: 'cL', toBase: 0.01 },
+                L: { name: 'liters', symbol: 'L', toBase: 1 },
+                kL: { name: 'kiloliters', symbol: 'kL', toBase: 1000 }
             },
             levels: {
                 1: [
@@ -226,8 +226,8 @@ const Questions = (function() {
         if (!fromUnit || !toUnit) return 0;
 
         // Convert to base unit first, then to target
-        const inBaseUnit = conv.value * fromUnit.toMeters;
-        const answer = inBaseUnit / toUnit.toMeters;
+        const inBaseUnit = conv.value * fromUnit.toBase;
+        const answer = inBaseUnit / toUnit.toBase;
 
         // Round to avoid floating point issues
         return Math.round(answer * 1000000) / 1000000;
@@ -268,7 +268,7 @@ const Questions = (function() {
         const toUnit = category.units[conv.to];
 
         // Calculate the conversion factor
-        const factor = fromUnit.toMeters / toUnit.toMeters;
+        const factor = fromUnit.toBase / toUnit.toBase;
 
         if (factor < 1) {
             const divisor = Math.round(1 / factor);
