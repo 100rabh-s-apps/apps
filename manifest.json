@@ -1,7 +1,7 @@
 {
   "name": "Apps by Saurabh Minni",
   "short_name": "Saurabh Apps",
-  "description": "Discover web apps developed by Saurabh Minni: Animated Kids Editor, Sudoku for Kids, Collaborative Story Maker, Personality Test and a tool to send WhatsApp/Telegram/Signal messages without saving numbers among other games for kids.",
+  "description": "Discover web apps developed by Saurabh Minni: Animated Kids Editor, Sudoku for Kids, Collaborative Story Maker, Personality Test, Mind Mansion - a memory palace game, and a tool to send WhatsApp/Telegram/Signal messages without saving numbers among other games for kids.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

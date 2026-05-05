@@ -1,0 +1,32 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Color Scheme: #6c5ce7 (Primary), #fd79a8 (Accent), #f0f2f5 (Soft White) -->
+  
+  <!-- Body -->
+  <circle cx="100" cy="110" r="70" fill="#6c5ce7" />
+  <ellipse cx="100" cy="120" rx="50" ry="60" fill="#ffffff" opacity="0.2" />
+  
+  <!-- Head/Tufts -->
+  <path d="M60 60 L80 80 L50 90 Z" fill="#6c5ce7" />
+  <path d="M140 60 L120 80 L150 90 Z" fill="#6c5ce7" />
+  
+  <!-- Eyes -->
+  <circle cx="75" cy="100" r="22" fill="#ffffff" />
+  <circle cx="125" cy="100" r="22" fill="#ffffff" />
+  <circle cx="75" cy="100" r="10" fill="#2d3436" />
+  <circle cx="125" cy="100" r="10" fill="#2d3436" />
+  <circle cx="70" cy="95" r="4" fill="#ffffff" />
+  <circle cx="120" cy="95" r="4" fill="#ffffff" />
+  
+  <!-- Beak -->
+  <path d="M100 115 L110 130 L90 130 Z" fill="#fd79a8" />
+  
+  <!-- Wings -->
+  <path d="M30 110 Q10 130 35 160" fill="none" stroke="#6c5ce7" stroke-width="8" stroke-linecap="round" />
+  <path d="M170 110 Q190 130 165 160" fill="none" stroke="#6c5ce7" stroke-width="8" stroke-linecap="round" />
+  
+  <!-- Graduation Cap (The Mentor Touch) -->
+  <rect x="70" y="45" width="60" height="10" fill="#2d3436" transform="rotate(-5 100 50)" />
+  <path d="M100 35 L140 50 L100 65 L60 50 Z" fill="#2d3436" />
+  <path d="M140 50 L140 70" fill="none" stroke="#fd79a8" stroke-width="3" />
+  <circle cx="140" cy="72" r="4" fill="#fd79a8" />
+</svg>

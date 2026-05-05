@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mind Mansion Item Library",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "integer" },
+      "name": { "type": "string" },
+      "category": { "enum": ["Living", "Object", "Nature", "Abstract"] },
+      "difficulty_tier": { "type": "integer", "minimum": 1, "maximum": 10 }
+    },
+    "required": ["id", "name", "category", "difficulty_tier"]
+  }
+}

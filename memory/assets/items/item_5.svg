@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="none"/>
+  <path d="M10,80 L90,80 L90,90 L10,90 Z" fill="#6c5ce7"/>
+  <path d="M40,80 L50,50 L60,80" stroke="#6c5ce7" stroke-width="4" fill="none"/>
+  <path d="M50,50 Q40,30 50,10 Q60,30 50,50" fill="#fd79a8"/>
+  <path d="M50,50 Q70,40 80,50" stroke="#fd79a8" stroke-width="2" fill="none"/>
+  <path d="M20,80 L30,85 M70,80 L80,85" stroke="#ffffff" stroke-width="2"/>
+</svg>
