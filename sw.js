@@ -1,4 +1,4 @@
-const CACHE_NAME = 'saurabh-apps-v1';
+const CACHE_NAME = 'saurabh-apps-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -7,51 +7,60 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
         return cache.addAll(urlsToCache).catch(error => {
           console.error('Failed to cache urls during install:', error);
-          // Re-throw the error to fail the installation
           throw error;
         });
-      })
-      .catch(error => {
-        console.error('Failed to open cache during install:', error);
-        // Re-throw the error to fail the installation
-        throw error;
       })
   );
 });
 
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    Promise.all([
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName !== CACHE_NAME) {
+              console.log('Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      self.clients.claim()
+    ])
+  );
+});
+
 self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        // Return cached response if available
-        if (response) {
-          return response;
+        // If network request succeeds, update the cache for future offline use
+        if (response && response.status === 200 && (response.type === 'basic' || event.request.url.includes('cdn.jsdelivr.net'))) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-
-        // Otherwise, try to fetch from network with error handling
-        return fetch(event.request).catch(error => {
-          // Log the network error
-          console.error('Network request failed:', error);
-
-          // Try to return an appropriate fallback response
-          return getFallbackResponse(event.request);
-        });
+        return response;
       })
       .catch(error => {
-        // Handle cache matching errors
-        console.error('Cache matching failed:', error);
-
-        // Try to fetch from network as fallback
-        return fetch(event.request).catch(networkError => {
-          console.error('Network request also failed:', networkError);
-
-          // As final fallback, return an appropriate response
+        // Network failed (offline), try the cache
+        return caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Log and use fallback if not in cache
+          console.error('Network failed and no cache match for:', event.request.url);
           return getFallbackResponse(event.request);
         });
       })
@@ -92,24 +101,3 @@ function getFallbackResponse(request) {
     statusText: 'Service Unavailable - Offline Mode'
   });
 }
-
-// Clean up old caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName).catch(error => {
-              console.error('Failed to delete old cache:', cacheName, error);
-            });
-          }
-        })
-      ).catch(error => {
-        console.error('Error during cache cleanup:', error);
-      });
-    }).catch(error => {
-      console.error('Failed to get cache names during activation:', error);
-    })
-  );
-});
