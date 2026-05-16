@@ -1,4 +1,4 @@
-const CACHE_NAME = 'saurabh-apps-v3';
+const CACHE_NAME = 'saurabh-apps-v4';
 const urlsToCache = [
   '/',
   '/index.html',
