@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Relic Hunter of Rome — Roman Numeral Puzzle</title>
+<meta name="description" content="Relic Hunter of Rome — Roman Numeral Puzzle. A mobile-first Roman-numeral puzzle game for kids (grades 4-6). Convert Arabic numbers to Roman numerals to unlock the vault and earn artifacts!">
+<meta name="keywords" content="Roman numerals, math game, Roman numeral converter, puzzle game, educational game, ancient Rome, interactive learning, math puzzles for kids">
+<link rel="canonical" href="https://apps.100rabh.com/roman/"/>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://apps.100rabh.com/roman/">
+<meta property="og:title" content="Relic Hunter of Rome — Roman Numeral Puzzle">
+<meta property="og:description" content="Unlock the ancient vault by converting numbers to Roman numerals! A fun, educational puzzle game for kids to practice math and historical notation.">
+<meta property="og:image" content="https://apps.100rabh.com/roman/og-image.jpg">
+<meta property="og:site_name" content="Saurabh Minni's Apps">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://apps.100rabh.com/roman/">
+<meta property="twitter:title" content="Relic Hunter of Rome — Roman Numeral Puzzle">
+<meta property="twitter:description" content="Unlock the ancient vault by converting numbers to Roman numerals! A fun, educational puzzle game for kids to practice math and historical notation.">
+<meta property="twitter:image" content="https://apps.100rabh.com/roman/og-image.jpg">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Relic Hunter of Rome — Roman Numeral Puzzle",
+  "description": "A mobile-first Roman-numeral puzzle game designed for kids. Unlock the vault by converting Arabic numbers into Roman numerals, earn artifacts, and learn Roman numeral rules through interactive gameplay.",
+  "url": "https://apps.100rabh.com/roman/",
+  "applicationCategory": "EducationalGame",
+  "operatingSystem": "Web",
+  "author": {
+    "@type": "Person",
+    "name": "Saurabh Minni"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+<script data-website-id="a00606cf-530c-403b-92af-a924309041e9" defer src="https://cloud.umami.is/script.js"></script>
+
+<style>
+/* ============================================================
+   RELIC HUNTER OF ROME — Styles
+   Palette: dark stone, sand, bronze/gold accents
+   ============================================================ */
+:root{
+  --bg-dark:   #1a140d;   /* near-black earth */
+  --bg-stone:  #2b2318;   /* dark stone */
+  --panel:     #3a2f20;   /* carved panel */
+  --sand:      #d8c39a;   /* sand text */
+  --sand-dim:  #a8926a;   /* dim sand */
+  --gold:      #e0a83c;   /* gold accent */
+  --gold-hi:   #f5cd6e;
+  --bronze:    #b0703a;
+  --silver:    #c9c9d1;
+  --stone-lt:  #6b5a41;   /* light stone border */
+  --danger:    #c0503a;   /* terracotta red */
+  --ok:        #7da05a;   /* laurel green */
+}
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ height:100%; }
+body{
+  font-family: Georgia, 'Times New Roman', serif;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #3a2e1c 0%, transparent 60%),
+    var(--bg-dark);
+  color: var(--sand);
+  display:flex; justify-content:center;
+  overflow:hidden;
+  user-select:none; -webkit-user-select:none;
+  touch-action: manipulation;
+}
+#app{
+  width:100%; max-width:480px; height:100dvh;
+  display:flex; flex-direction:column;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  gap:8px;
+}
+
+/* ---------- Top HUD ---------- */
+#hud{
+  display:flex; justify-content:space-between; align-items:center;
+  background:linear-gradient(180deg, var(--panel), #33291b);
+  border:2px solid var(--stone-lt);
+  border-radius:10px;
+  padding:8px 14px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.06), 0 3px 8px rgba(0,0,0,.5);
+}
+.hud-item{ display:flex; flex-direction:column; align-items:center; line-height:1.15; }
+.hud-label{ font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--sand-dim); }
+.hud-value{ font-size:1.15rem; font-weight:bold; color:var(--gold-hi); }
+#lives{ display:flex; gap:5px; font-size:1.3rem; }
+.urn{ filter:drop-shadow(0 1px 2px rgba(0,0,0,.6)); transition:opacity .3s, transform .3s; }
+.urn.lost{ opacity:.22; transform:scale(.85); filter:grayscale(1); }
+
+/* ---------- Target Vault ---------- */
+#vault{
+  text-align:center;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.12) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, #4a3c26, #3a2f20);
+  border:3px solid var(--stone-lt);
+  border-radius:12px;
+  padding:12px 10px 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.55), inset 0 0 30px rgba(0,0,0,.35);
+  position:relative;
+}
+#vault::before, #vault::after{
+  content:"⚱"; position:absolute; top:8px; font-size:1.1rem; color:var(--sand-dim); opacity:.7;
+}
+#vault::before{ left:12px; } #vault::after{ right:12px; }
+#vault-caption{
+  font-size:.7rem; letter-spacing:.28em; text-transform:uppercase; color:var(--sand-dim);
+}
+#target-number{
+  font-size:3rem; font-weight:bold; color:var(--gold-hi);
+  text-shadow:0 0 18px rgba(224,168,60,.35), 0 2px 2px #000;
+  line-height:1.1;
+}
+#vault-sub{ font-size:.72rem; color:var(--sand-dim); font-style:italic; }
+
+/* ---------- Workspace ---------- */
+#workspace-wrap{ display:flex; flex-direction:column; gap:6px; flex:1; min-height:0; justify-content:center; }
+#workspace{
+  min-height:72px;
+  display:flex; flex-wrap:wrap; gap:6px; align-items:center; justify-content:center;
+  background:linear-gradient(180deg, #241d12, #1e1810);
+  border:2px dashed var(--stone-lt);
+  border-radius:10px;
+  padding:10px;
+  transition:border-color .25s, box-shadow .25s;
+}
+#workspace.flash-bad{ border-color:var(--danger); box-shadow:0 0 14px rgba(192,80,58,.5); animation:shake .4s; }
+#workspace.flash-good{ border-color:var(--ok); box-shadow:0 0 14px rgba(125,160,90,.55); }
+@keyframes shake{
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}
+#workspace .placeholder{ color:var(--sand-dim); font-style:italic; font-size:.85rem; }
+.ws-tile{
+  background:linear-gradient(180deg, #efe0bd, #cbb488);
+  color:#33281a;
+  border:1px solid #8a7450; border-bottom-width:3px;
+  border-radius:7px;
+  font-size:1.5rem; font-weight:bold;
+  padding:4px 12px; min-width:42px; text-align:center;
+  box-shadow:0 2px 4px rgba(0,0,0,.5);
+  cursor:pointer;
+  animation:drop .18s ease-out;
+}
+@keyframes drop{ from{transform:translateY(-14px) scale(1.15); opacity:0;} to{transform:none; opacity:1;} }
+
+/* ---------- Live Translation ---------- */
+#translation{
+  min-height:38px;
+  text-align:center;
+  font-size:.95rem;
+  color:var(--sand);
+  background:rgba(0,0,0,.28);
+  border-radius:8px;
+  padding:8px 10px;
+  border:1px solid rgba(107,90,65,.5);
+  line-height:1.35;
+}
+#translation .tval{ color:var(--gold-hi); font-weight:bold; }
+#translation .invalid{ color:var(--danger); font-weight:bold; }
+
+/* ---------- Tile Deck ---------- */
+#deck{
+  display:grid; grid-template-columns:repeat(7,1fr); gap:6px;
+}
+.tile-btn{
+  font-family:inherit;
+  font-size:1.45rem; font-weight:bold;
+  color:#33281a;
+  background:linear-gradient(180deg, #e8d6ae, #bfa276);
+  border:1px solid #8a7450; border-bottom:4px solid #7a6440;
+  border-radius:9px;
+  padding:12px 0 10px;
+  cursor:pointer;
+  box-shadow:0 3px 6px rgba(0,0,0,.5);
+  position:relative;
+  transition:transform .08s, filter .15s;
+}
+.tile-btn:active{ transform:translateY(3px); border-bottom-width:1px; }
+.tile-btn small{
+  display:block; font-size:.55rem; font-weight:normal; color:#6b5636; letter-spacing:.03em;
+}
+.tile-btn.locked{ filter:grayscale(.9) brightness(.55); cursor:not-allowed; }
+.tile-btn.locked::after{
+  content:"🔒"; position:absolute; top:2px; right:4px; font-size:.65rem;
+}
+
+/* ---------- Action Row ---------- */
+#actions{ display:flex; gap:8px; }
+.act-btn{
+  font-family:inherit; font-weight:bold; letter-spacing:.1em;
+  border-radius:10px; cursor:pointer;
+  padding:14px 0;
+  transition:transform .08s, filter .15s;
+  text-transform:uppercase;
+}
+.act-btn:active{ transform:translateY(2px); }
+#btn-clear{
+  flex:1;
+  font-size:.85rem;
+  background:linear-gradient(180deg,#5a4a33,#463a27);
+  color:var(--sand);
+  border:1px solid var(--stone-lt); border-bottom:4px solid #2e2617;
+}
+#btn-undo{
+  flex:1;
+  font-size:.85rem;
+  background:linear-gradient(180deg,#5a4a33,#463a27);
+  color:var(--sand);
+  border:1px solid var(--stone-lt); border-bottom:4px solid #2e2617;
+}
+#btn-submit{
+  flex:2.2;
+  font-size:1.05rem;
+  background:linear-gradient(180deg, var(--gold-hi), var(--gold));
+  color:#3a2a08;
+  border:1px solid #9c7420; border-bottom:4px solid #8a6318;
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+  box-shadow:0 3px 10px rgba(224,168,60,.35);
+}
+
+/* ---------- Modal ---------- */
+#modal-overlay{
+  position:fixed; inset:0; background:rgba(10,7,4,.82);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; z-index:50;
+  opacity:0; pointer-events:none; transition:opacity .25s;
+}
+#modal-overlay.show{ opacity:1; pointer-events:auto; }
+#modal{
+  width:100%; max-width:400px;
+  background:linear-gradient(180deg,#4a3c26,#33291b);
+  border:3px solid var(--gold);
+  border-radius:14px;
+  padding:22px 18px 18px;
+  text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,.8), inset 0 0 40px rgba(0,0,0,.3);
+  transform:scale(.9); transition:transform .25s;
+}
+#modal-overlay.show #modal{ transform:scale(1); }
+#modal-icon{ font-size:3rem; line-height:1; margin-bottom:6px; filter:drop-shadow(0 3px 6px rgba(0,0,0,.6)); }
+#modal-title{
+  font-size:1.25rem; color:var(--gold-hi); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px;
+}
+#modal-body{ font-size:.95rem; line-height:1.5; color:var(--sand); margin-bottom:16px; }
+#modal-body .rn{ color:var(--gold-hi); font-weight:bold; font-size:1.05em; }
+#modal-body .breakdown-box{
+  margin-top:10px; padding:8px 10px;
+  background:rgba(0,0,0,.3); border-radius:8px; border:1px solid rgba(107,90,65,.6);
+  font-size:.92rem;
+}
+#modal-btn{
+  font-family:inherit; font-size:1rem; font-weight:bold; letter-spacing:.08em;
+  padding:12px 34px; border-radius:10px; cursor:pointer;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));
+  color:#3a2a08; border:1px solid #9c7420; border-bottom:4px solid #8a6318;
+  text-transform:uppercase;
+}
+#modal-btn:active{ transform:translateY(2px); }
+
+/* ---------- Reward flourish ---------- */
+.artifact-pop{ animation:artifact .6s ease-out; display:inline-block; }
+@keyframes artifact{
+  0%{ transform:scale(0) rotate(-30deg); } 60%{ transform:scale(1.35) rotate(8deg); } 100%{ transform:scale(1) rotate(0); }
+}
+
+/* Small phones */
+@media (max-height:640px){
+  #target-number{ font-size:2.3rem; }
+  .tile-btn{ font-size:1.2rem; padding:9px 0 7px; }
+  #workspace{ min-height:58px; }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.back-link-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.back-link {
+  color: var(--sand-dim);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-family: sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.back-link:hover {
+  color: var(--gold-hi);
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ BACK LINK & SEO H1 ============ -->
+  <div class="back-link-container">
+    <a href="https://apps.100rabh.com/" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" style="display: inline-block; vertical-align: middle;">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to all apps
+    </a>
+  </div>
+  <h1 class="visually-hidden">Relic Hunter of Rome — Roman Numeral Puzzle</h1>
+
+  <!-- ============ TOP HUD ============ -->
+  <header id="hud">
+    <div class="hud-item">
+      <span class="hud-label">Level</span>
+      <span class="hud-value" id="hud-level">1</span>
+    </div>
+    <div id="lives" aria-label="Tries remaining">
+      <span class="urn" id="urn-1">⚱️</span>
+      <span class="urn" id="urn-2">⚱️</span>
+      <span class="urn" id="urn-3">⚱️</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">Artifacts</span>
+      <span class="hud-value" id="hud-artifacts">🏺 0</span>
+    </div>
+  </header>
+
+  <!-- ============ TARGET VAULT ============ -->
+  <section id="vault">
+    <div id="vault-caption">Unlock the Vault</div>
+    <div id="target-number">—</div>
+    <div id="vault-sub">Carve this number in Roman numerals</div>
+  </section>
+
+  <!-- ============ WORKSPACE + LIVE FEEDBACK ============ -->
+  <section id="workspace-wrap">
+    <div id="workspace" aria-label="Your Roman numeral answer">
+      <span class="placeholder">Tap the stone tiles below…</span>
+    </div>
+    <div id="translation">Your carving will be translated here.</div>
+  </section>
+
+  <!-- ============ TILE DECK ============ -->
+  <section id="deck">
+    <!-- Tiles injected by JS so we can attach lock states -->
+  </section>
+
+  <!-- ============ ACTIONS ============ -->
+  <section id="actions">
+    <button class="act-btn" id="btn-undo">⌫ Undo</button>
+    <button class="act-btn" id="btn-clear">Clear</button>
+    <button class="act-btn" id="btn-submit">⚒ Submit</button>
+  </section>
+
+</div>
+
+<!-- ============ MODAL ============ -->
+<div id="modal-overlay">
+  <div id="modal" role="dialog" aria-modal="true">
+    <div id="modal-icon">🏛️</div>
+    <div id="modal-title">Title</div>
+    <div id="modal-body">Body</div>
+    <button id="modal-btn">Continue</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   RELIC HUNTER OF ROME
+   A mobile-first Roman-numeral puzzle game for grades 4–6.
+   Modules:
+     1. RomanEngine  — bidirectional converter + strict validator
+     2. Levels       — infinite difficulty scaling + RNG targets
+     3. Store        — LocalStorage persistence
+     4. Hints        — 3-try scaffolding message builder
+     5. Game         — state machine, UI rendering, events
+   ============================================================ */
+
+/* ============================================================
+   1. ROMAN ENGINE — conversion + strict rule validation
+   ============================================================ */
+const RomanEngine = (() => {
+
+  // Value map for single symbols
+  const VALUES = { I:1, V:5, X:10, L:50, C:100, D:500, M:1000 };
+
+  // Greedy table for Arabic -> Roman (standard form)
+  const TABLE = [
+    [1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],
+    [100,"C"],[90,"XC"],[50,"L"],[40,"XL"],
+    [10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]
+  ];
+
+  /** Convert an Arabic number (1–3999) to its standard Roman numeral. */
+  function toRoman(num){
+    let out = "", n = num;
+    for (const [val, sym] of TABLE){
+      while (n >= val){ out += sym; n -= val; }
+    }
+    return out;
+  }
+
+  // Strict standard-form Roman numeral pattern (rejects IIII, VX, IC, etc.)
+  const STRICT = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+
+  /** True only if the string is a valid STANDARD Roman numeral. */
+  function isValidRoman(str){
+    return str.length > 0 && STRICT.test(str);
+  }
+
+  /**
+   * Convert Roman -> Arabic using subtractive-pair rules.
+   * Works even on non-strict strings (used for live feedback),
+   * returning the naive left-to-right value.
+   */
+  function toArabic(str){
+    let total = 0;
+    for (let i = 0; i < str.length; i++){
+      const cur = VALUES[str[i]], next = VALUES[str[i+1]] || 0;
+      total += (cur < next) ? -cur : cur;
+    }
+    return total;
+  }
+
+  /**
+   * Tokenize a Roman string into display chunks:
+   * subtractive pairs stay together (XL), runs of a repeated
+   * additive symbol merge (III). Returns [{roman, value}, ...]
+   */
+  function tokenize(str){
+    const tokens = [];
+    let i = 0;
+    while (i < str.length){
+      const cur = str[i], next = str[i+1];
+      // Subtractive pair?
+      if (next && VALUES[cur] < VALUES[next]){
+        tokens.push({ roman: cur + next, value: VALUES[next] - VALUES[cur] });
+        i += 2;
+      } else {
+        // Merge run of the same symbol (III => one token of 3)
+        let run = cur, j = i + 1;
+        while (j < str.length && str[j] === cur){ run += cur; j++; }
+        tokens.push({ roman: run, value: toArabic(run) });
+        i = j;
+      }
+    }
+    return tokens;
+  }
+
+  /**
+   * Diagnose WHY a string breaks strict rules.
+   * Returns a machine-readable code used by the hint system:
+   *  'repeat'      — a symbol repeated 4+ times (IIII)
+   *  'repeatVLD'   — V, L, or D repeated (VV)
+   *  'badPair'     — illegal subtractive pair (IL, VX, IC…)
+   *  'order'       — otherwise malformed ordering (XXC, IXI…)
+   *  null          — string is valid
+   */
+  function diagnose(str){
+    if (isValidRoman(str)) return null;
+    if (/(.)\1\1\1/.test(str))       return "repeat";
+    if (/V.*V|L.*L|D.*D/.test(str))  return "repeatVLD";
+    // Check each adjacent pair for illegal subtraction
+    const LEGAL_PAIRS = ["IV","IX","XL","XC","CD","CM"];
+    for (let i = 0; i < str.length - 1; i++){
+      const a = str[i], b = str[i+1];
+      if (VALUES[a] < VALUES[b] && !LEGAL_PAIRS.includes(a + b)) return "badPair";
+    }
+    return "order";
+  }
+
+  return { VALUES, toRoman, toArabic, isValidRoman, tokenize, diagnose };
+})();
+
+/* ============================================================
+   2. LEVELS — infinite generation with scaled difficulty
+   ============================================================ */
+const Levels = (() => {
+
+  /** Inclusive random integer. */
+  const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+  /** Difficulty band for a given level number. */
+  function band(level){
+    if (level <= 5)  return { min:1,   max:20,   symbols:["I","V","X"] };
+    if (level <= 15) return { min:21,  max:99,   symbols:["I","V","X","L"] };
+    if (level <= 30) return { min:100, max:499,  symbols:["I","V","X","L","C"] };
+    return             { min:100, max:1000, symbols:["I","V","X","L","C","D","M"] };
+  }
+
+  /** Generate a fresh random target for a level. */
+  function generateTarget(level){
+    const b = band(level);
+    return rand(b.min, b.max);
+  }
+
+  /** Which tile symbols are unlocked at this level. */
+  function unlockedSymbols(level){
+    return band(level).symbols;
+  }
+
+  return { generateTarget, unlockedSymbols };
+})();
+
+/* ============================================================
+   3. STORE — LocalStorage persistence
+   ============================================================ */
+const Store = (() => {
+  const KEY = "relicHunterRome_v1";
+
+  function load(){
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      // Basic sanity check
+      if (typeof d.level !== "number" || d.level < 1) return null;
+      return d;
+    } catch(e){ return null; }
+  }
+
+  function save(state){
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        level:     state.level,
+        artifacts: state.artifacts,
+        target:    state.target,   // persist current puzzle too
+        tries:     state.tries
+      }));
+    } catch(e){ /* storage unavailable — play without saving */ }
+  }
+
+  return { load, save };
+})();
+
+/* ============================================================
+   4. HINTS — 3-try scaffolding message builder
+   ============================================================ */
+const Hints = (() => {
+  const R = RomanEngine;
+
+  /** Kid-friendly explanation of a rule violation code. */
+  const RULE_TEXT = {
+    repeat:    "Ancient Romans <b>never repeated a symbol more than 3 times</b> — no <span class='rn'>IIII</span>! When you need a 4 or a 9, use <b>subtraction</b>: put a smaller symbol <i>before</i> a bigger one, like <span class='rn'>IV</span> (4) or <span class='rn'>IX</span> (9).",
+    repeatVLD: "The symbols <span class='rn'>V</span>, <span class='rn'>L</span>, and <span class='rn'>D</span> are special — Romans <b>never repeated them</b>. Instead of <span class='rn'>VV</span>, they wrote <span class='rn'>X</span>!",
+    badPair:   "Careful! Only certain subtraction pairs are allowed: <span class='rn'>IV IX XL XC CD CM</span>. You can’t subtract just any symbol — <span class='rn'>I</span> only goes before <span class='rn'>V</span> or <span class='rn'>X</span>, and <span class='rn'>X</span> only before <span class='rn'>L</span> or <span class='rn'>C</span>.",
+    order:     "Roman numerals are written <b>biggest to smallest</b>, left to right (except subtraction pairs like <span class='rn'>IV</span>). Try rearranging your tiles from largest value to smallest!"
+  };
+
+  /**
+   * Hint for ATTEMPT 1 (gentle nudge).
+   * If a rule was broken, explain the rule; otherwise compare values.
+   */
+  function attempt1(userStr, userVal, target){
+    const code = R.diagnose(userStr);
+    if (userStr.length === 0)
+      return "The workspace is empty! Tap the stone tiles to build your numeral, then submit.";
+    if (code) return RULE_TEXT[code];
+    if (userVal < target)
+      return `Your carving equals <span class='rn'>${userVal}</span> — that's <b>too small</b> by ${target - userVal}. Add more value, or use a bigger symbol!`;
+    return `Your carving equals <span class='rn'>${userVal}</span> — that's <b>too big</b> by ${userVal - target}. Remove some value, or use subtraction!`;
+  }
+
+  /**
+   * Hint for ATTEMPT 2 (direct rule reminder built from the
+   * correct answer's largest chunk, e.g. "To make 40, put X before L").
+   */
+  function attempt2(target){
+    const tokens = R.tokenize(R.toRoman(target));
+    // Find the most "teachable" token: prefer a subtractive pair, else the first token
+    const sub = tokens.find(t => t.roman.length === 2 && R.VALUES[t.roman[0]] < R.VALUES[t.roman[1]]);
+    if (sub){
+      const [a, b] = [sub.roman[0], sub.roman[1]];
+      return `Direct clue: to make <b>${sub.value}</b>, place <span class='rn'>${a}</span> (${R.VALUES[a]}) to the <b>left</b> of <span class='rn'>${b}</span> (${R.VALUES[b]}) → <span class='rn'>${sub.roman}</span>. Start your numeral with the biggest part: <span class='rn'>${tokens[0].roman}</span> (${tokens[0].value}).`;
+    }
+    const first = tokens[0];
+    return `Direct clue: start with <span class='rn'>${first.roman}</span>, which makes <b>${first.value}</b>. Then keep adding pieces from biggest to smallest until you reach ${target}.`;
+  }
+
+  /**
+   * Full reveal for ATTEMPT 3: correct answer + math breakdown.
+   */
+  function reveal(target){
+    const roman = R.toRoman(target);
+    const tokens = R.tokenize(roman);
+    const math = tokens.map(t => `${t.roman} (${t.value})`).join(" + ");
+    return `The vault opens to reveal the answer:<br>
+      <span class='rn' style="font-size:1.5em">${roman}</span>
+      <div class='breakdown-box'>${math} = <b>${target}</b></div>
+      Study it, hunter — the next vault awaits!`;
+  }
+
+  return { attempt1, attempt2, reveal };
+})();
+
+/* ============================================================
+   5. GAME — state machine, rendering, and events
+   ============================================================ */
+const Game = (() => {
+  const R = RomanEngine;
+  const SYMBOLS = ["I","V","X","L","C","D","M"];
+
+  /* ----- State ----- */
+  const state = {
+    level: 1,
+    artifacts: 0,
+    target: null,
+    tries: 3,          // urns remaining this level
+    tiles: [],         // symbols currently in workspace
+    locked: false      // input frozen while modal shown
+  };
+
+  /* ----- DOM refs ----- */
+  const $ = id => document.getElementById(id);
+  const el = {
+    level: $("hud-level"), artifacts: $("hud-artifacts"),
+    urns: [$("urn-1"), $("urn-2"), $("urn-3")],
+    target: $("target-number"),
+    workspace: $("workspace"), translation: $("translation"),
+    deck: $("deck"),
+    undo: $("btn-undo"), clear: $("btn-clear"), submit: $("btn-submit"),
+    overlay: $("modal-overlay"), mIcon: $("modal-icon"),
+    mTitle: $("modal-title"), mBody: $("modal-body"), mBtn: $("modal-btn")
+  };
+
+  /* ================= INIT ================= */
+  function init(){
+    // Restore progress or start fresh
+    const saved = Store.load();
+    if (saved){
+      state.level     = saved.level;
+      state.artifacts = saved.artifacts || 0;
+      state.target    = saved.target ?? Levels.generateTarget(state.level);
+      state.tries     = saved.tries ?? 3;
+    } else {
+      state.target = Levels.generateTarget(state.level);
+    }
+    buildDeck();
+    bindEvents();
+    renderAll();
+    Store.save(state);
+  }
+
+  /* ================= DECK ================= */
+  function buildDeck(){
+    el.deck.innerHTML = "";
+    for (const sym of SYMBOLS){
+      const btn = document.createElement("button");
+      btn.className = "tile-btn";
+      btn.dataset.sym = sym;
+      btn.innerHTML = `${sym}<small>${R.VALUES[sym]}</small>`;
+      // pointerup fires reliably for both touch and mouse
+      btn.addEventListener("pointerup", () => addTile(sym));
+      el.deck.appendChild(btn);
+    }
+    refreshDeckLocks();
+  }
+
+  /** Lock tiles the current difficulty band hasn't introduced yet. */
+  function refreshDeckLocks(){
+    const unlocked = Levels.unlockedSymbols(state.level);
+    for (const btn of el.deck.children){
+      const isLocked = !unlocked.includes(btn.dataset.sym);
+      btn.classList.toggle("locked", isLocked);
+      btn.disabled = isLocked;
+    }
+  }
+
+  /* ================= WORKSPACE ================= */
+  function addTile(sym){
+    if (state.locked) return;
+    if (state.tiles.length >= 15) return;  // sanity cap
+    state.tiles.push(sym);
+    renderWorkspace();
+  }
+
+  function removeTileAt(index){
+    if (state.locked) return;
+    state.tiles.splice(index, 1);
+    renderWorkspace();
+  }
+
+  function undoTile(){
+    if (state.locked) return;
+    state.tiles.pop();
+    renderWorkspace();
+  }
+
+  function clearTiles(){
+    if (state.locked) return;
+    state.tiles = [];
+    renderWorkspace();
+  }
+
+  function renderWorkspace(){
+    el.workspace.innerHTML = "";
+    if (state.tiles.length === 0){
+      el.workspace.innerHTML = `<span class="placeholder">Tap the stone tiles below…</span>`;
+    } else {
+      state.tiles.forEach((sym, i) => {
+        const t = document.createElement("span");
+        t.className = "ws-tile";
+        t.textContent = sym;
+        t.title = "Tap to remove";
+        t.addEventListener("pointerup", e => { e.stopPropagation(); removeTileAt(i); });
+        el.workspace.appendChild(t);
+      });
+    }
+    renderTranslation();
+  }
+
+  /** Live math breakdown under the workspace. */
+  function renderTranslation(){
+    const str = state.tiles.join("");
+    if (!str){
+      el.translation.innerHTML = "Your carving will be translated here.";
+      return;
+    }
+    const tokens = R.tokenize(str);
+    const parts = tokens.map(t => `${t.roman} (${t.value})`).join(" + ");
+    const total = R.toArabic(str);
+    const valid = R.isValidRoman(str);
+    el.translation.innerHTML = valid
+      ? `${parts} = <span class="tval">${total}</span>`
+      : `${parts} = <span class="tval">${total}</span> &nbsp;<span class="invalid">⚠ not standard form</span>`;
+  }
+
+  /* ================= HUD ================= */
+  function renderHUD(){
+    el.level.textContent = state.level;
+    el.artifacts.textContent = `🏺 ${state.artifacts}`;
+    el.urns.forEach((u, i) => u.classList.toggle("lost", i >= state.tries));
+  }
+
+  function renderTarget(){
+    el.target.textContent = state.target;
+  }
+
+  function renderAll(){
+    renderHUD();
+    renderTarget();
+    renderWorkspace();
+    refreshDeckLocks();
+  }
+
+  /* ================= MODAL ================= */
+  let modalCallback = null;
+  function showModal(icon, title, bodyHTML, btnText, onClose){
+    state.locked = true;
+    el.mIcon.innerHTML = icon;
+    el.mTitle.textContent = title;
+    el.mBody.innerHTML = bodyHTML;
+    el.mBtn.textContent = btnText;
+    modalCallback = onClose;
+    el.overlay.classList.add("show");
+  }
+  function closeModal(){
+    el.overlay.classList.remove("show");
+    state.locked = false;
+    const cb = modalCallback;
+    modalCallback = null;
+    if (cb) cb();
+  }
+
+  /* ================= SUBMIT / VALIDATION ================= */
+  function submit(){
+    if (state.locked) return;
+    const str = state.tiles.join("");
+    const valid = R.isValidRoman(str);
+    const value = str ? R.toArabic(str) : 0;
+
+    if (valid && value === state.target){
+      handleWin();
+    } else {
+      handleMiss(str, value);
+    }
+  }
+
+  /** Correct answer: award artifact tier by tries remaining. */
+  function handleWin(){
+    el.workspace.classList.add("flash-good");
+    setTimeout(() => el.workspace.classList.remove("flash-good"), 700);
+
+    // tries: 3 = first attempt, 2 = second, 1 = third
+    const tier = { 3:["🏆","Gold Artifact",   "Solved on your <b>first try</b> — a flawless excavation!"],
+                   2:["🥈","Silver Artifact", "Solved on your <b>second try</b> — well recovered!"],
+                   1:["🥉","Bronze Artifact", "Solved on your <b>third try</b> — persistence pays off!"] }[state.tries];
+
+    state.artifacts += 1;
+    renderHUD();
+    Store.save(state);
+
+    const roman = R.toRoman(state.target);
+    showModal(
+      `<span class="artifact-pop">${tier[0]}</span>`,
+      tier[1] + " Earned!",
+      `<span class='rn' style="font-size:1.4em">${roman}</span> = <b>${state.target}</b><br>${tier[2]}`,
+      "Next Level ⚒",
+      nextLevel
+    );
+  }
+
+  /** Wrong answer: consume an urn and scaffold with escalating hints. */
+  function handleMiss(str, value){
+    el.workspace.classList.add("flash-bad");
+    setTimeout(() => el.workspace.classList.remove("flash-bad"), 500);
+
+    state.tries -= 1;
+    renderHUD();
+    Store.save(state);
+
+    if (state.tries === 2){
+      // ATTEMPT 1 WRONG — gentle rule hint
+      showModal("📜", "Hint from the Oracle",
+        Hints.attempt1(str, value, state.target),
+        "Try Again", null);
+    } else if (state.tries === 1){
+      // ATTEMPT 2 WRONG — direct rule reminder
+      showModal("🗿", "Rule Reminder",
+        Hints.attempt2(state.target),
+        "Last Try!", null);
+    } else {
+      // ATTEMPT 3 WRONG — reveal answer, no artifact, move on
+      showModal("🏛️", "The Vault Opens…",
+        Hints.reveal(state.target),
+        "Next Level →",
+        nextLevel);
+    }
+  }
+
+  /* ================= LEVEL PROGRESSION ================= */
+  function nextLevel(){
+    state.level += 1;
+    state.target = Levels.generateTarget(state.level);
+    state.tries  = 3;
+    state.tiles  = [];
+    renderAll();
+    Store.save(state);
+  }
+
+  /* ================= EVENTS ================= */
+  function bindEvents(){
+    el.undo.addEventListener("pointerup", undoTile);
+    el.clear.addEventListener("pointerup", clearTiles);
+    el.submit.addEventListener("pointerup", submit);
+    el.mBtn.addEventListener("pointerup", closeModal);
+    // Prevent double-tap zoom on iOS inside the game area
+    document.addEventListener("dblclick", e => e.preventDefault(), { passive:false });
+  }
+
+  return { init };
+})();
+
+/* Boot the game */
+Game.init();
+</script>
+</body>
+</html>
